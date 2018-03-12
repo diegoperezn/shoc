@@ -5,13 +5,15 @@
  */
 package com.shoc.controller.Panels;
 
-import javafx.scene.control.DatePicker;
+import com.shoc.domain.IPaciente;
+import com.shoc.domain.ObraSocial;
+import java.util.Date;
 
 /**
  *
  * @author diego
  */
-public class PacienteCreacion extends javax.swing.JPanel {
+public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
 
     /**
      * Creates new form PacienteCreacion
@@ -84,7 +86,7 @@ public class PacienteCreacion extends javax.swing.JPanel {
         taObservaciones = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         taEgreso = new javax.swing.JTextArea();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbGravado = new javax.swing.JCheckBox();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -222,7 +224,7 @@ public class PacienteCreacion extends javax.swing.JPanel {
         taEgreso.setRows(5);
         jScrollPane2.setViewportView(taEgreso);
 
-        jCheckBox1.setText("Gravado");
+        cbGravado.setText("Gravado");
 
         jLabel30.setText("General:");
 
@@ -272,7 +274,7 @@ public class PacienteCreacion extends javax.swing.JPanel {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(tfHistoriaClinica, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jCheckBox1))
+                                    .addComponent(cbGravado))
                                 .addComponent(tfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(tfCelular)
@@ -340,7 +342,7 @@ public class PacienteCreacion extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(tfHistoriaClinica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox1))
+                            .addComponent(cbGravado))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -489,6 +491,7 @@ public class PacienteCreacion extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbGravado;
     private org.jdesktop.swingx.JXDatePicker dpAusencia;
     private org.jdesktop.swingx.JXDatePicker dpCambioDispositivo;
     private org.jdesktop.swingx.JXDatePicker dpEgreso;
@@ -496,7 +499,6 @@ public class PacienteCreacion extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXDatePicker dpVencimientoBeca;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -550,4 +552,125 @@ public class PacienteCreacion extends javax.swing.JPanel {
     private javax.swing.JTextField tfTelefono;
     private javax.swing.JTextField tfTerapista;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public Date getAusencia() {
+        return dpAusencia.getDate();
+    }
+
+    @Override
+    public Date getCambioDispositivo() {
+        return dpCambioDispositivo.getDate();
+    }
+
+    @Override
+    public String getCausalEgreso() {
+        return taEgreso.getText();
+    }
+
+    @Override
+    public String getCelular() {
+        return tfCelular.getText();
+    }
+
+    @Override
+    public String getCodigoPostal() {
+        return tfCodigoPostal.getText();
+    }
+
+    @Override
+    public String getDireccion() {
+        return tfDireccion.getText();
+    }
+
+    @Override
+    public String getDispositivo() {
+        return tfDispositivo.getText();
+    }
+
+    @Override
+    public String getDispositivoTerapia() {
+        return tfDispositivo.getText();
+    }
+
+    @Override
+    public String getDocumento() {
+        return tfDocumento.getText();
+    }
+
+    @Override
+    public Date getEgreso() {
+        return dpEgreso.getDate();
+    }
+
+    @Override
+    public String getEmail() {
+        return tfEmail.getText();
+    }
+
+    @Override
+    public String getFase() {
+        return tfFase.getText();
+    }
+
+    @Override
+    public Boolean getGravado() {
+        return cbGravado.isSelected();
+    }
+
+    @Override
+    public Long getId() {
+        return Long.valueOf( tfHistoriaClinica.getText() );
+    }
+
+    @Override
+    public Date getIngreso() {
+        return dpIngreso.getDate();
+    }
+
+    @Override
+    public String getLocalidad() {
+        return tfLocalidad.getText();
+    }
+
+    @Override
+    public String getNombre() {
+        return tfNombre.getText();
+    }
+
+    @Override
+    public ObraSocial getObraSocial() {
+        return null;
+    }
+
+    @Override
+    public String getObservaciones() {
+        return taObservaciones.getText();
+    }
+
+    @Override
+    public String getProvincia() {
+        return tfProvincia.getText();
+    }
+
+    @Override
+    public String getResponsable() {
+        return tfResponsable.getText();
+    }
+
+    @Override
+    public String getTelefono() {
+        return tfTelefono.getText();
+    }
+
+    @Override
+    public String getTerapista() {
+        return tfTerapista.getText();
+    }
+
+    @Override
+    public Date getVencimientoBeca() {
+        return dpVencimientoBeca.getDate();
+    }
+
 }
