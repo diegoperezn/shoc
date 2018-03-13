@@ -54,6 +54,35 @@ public class Paciente implements IPaciente {
         // this form used by Hibernate
     }
 
+    public Paciente(IPaciente iPaciente) {
+        this.id = iPaciente.getId();
+        this.nombre = iPaciente.getNombre();
+        this.documento = iPaciente.getDocumento();
+        this.observaciones = iPaciente.getObservaciones();
+        this.gravado = iPaciente.getGravado();
+        this.celular = iPaciente.getCelular();
+        this.telefono = iPaciente.getTelefono();
+        this.email = iPaciente.getEmail();
+        this.responsable = iPaciente.getResponsable();
+        this.ingreso = iPaciente.getIngreso();
+        this.vencimientoBeca = iPaciente.getVencimientoBeca();
+        this.terapista = iPaciente.getTerapista();
+        this.obraSocial = iPaciente.getObraSocial();
+        this.dispositivo = iPaciente.getDispositivo();
+        this.cambioDispositivo = iPaciente.getCambioDispositivo();
+        this.dispositivoTerapia = iPaciente.getDispositivoTerapia();
+        this.fase = iPaciente.getFase();
+        this.ausencia = iPaciente.getAusencia();
+        this.egreso = iPaciente.getEgreso();
+        this.causalEgreso = iPaciente.getCausalEgreso();
+        this.direccion = iPaciente.getDireccion();
+        this.provincia = iPaciente.getProvincia();
+        this.localidad = iPaciente.getLocalidad();
+        this.codigoPostal = iPaciente.getCodigoPostal();
+    }
+    
+    
+
     public void setId(Long id) {
         this.id = id;
     }

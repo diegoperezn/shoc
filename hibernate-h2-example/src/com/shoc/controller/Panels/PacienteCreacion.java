@@ -7,7 +7,9 @@ package com.shoc.controller.Panels;
 
 import com.shoc.domain.IPaciente;
 import com.shoc.domain.ObraSocial;
+import com.shoc.domain.service.ObraSocialService;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -15,11 +17,18 @@ import java.util.Date;
  */
 public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
 
+    ObraSocialService obService = ObraSocialService.getInstance();
+    
     /**
      * Creates new form PacienteCreacion
      */
     public PacienteCreacion() {
         initComponents();
+        
+        List<ObraSocial> obraSociales = obService.listAll();
+        
+        
+        
     }
 
     /**
@@ -434,12 +443,13 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
                     .addComponent(tfLocalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfCodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
-                        .addComponent(jButton2))))
+                        .addComponent(jButton2))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfCodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel24))))
         );
 
         tfDocumento.getAccessibleContext().setAccessibleName("");
