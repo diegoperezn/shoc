@@ -35,6 +35,7 @@
 
         
         <mapping class="com.shoc.domain.ObraSocial"/>
+        <mapping class="com.shoc.domain.Paciente"/>
 
     </session-factory>
 

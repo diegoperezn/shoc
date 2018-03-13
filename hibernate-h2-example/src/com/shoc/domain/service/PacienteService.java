@@ -28,7 +28,7 @@ public class PacienteService {
 
     private final PacienteRepository repo = PacienteRepository.getInstance();
     
-    public void createObraSocial(IPaciente iPaciente) {
+    public void createPaciente(IPaciente iPaciente) {
         Paciente paciente = new Paciente(iPaciente);
 
         repo.save(paciente);

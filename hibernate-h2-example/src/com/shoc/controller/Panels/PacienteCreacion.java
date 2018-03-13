@@ -7,28 +7,50 @@ package com.shoc.controller.Panels;
 
 import com.shoc.domain.IPaciente;
 import com.shoc.domain.ObraSocial;
+import com.shoc.domain.Paciente;
 import com.shoc.domain.service.ObraSocialService;
+import com.shoc.domain.service.PacienteService;
 import java.util.Date;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author diego
  */
-public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
+public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
     ObraSocialService obService = ObraSocialService.getInstance();
-    
+    PacienteService pService = PacienteService.getInstance();
+
     /**
      * Creates new form PacienteCreacion
      */
     public PacienteCreacion() {
         initComponents();
-        
-        List<ObraSocial> obraSociales = obService.listAll();
-        
-        
-        
+        initFields();
+
+    }
+    
+    public PacienteCreacion(Long id, Boolean editable) {
+        initComponents();
+        initFields();
+      
+        Paciente p = this.pService.get(id);
+        this.tfHistoriaClinica.setText(id.toString());
+        this.tfNroAfiliado.setText(id.toString());
+        this.tfNroOrden.setText(id.toString());
+        this.cbObraSocial.setSelectedItem(p.getObraSocial());
+    }
+    
+    
+
+    public void initFields() {
+         List<ObraSocial> obraSociales = obService.listAll();
+
+        for (ObraSocial obraSociale : obraSociales) {
+            cbObraSocial.addItem(obraSociale);
+        }
     }
 
     /**
@@ -72,7 +94,6 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
         dpVencimientoBeca = new org.jdesktop.swingx.JXDatePicker();
         tfDispositivo = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        tfObraSocial = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         tfTerapista = new javax.swing.JTextField();
@@ -100,6 +121,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
         jLabel31 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        cbObraSocial = new javax.swing.JComboBox<>();
 
         jLabel2.setText("jLabel2");
 
@@ -107,19 +129,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
 
         jLabel1.setText("Nombre y apellido:");
 
-        tfNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNombreActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Documento:");
-
-        tfDocumento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfDocumentoActionPerformed(evt);
-            }
-        });
 
         jLabel20.setText("Localidad:");
 
@@ -139,51 +149,23 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
 
         jLabel6.setText("Responsable:");
 
-        tfResponsable.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfResponsableActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("Observaciones:");
 
         jLabel24.setText("Codigo Postal ??");
 
         jLabel10.setText("Historia clinica:");
 
-        tfHistoriaClinica.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfHistoriaClinicaActionPerformed(evt);
-            }
-        });
+        tfHistoriaClinica.setEditable(false);
 
         jLabel12.setText("Fecha de ingreso:");
 
         jLabel13.setText("Vencimiento Beca:");
 
-        tfDispositivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfDispositivoActionPerformed(evt);
-            }
-        });
-
         jLabel14.setText("Obra Social:");
-
-        tfObraSocial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfObraSocialActionPerformed(evt);
-            }
-        });
 
         jLabel15.setText("Dispositivo:");
 
         jLabel16.setText("Terapista:");
-
-        tfTerapista.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfTerapistaActionPerformed(evt);
-            }
-        });
 
         jLabel17.setText("Fecha de Egreso:");
 
@@ -195,35 +177,15 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
 
         jLabel26.setText("Nro Afiliado:");
 
-        tfFase.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfFaseActionPerformed(evt);
-            }
-        });
-
-        tfNroAfiliado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNroAfiliadoActionPerformed(evt);
-            }
-        });
+        tfNroAfiliado.setEditable(false);
 
         jLabel27.setText("Causales egreso:");
 
         jLabel28.setText("Disp. terapia:");
 
-        tfDispositivoTerapia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfDispositivoTerapiaActionPerformed(evt);
-            }
-        });
-
         jLabel29.setText("Nro Orden:");
 
-        tfNroOrden.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNroOrdenActionPerformed(evt);
-            }
-        });
+        tfNroOrden.setEditable(false);
 
         taObservaciones.setColumns(20);
         taObservaciones.setRows(5);
@@ -240,8 +202,18 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
         jLabel31.setText("Tratamiento");
 
         jButton1.setText("Grabar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -291,11 +263,18 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
                                 .addComponent(tfCodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
                                     .addComponent(jLabel15)
@@ -309,33 +288,27 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
                                     .addComponent(jLabel18)
                                     .addComponent(jLabel12))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dpIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfFase, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfDispositivoTerapia, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dpVencimientoBeca, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfTerapista, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dpEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dpAusencia, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dpCambioDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(17, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addContainerGap())))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(dpIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                    .addComponent(tfFase, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                    .addComponent(tfDispositivoTerapia, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                                    .addComponent(dpVencimientoBeca, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                    .addComponent(tfDispositivo, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2)
+                                    .addComponent(tfTerapista, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                    .addComponent(dpEgreso, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                                    .addComponent(dpAusencia, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                    .addComponent(dpCambioDispositivo, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                    .addComponent(cbObraSocial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(79, Short.MAX_VALUE))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {dpAusencia, dpCambioDispositivo, dpEgreso, dpIngreso, dpVencimientoBeca, jScrollPane2, tfDispositivo, tfDispositivoTerapia, tfFase, tfObraSocial, tfTerapista});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {dpAusencia, dpCambioDispositivo, dpEgreso, dpIngreso, dpVencimientoBeca, jScrollPane2, tfDispositivo, tfDispositivoTerapia, tfFase, tfTerapista});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel30)
@@ -399,7 +372,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(tfObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
@@ -455,53 +428,22 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
         tfDocumento.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfNombreActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        pService.createPaciente(this);
+        
+        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.changePanel(new PacienteList(), this);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void tfDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDocumentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfDocumentoActionPerformed
-
-    private void tfResponsableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfResponsableActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfResponsableActionPerformed
-
-    private void tfHistoriaClinicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfHistoriaClinicaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfHistoriaClinicaActionPerformed
-
-    private void tfDispositivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDispositivoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfDispositivoActionPerformed
-
-    private void tfObraSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfObraSocialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfObraSocialActionPerformed
-
-    private void tfTerapistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTerapistaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfTerapistaActionPerformed
-
-    private void tfFaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFaseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfFaseActionPerformed
-
-    private void tfNroAfiliadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNroAfiliadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfNroAfiliadoActionPerformed
-
-    private void tfDispositivoTerapiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDispositivoTerapiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfDispositivoTerapiaActionPerformed
-
-    private void tfNroOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNroOrdenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfNroOrdenActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.changePanel(new PacienteList(), this);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbGravado;
+    private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private org.jdesktop.swingx.JXDatePicker dpAusencia;
     private org.jdesktop.swingx.JXDatePicker dpCambioDispositivo;
     private org.jdesktop.swingx.JXDatePicker dpEgreso;
@@ -556,7 +498,6 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
     private javax.swing.JTextField tfNombre;
     private javax.swing.JTextField tfNroAfiliado;
     private javax.swing.JTextField tfNroOrden;
-    private javax.swing.JTextField tfObraSocial;
     private javax.swing.JTextField tfProvincia;
     private javax.swing.JTextField tfResponsable;
     private javax.swing.JTextField tfTelefono;
@@ -630,7 +571,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
 
     @Override
     public Long getId() {
-        return Long.valueOf( tfHistoriaClinica.getText() );
+        return !tfHistoriaClinica.getText().isEmpty() ? Long.valueOf(tfHistoriaClinica.getText()) : null;
     }
 
     @Override
@@ -650,7 +591,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente{
 
     @Override
     public ObraSocial getObraSocial() {
-        return null;
+        return (ObraSocial) cbObraSocial.getSelectedItem();
     }
 
     @Override

@@ -80,11 +80,19 @@
                   <Component id="jLabel30" alignment="1" min="-2" pref="402" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabel31" alignment="1" min="-2" pref="419" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel31" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -99,29 +107,22 @@
                                   <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="dpIngreso" linkSize="2" min="-2" pref="256" max="-2" attributes="0"/>
-                                  <Component id="tfFase" linkSize="2" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
-                                  <Component id="tfDispositivoTerapia" linkSize="2" alignment="0" min="-2" pref="277" max="-2" attributes="0"/>
-                                  <Component id="dpVencimientoBeca" linkSize="2" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
-                                  <Component id="tfDispositivo" linkSize="2" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
-                                  <Component id="tfObraSocial" linkSize="2" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane2" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tfTerapista" linkSize="2" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
-                                  <Component id="dpEgreso" linkSize="2" alignment="0" min="-2" pref="277" max="-2" attributes="0"/>
-                                  <Component id="dpAusencia" linkSize="2" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
-                                  <Component id="dpCambioDispositivo" linkSize="2" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="dpIngreso" linkSize="2" pref="256" max="32767" attributes="0"/>
+                                  <Component id="tfFase" linkSize="2" alignment="0" pref="185" max="32767" attributes="0"/>
+                                  <Component id="tfDispositivoTerapia" linkSize="2" alignment="0" pref="277" max="32767" attributes="0"/>
+                                  <Component id="dpVencimientoBeca" linkSize="2" alignment="0" pref="256" max="32767" attributes="0"/>
+                                  <Component id="tfDispositivo" linkSize="2" alignment="0" pref="256" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane2" linkSize="2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="tfTerapista" linkSize="2" alignment="0" pref="256" max="32767" attributes="0"/>
+                                  <Component id="dpEgreso" linkSize="2" alignment="0" pref="277" max="32767" attributes="0"/>
+                                  <Component id="dpAusencia" linkSize="2" alignment="0" pref="185" max="32767" attributes="0"/>
+                                  <Component id="dpCambioDispositivo" linkSize="2" alignment="0" pref="256" max="32767" attributes="0"/>
+                                  <Component id="cbObraSocial" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="17" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace pref="79" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -130,7 +131,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
@@ -208,7 +209,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfObraSocial" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbObraSocial" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -286,9 +287,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfNombre">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfNombreActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -299,9 +297,6 @@
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
       </AccessibilityProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfDocumentoActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfDireccion">
     </Component>
@@ -367,9 +362,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfResponsable">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfResponsableActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -389,9 +381,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfHistoriaClinica">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfHistoriaClinicaActionPerformed"/>
-      </Events>
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel12">
       <Properties>
@@ -408,19 +400,11 @@
     <Component class="org.jdesktop.swingx.JXDatePicker" name="dpVencimientoBeca">
     </Component>
     <Component class="javax.swing.JTextField" name="tfDispositivo">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfDispositivoActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel14">
       <Properties>
         <Property name="text" type="java.lang.String" value="Obra Social:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfObraSocial">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfObraSocialActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel15">
       <Properties>
@@ -433,9 +417,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfTerapista">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfTerapistaActionPerformed"/>
-      </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXDatePicker" name="dpEgreso">
     </Component>
@@ -469,14 +450,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfFase">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfFaseActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfNroAfiliado">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfNroAfiliadoActionPerformed"/>
-      </Events>
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel27">
       <Properties>
@@ -489,9 +467,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfDispositivoTerapia">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfDispositivoTerapiaActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel29">
       <Properties>
@@ -499,9 +474,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfNroOrden">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfNroOrdenActionPerformed"/>
-      </Events>
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -552,11 +527,22 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Grabar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbObraSocial">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;ObraSocial&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

@@ -273,6 +273,11 @@ public class ObraSocial implements IObraSocial {
         this.localidad = localidad;
     }
 
+    @Override
+    public String toString() {
+        return getRazonSocial();
+    }
+
     
     
 }

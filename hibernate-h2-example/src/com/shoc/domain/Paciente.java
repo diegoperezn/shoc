@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -252,7 +253,7 @@ public class Paciente implements IPaciente {
         return terapista;
     }
 
-    @Column
+    @ManyToOne
     @Override
     public ObraSocial getObraSocial() {
         return obraSocial;
