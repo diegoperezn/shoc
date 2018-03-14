@@ -46,4 +46,8 @@ public class PacienteService {
         this.repo.delete(selectedId);
     }
 
+    public List<Paciente> search(ISearchPaciente filter) {
+        return this.repo.search(filter);
+    }
+    
 }

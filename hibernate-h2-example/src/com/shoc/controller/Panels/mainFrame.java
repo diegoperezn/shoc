@@ -80,6 +80,9 @@ public class mainFrame extends javax.swing.JFrame {
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("Listado");
+        jMenuItem5.setMinimumSize(new java.awt.Dimension(693, 334));
+        jMenuItem5.setPreferredSize(new java.awt.Dimension(693, 334));
+        jMenuItem5.setSize(new java.awt.Dimension(693, 334));
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);

@@ -278,6 +278,11 @@ public class ObraSocial implements IObraSocial {
         return getRazonSocial();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.getId() == ((ObraSocial) obj).getId();
+    }
+
     
     
 }

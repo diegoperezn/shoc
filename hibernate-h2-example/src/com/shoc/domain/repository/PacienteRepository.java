@@ -6,6 +6,12 @@
 package com.shoc.domain.repository;
 
 import com.shoc.domain.Paciente;
+import com.shoc.domain.service.ISearchPaciente;
+import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -26,6 +32,21 @@ public class PacienteRepository extends Repository<Paciente> {
     @Override
     public Class getEntityClass() {
         return Paciente.class;
+    }
+
+    public List<Paciente> search(ISearchPaciente filter) {
+        DetachedCriteria c = this.createCriteria();
+        Criterion crtrn;
+        
+        c.add(Restrictions.ilike("nombre", "%" + filter.getNombre() +  "%"));
+        if (filter.getActivo()) {
+            c.add(Restrictions.isNull("egreso"));
+        } else {
+            c.add(Restrictions.isNotNull("egreso"));
+        }
+        
+        
+        return this.listByCriteria(c);
     }
 
 }
