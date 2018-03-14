@@ -29,12 +29,12 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
     }
 
     private void fillTable(List<CuentaCorriente> list) {
-        DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
+        DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
         model.setRowCount(0);
 
         list.forEach((cuenta) -> {
-            model.addRow(new Object[]{cuenta.getId(), cuenta.getObraSocial().getRazonSocial()
-                   // ,cuenta.getBalance()
+            model.addRow(new Object[]{cuenta.getId(), cuenta.getObraSocial().getRazonSocial(),
+                 cuenta.getBalance()
             }
             );
         });
@@ -52,7 +52,7 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePacientes = new javax.swing.JTable();
+        tableCuentas = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -65,7 +65,7 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
             }
         });
 
-        tablePacientes.setModel(new javax.swing.table.DefaultTableModel(
+        tableCuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -81,13 +81,13 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tablePacientes.setFillsViewportHeight(true);
-        tablePacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableCuentas.setFillsViewportHeight(true);
+        tableCuentas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablePacientesMouseClicked(evt);
+                tableCuentasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablePacientes);
+        jScrollPane1.setViewportView(tableCuentas);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -155,16 +155,16 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tablePacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePacientesMouseClicked
+    private void tableCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCuentasMouseClicked
 
-    }//GEN-LAST:event_tablePacientesMouseClicked
+    }//GEN-LAST:event_tableCuentasMouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
-        Long selectedId = Long.valueOf(model.getValueAt(tablePacientes.getSelectedRow(), 0).toString());
+        DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
+        Long selectedId = Long.valueOf(model.getValueAt(tableCuentas.getSelectedRow(), 0).toString());
 
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new PacienteCreacion(selectedId, false), this);    // TODO add your handling code here:
+        topFrame.changePanel(new MovimientosCuentaList(selectedId), this);    // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
@@ -174,7 +174,7 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablePacientes;
+    private javax.swing.JTable tableCuentas;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -6,6 +6,7 @@
 package com.shoc.domain.service;
 
 import com.shoc.domain.CuentaCorriente;
+import com.shoc.domain.CuentaCorrienteMovimiento;
 import com.shoc.domain.repository.CuentaCorrienteRepository;
 import java.util.List;
 
@@ -52,5 +53,13 @@ public class CuentaCorrienteService {
         return this.repo.search(filter);
     }
     */
+
+    public void addMovimiento( IMovimiento movimiento) {
+        CuentaCorriente cuenta = this.repo.get(movimiento.getCuenta());
+        
+        cuenta.getMovimientos().add(new CuentaCorrienteMovimiento(movimiento.getDetalle(), movimiento.getMonto(), cuenta));
+        
+        this.repo.save(cuenta);
+    }
     
 }

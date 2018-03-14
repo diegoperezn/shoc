@@ -5,6 +5,7 @@
  */
 package com.shoc.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,6 +54,10 @@ public class ObraSocial implements IObraSocial {
     }
 
     public ObraSocial(IObraSocial i) {
+        if (i.getId() == null) {
+            this.cuenta = new CuentaCorriente(this);
+        }
+        
         this.id = i.getId();
         this.razonSocial = i.getRazonSocial();
         this.cuit = i.getCuit();
@@ -206,7 +211,7 @@ public class ObraSocial implements IObraSocial {
         return localidad;
     }
 
-    @OneToOne(mappedBy = "obraSocial")
+    @OneToOne(mappedBy = "obraSocial", cascade = CascadeType.ALL)
     public CuentaCorriente getCuenta() {
         return cuenta;
     }

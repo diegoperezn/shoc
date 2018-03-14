@@ -17,14 +17,22 @@ import javax.persistence.ManyToOne;
  * @author diego
  */
 @Entity
-class CuentaCorrienteMovimiento {
+public class CuentaCorrienteMovimiento {
 
     private Long id;
     private MovimientoEnum movimiento;
     private CuentaCorriente cuenta;
-    private double monto;
+    private String detalle;
+    private Double monto;
 
     public CuentaCorrienteMovimiento() {
+    }
+
+    public CuentaCorrienteMovimiento(String detalle, Double monto, CuentaCorriente cuenta) {
+        this.detalle = detalle;
+        this.monto = monto;
+        this.cuenta = cuenta;
+        this.movimiento = MovimientoEnum.DEBITO;
     }
 
     @Id
@@ -39,31 +47,39 @@ class CuentaCorrienteMovimiento {
     }
 
     @Column
-    public double getMonto() {
+    public Double getMonto() {
         return monto;
     }
 
+    @Column
+    public String getDetalle() {
+        return detalle;
+    }
+
     @ManyToOne
-    @JoinColumn(name="cuenta_id", nullable=false)
+    @JoinColumn(name = "cuenta_id", nullable = false)
     public CuentaCorriente getCuenta() {
         return cuenta;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
     }
 
     public void setMovimiento(MovimientoEnum movimiento) {
         this.movimiento = movimiento;
     }
 
-    public void setMonto(double monto) {
+    public void setMonto(Double monto) {
         this.monto = monto;
     }
 
-    
     public void setCuenta(CuentaCorriente cuenta) {
         this.cuenta = cuenta;
     }
-    
+
 }
