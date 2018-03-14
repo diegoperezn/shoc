@@ -6,11 +6,15 @@
 package com.shoc.domain;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  *
@@ -18,10 +22,13 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class CuentaCorriente {
-    
+
     private Long id;
     private ObraSocial obraSocial;
     private List<CuentaCorrienteMovimiento> movimientos;
+
+    public CuentaCorriente() {
+    }
 
     @Id
     @GeneratedValue
@@ -29,19 +36,35 @@ public class CuentaCorriente {
         return id;
     }
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn
     public ObraSocial getObraSocial() {
         return obraSocial;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "cuenta",
+            targetEntity = CuentaCorriente.class,
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<CuentaCorrienteMovimiento> getMovimientos() {
         return movimientos;
     }
-    
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setObraSocial(ObraSocial obraSocial) {
+        this.obraSocial = obraSocial;
+    }
+
+    public void setMovimientos(List<CuentaCorrienteMovimiento> movimientos) {
+        this.movimientos = movimientos;
+    }
+
+    @Transient
     public Double getBalance() {
         Double balance = Double.MIN_VALUE;
-        
+
         for (CuentaCorrienteMovimiento movimiento : movimientos) {
             if (movimiento.getMovimiento().equals(MovimientoEnum.CREDITO)) {
                 balance += movimiento.getMonto();
@@ -49,8 +72,8 @@ public class CuentaCorriente {
                 balance -= movimiento.getMonto();
             }
         }
-        
+
         return balance;
     }
-    
+
 }

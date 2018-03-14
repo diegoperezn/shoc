@@ -33,7 +33,10 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
         model.setRowCount(0);
 
         list.forEach((cuenta) -> {
-            model.addRow(new Object[]{cuenta.getId(), cuenta.getObraSocial().getRazonSocial(), cuenta.getBalance()});
+            model.addRow(new Object[]{cuenta.getId(), cuenta.getObraSocial().getRazonSocial()
+                   // ,cuenta.getBalance()
+            }
+            );
         });
     }
 

@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -23,13 +24,13 @@ public class ObraSocial implements IObraSocial {
     private String cuit;
     private String requerimiento;
     private String responsable;
-    
+
     // Contacto
     private String celular;
     private String telefono;
     private String email;
     private String emailWeb;
-    
+
     // Costos
     private Double costoInternacion;
     private Double costoJornadaCompleta;
@@ -39,11 +40,13 @@ public class ObraSocial implements IObraSocial {
     private String formaDePago;
     private String categoriaIVA;
     private Boolean modulo;
-    
+
     // Domicilio
     private String direccion;
     private String provincia;
     private String localidad;
+
+    private CuentaCorriente cuenta;
 
     public ObraSocial() {
         // this form used by Hibernate
@@ -72,8 +75,6 @@ public class ObraSocial implements IObraSocial {
         this.localidad = i.getLocalidad();
     }
 
-    
-    
     @Id
     @GeneratedValue
     @Override
@@ -205,6 +206,11 @@ public class ObraSocial implements IObraSocial {
         return localidad;
     }
 
+    @OneToOne(mappedBy = "obraSocial")
+    public CuentaCorriente getCuenta() {
+        return cuenta;
+    }
+
     public void setRequerimiento(String requerimiento) {
         this.requerimiento = requerimiento;
     }
@@ -273,6 +279,10 @@ public class ObraSocial implements IObraSocial {
         this.localidad = localidad;
     }
 
+    public void setCuenta(CuentaCorriente cuenta) {
+        this.cuenta = cuenta;
+    }
+
     @Override
     public String toString() {
         return getRazonSocial();
@@ -283,6 +293,4 @@ public class ObraSocial implements IObraSocial {
         return this.getId() == ((ObraSocial) obj).getId();
     }
 
-    
-    
 }
