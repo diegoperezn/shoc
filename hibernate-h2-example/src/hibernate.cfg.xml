@@ -38,6 +38,9 @@
         <mapping class="com.shoc.domain.Paciente"/>
         <mapping class="com.shoc.domain.CuentaCorriente"/>
         <mapping class="com.shoc.domain.CuentaCorrienteMovimiento"/>
+        <mapping class="com.shoc.domain.Factura"/>
+        <mapping class="com.shoc.domain.FacturaDetail"/>
+        <mapping class="com.shoc.domain.Dispositivo"/>
 
     </session-factory>
 

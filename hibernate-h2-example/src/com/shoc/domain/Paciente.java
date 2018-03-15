@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
  * @author diego
  */
 @Entity
-public class Paciente implements IPaciente {
+public class Paciente implements IPaciente, IFacturable {
 
     // General
     private Long id;

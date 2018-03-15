@@ -8,6 +8,7 @@ package com.shoc.domain.service;
 import com.shoc.domain.IPaciente;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.repository.PacienteRepository;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +49,11 @@ public class PacienteService {
 
     public List<Paciente> search(ISearchPaciente filter) {
         return this.repo.search(filter);
+    }
+    
+    // Lista los pacientes activos o dados de baja en el transcurso del mes
+    public List<Paciente> listarPacientesActivos(Date desde) {
+        return this.repo.listarPacientesActivos(desde);
     }
     
 }

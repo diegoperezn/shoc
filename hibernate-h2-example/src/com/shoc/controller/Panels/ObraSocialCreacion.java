@@ -5,7 +5,9 @@
  */
 package com.shoc.controller.Panels;
 
+import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.IObraSocial;
+import com.shoc.domain.ObraSocial;
 import com.shoc.domain.service.ObraSocialService;
 import java.awt.Component;
 import javax.swing.JTextField;
@@ -40,7 +42,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
             bGrabar.setText("Editar");
         }
 
-        IObraSocial ob = this.service.get(id);
+        ObraSocial ob = this.service.get(id);
 
         // informacion general 
         this.obraSocialId = id;
@@ -56,11 +58,12 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
         tfEmailWeb.setText(ob.getEmailWeb());
 
         // Costos
-        tfCostoInternacion.setText(ob.getCostoInternacion().toString());
-        tfCostoJornadaCompleta.setText(ob.getCostoJornadaCompleta().toString());
-        tfCostoMediaJornada.setText(ob.getCostoMediaJornada().toString());
-        tfCostoAmbulatorio.setText(ob.getCostoAmbulatorio().toString());
-        tfCosto5.setText(ob.getCosto5().toString());
+        tfCostoInternacion.setText(ob.getCosto(DispositivosEnum.INTERNACION).toString());
+        tfCostoJornadaCompleta.setText(ob.getCosto(DispositivosEnum.HDJC).toString());
+        tfCostoMediaJornada.setText(ob.getCosto(DispositivosEnum.HDMC).toString());
+        tfCostoAmbulatorio.setText(ob.getCosto(DispositivosEnum.AMBULATORIO).toString());
+        tfCosto5.setText(ob.getCosto(DispositivosEnum.DISPOSITIVO).toString());
+        
         tfFormaDePago.setText(ob.getFormaDePago());
         tfCategoriaIva.setText(ob.getCategoriaIva());
         cbModulo.setSelected(ob.getModulo());

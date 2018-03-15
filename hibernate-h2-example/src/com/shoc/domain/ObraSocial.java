@@ -5,11 +5,14 @@
  */
 package com.shoc.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -17,7 +20,7 @@ import javax.persistence.OneToOne;
  * @author diego
  */
 @Entity
-public class ObraSocial implements IObraSocial {
+public class ObraSocial {
 
     // General
     private Long id;
@@ -33,11 +36,15 @@ public class ObraSocial implements IObraSocial {
     private String emailWeb;
 
     // Costos
+    /*
     private Double costoInternacion;
     private Double costoJornadaCompleta;
     private Double costoMediaJornada;
     private Double costoAmbulatorio;
     private Double costo5;
+     */
+    private List<Dispositivo> dispositivos = new ArrayList<>();
+
     private String formaDePago;
     private String categoriaIVA;
     private Boolean modulo;
@@ -57,7 +64,7 @@ public class ObraSocial implements IObraSocial {
         if (i.getId() == null) {
             this.cuenta = new CuentaCorriente(this);
         }
-        
+
         this.id = i.getId();
         this.razonSocial = i.getRazonSocial();
         this.cuit = i.getCuit();
@@ -67,11 +74,13 @@ public class ObraSocial implements IObraSocial {
         this.telefono = i.getTelefono();
         this.email = i.getEmail();
         this.emailWeb = i.getEmailWeb();
-        this.costoInternacion = i.getCostoInternacion();
-        this.costoJornadaCompleta = i.getCostoJornadaCompleta();
-        this.costoMediaJornada = i.getCostoMediaJornada();
-        this.costoAmbulatorio = i.getCostoAmbulatorio();
-        this.costo5 = i.getCosto5();
+
+        this.setCosto(DispositivosEnum.INTERNACION, i.getCostoInternacion());
+        this.setCosto(DispositivosEnum.HDJC, i.getCostoJornadaCompleta());
+        this.setCosto(DispositivosEnum.HDMC, i.getCostoMediaJornada());
+        this.setCosto(DispositivosEnum.AMBULATORIO, i.getCostoAmbulatorio());
+        this.setCosto(DispositivosEnum.DISPOSITIVO, i.getCosto5());
+
         this.formaDePago = i.getFormaDePago();
         this.categoriaIVA = i.getCategoriaIva();
         this.modulo = i.getModulo();
@@ -82,7 +91,7 @@ public class ObraSocial implements IObraSocial {
 
     @Id
     @GeneratedValue
-    @Override
+    
     public Long getId() {
         return id;
     }
@@ -99,114 +108,79 @@ public class ObraSocial implements IObraSocial {
         this.cuit = cuit;
     }
 
+    @OneToMany(mappedBy = "obraSocial")
+    public List<Dispositivo> getDispositivos() {
+        return dispositivos;
+    }
+
+    public void setDispositivos(List<Dispositivo> dispositivos) {
+        this.dispositivos = dispositivos;
+    }
+
     @Column
-    @Override
     public String getRazonSocial() {
         return razonSocial;
     }
 
     @Column
-    @Override
     public String getCuit() {
         return cuit;
     }
 
     @Column
-    @Override
     public String getResponsable() {
         return responsable;
     }
 
     @Column
-    @Override
     public String getRequerimiento() {
         return requerimiento;
     }
 
     @Column
-    @Override
     public String getCelular() {
         return celular;
     }
 
     @Column
-    @Override
     public String getTelefono() {
         return telefono;
     }
 
     @Column
-    @Override
     public String getEmail() {
         return email;
     }
 
     @Column
-    @Override
     public String getEmailWeb() {
         return emailWeb;
     }
 
     @Column
-    @Override
-    public Double getCostoInternacion() {
-        return costoInternacion;
-    }
-
-    @Column
-    @Override
-    public Double getCostoJornadaCompleta() {
-        return costoJornadaCompleta;
-    }
-
-    @Column
-    @Override
-    public Double getCostoMediaJornada() {
-        return costoMediaJornada;
-    }
-
-    @Column
-    @Override
-    public Double getCostoAmbulatorio() {
-        return costoAmbulatorio;
-    }
-
-    @Column
-    @Override
-    public Double getCosto5() {
-        return costo5;
-    }
-
-    @Column
-    @Override
     public String getFormaDePago() {
         return formaDePago;
     }
 
     @Column
-    @Override
     public String getCategoriaIva() {
         return categoriaIVA;
     }
 
     @Column
-    @Override
     public Boolean getModulo() {
         return modulo;
     }
 
     @Column
-    @Override
     public String getDireccion() {
         return direccion;
     }
 
-    @Override
     public String getProvincia() {
         return provincia;
     }
 
-    @Override
     public String getLocalidad() {
         return localidad;
     }
@@ -240,24 +214,31 @@ public class ObraSocial implements IObraSocial {
         this.emailWeb = emailWeb;
     }
 
-    public void setCostoInternacion(Double costoInternacion) {
-        this.costoInternacion = costoInternacion;
+    public Double getCosto(DispositivosEnum dispositivo) {
+        for (Dispositivo disp : dispositivos) {
+            if (dispositivo.equals(disp.getDispositivo())) {
+                return disp.getCosto();
+            }
+        }
+        
+        return null;
     }
-
-    public void setCostoJornadaCompleta(Double costoJornadaCompleta) {
-        this.costoJornadaCompleta = costoJornadaCompleta;
-    }
-
-    public void setCostoMediaJornada(Double costoMediaJornada) {
-        this.costoMediaJornada = costoMediaJornada;
-    }
-
-    public void setCostoAmbulatorio(Double costoAmbulatorio) {
-        this.costoAmbulatorio = costoAmbulatorio;
-    }
-
-    public void setCosto5(Double costo5) {
-        this.costo5 = costo5;
+    
+    public void setCosto(DispositivosEnum dispositivo, Double costo) {
+        Boolean edited = false;
+        
+        for (Dispositivo disp : dispositivos) {
+            if (dispositivo.equals(disp.getDispositivo())) {
+                disp.setCosto(costo);
+                edited = true;
+                
+                break;
+            } 
+        }
+        
+        if (!edited) {
+            dispositivos.add(new Dispositivo(this, costo, dispositivo));
+        }
     }
 
     public void setFormaDePago(String formaDePago) {

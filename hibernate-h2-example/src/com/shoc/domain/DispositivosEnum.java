@@ -9,21 +9,19 @@ package com.shoc.domain;
  *
  * @author diego
  */
-public enum MovimientoEnum {
- 
-    DEBITO("Debito"), CREDITO("Credito");
+public enum DispositivosEnum {
+
+    INTERNACION("Internacion"), HDJC("Hospital Jornada Completa"), HDMC("Hospital Media Jornada"), AMBULATORIO("Ambulatorio"), DISPOSITIVO("Disp 5");
 
     private String detail;
-    
-    private MovimientoEnum(String detail) {
+
+    private DispositivosEnum(String detail) {
         this.detail = detail;
     }
 
     @Override
     public String toString() {
-        return detail; 
+        return detail;
     }
-    
-    
-    
+
 }
