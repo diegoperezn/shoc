@@ -27,7 +27,7 @@ public interface IPaciente {
 
     String getDispositivo();
 
-    String getDispositivoTerapia();
+    DispositivosEnum getDispositivoTerapia();
 
     String getDocumento();
 

@@ -34,8 +34,8 @@ public class FacturaDetail {
 
     public FacturaDetail(IFacturable f) {
         this.paciente = f.getPaciente();
-        this.dispositivo = f.getDispositivo().getDispositivo();
-        this.costoDispositivo = f.getDispositivo().getCosto();
+        this.dispositivo = f.getPaciente().getDispositivoTerapia();
+        this.costoDispositivo = f.getPaciente().getObraSocial().getCosto(this.dispositivo);
         this.fecha = f.getFecha();
     }
 

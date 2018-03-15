@@ -5,6 +5,7 @@
  */
 package com.shoc.controller.Panels;
 
+import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.IPaciente;
 import com.shoc.domain.ObraSocial;
 import com.shoc.domain.Paciente;
@@ -646,8 +647,8 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     }
 
     @Override
-    public String getDispositivoTerapia() {
-        return (String) cbDispositivoTerapia.getSelectedItem();
+    public DispositivosEnum getDispositivoTerapia() {
+        return (DispositivosEnum) cbDispositivoTerapia.getSelectedItem();
     }
 
     @Override

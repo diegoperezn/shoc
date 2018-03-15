@@ -77,7 +77,17 @@ public class FacturaDetailService {
             
             for (Paciente paciente : pacientes) {
                 if (!this.repo.existInDetails(paciente, paciente.getDispositivoTerapia(), desde.getTime())) {
-                    this.createFacturaDetail(ifd);
+                    this.createFacturaDetail(new IFacturable() {
+                        @Override
+                        public Date getFecha() {
+                            return desde.getTime();
+                        }
+
+                        @Override
+                        public Paciente getPaciente() {
+                            return paciente;
+                        }
+                    });
                 }
             }
             

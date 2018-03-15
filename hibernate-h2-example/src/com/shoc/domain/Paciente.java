@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
  * @author diego
  */
 @Entity
-public class Paciente implements IPaciente, IFacturable {
+public class Paciente implements IPaciente {
 
     // General
     private Long id;
@@ -39,7 +39,7 @@ public class Paciente implements IPaciente, IFacturable {
     private ObraSocial obraSocial;
     private String dispositivo;
     private Date cambioDispositivo;
-    private String dispositivoTerapia;
+    private DispositivosEnum dispositivoTerapia;
     private String fase;
     private Date ausencia;
     private Date egreso;
@@ -144,7 +144,7 @@ public class Paciente implements IPaciente, IFacturable {
         this.cambioDispositivo = cambioDispositivo;
     }
 
-    public void setDispositivoTerapia(String dispositivoTerapia) {
+    public void setDispositivoTerapia(DispositivosEnum dispositivoTerapia) {
         this.dispositivoTerapia = dispositivoTerapia;
     }
 
@@ -264,6 +264,7 @@ public class Paciente implements IPaciente, IFacturable {
     public String getDispositivo() {
         return dispositivo;
     }
+    
 
     @Column
     @Override
@@ -273,7 +274,7 @@ public class Paciente implements IPaciente, IFacturable {
 
     @Column
     @Override
-    public String getDispositivoTerapia() {
+    public DispositivosEnum getDispositivoTerapia() {
         return dispositivoTerapia;
     }
 
@@ -324,5 +325,6 @@ public class Paciente implements IPaciente, IFacturable {
     public String getCodigoPostal() {
         return codigoPostal;
     }
+
 
 }

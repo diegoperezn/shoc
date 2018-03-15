@@ -13,8 +13,6 @@ import java.util.Date;
  */
 public interface IFacturable {
 
-    Dispositivo getDispositivo();
-
     Date getFecha();
 
     Paciente getPaciente();

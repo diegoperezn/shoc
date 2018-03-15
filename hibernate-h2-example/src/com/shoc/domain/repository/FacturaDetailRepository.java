@@ -5,6 +5,7 @@
  */
 package com.shoc.domain.repository;
 
+import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.Paciente;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class FacturaDetailRepository extends Repository<FacturaDetail> {
         return FacturaDetail.class;
     }
 
-    public boolean existInDetails(Paciente paciente, String dispositivoTerapia, Date time) {
+    public boolean existInDetails(Paciente paciente, DispositivosEnum dispositivoTerapia, Date time) {
          DetachedCriteria c = this.createCriteria();
 
         c.add(Restrictions.eq("paciente", paciente));
