@@ -5,6 +5,7 @@
  */
 package com.shoc.domain;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,20 +18,19 @@ import javax.persistence.ManyToOne;
  * @author diego
  */
 @Entity
-public class Dispositivo {
+public class HistoricoDispositivo {
 
     private Long id;
-    private ObraSocial obraSocial;
-    private Double costo;
+    private Date fechaCambio;
     private DispositivosEnum dispositivo;
+    private Paciente paciente;
 
-    public Dispositivo() {
+    public HistoricoDispositivo() {
     }
 
-    public Dispositivo(ObraSocial obraSocial, Double costo, DispositivosEnum dispositivo) {
-        this.obraSocial = obraSocial;
-        this.costo = costo;
+    public HistoricoDispositivo(DispositivosEnum dispositivo, Paciente paciente) {
         this.dispositivo = dispositivo;
+        this.paciente = paciente;
     }
 
     @Id
@@ -39,15 +39,9 @@ public class Dispositivo {
         return id;
     }
 
-    @ManyToOne
-    @JoinColumn
-    public ObraSocial getObraSocial() {
-        return obraSocial;
-    }
-
     @Column
-    public Double getCosto() {
-        return costo;
+    public Date getFechaCambio() {
+        return fechaCambio;
     }
 
     @Column
@@ -55,20 +49,26 @@ public class Dispositivo {
         return dispositivo;
     }
 
+    @ManyToOne
+    @JoinColumn
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setObraSocial(ObraSocial obraSocial) {
-        this.obraSocial = obraSocial;
-    }
-
-    public void setCosto(Double costo) {
-        this.costo = costo;
+    public void setFechaCambio(Date fechaCambio) {
+        this.fechaCambio = fechaCambio;
     }
 
     public void setDispositivo(DispositivosEnum dispositivo) {
         this.dispositivo = dispositivo;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
 }

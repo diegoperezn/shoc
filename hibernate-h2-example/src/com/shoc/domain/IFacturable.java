@@ -17,4 +17,6 @@ public interface IFacturable {
 
     Paciente getPaciente();
 
+    DispositivosEnum getDispositivo();
+    
 }

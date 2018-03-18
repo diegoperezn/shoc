@@ -8,7 +8,9 @@ package com.shoc.domain.repository;
 import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.Paciente;
+import com.shoc.domain.service.IFaturaDetailsSearch;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
@@ -35,13 +37,30 @@ public class FacturaDetailRepository extends Repository<FacturaDetail> {
     }
 
     public boolean existInDetails(Paciente paciente, DispositivosEnum dispositivoTerapia, Date time) {
-         DetachedCriteria c = this.createCriteria();
+        DetachedCriteria c = this.createCriteria();
 
         c.add(Restrictions.eq("paciente", paciente));
         c.add(Restrictions.eq("dispositivo", dispositivoTerapia));
-        c.add(Restrictions.ge("fecha", time));
-        
+        c.add(Restrictions.eq("fecha", time));
+
         return !this.listByCriteria(c).isEmpty();
+    }
+
+    public List<FacturaDetail> search(IFaturaDetailsSearch filter) {
+        DetachedCriteria c = this.createCriteria();
+
+        if (filter.getPaciente() != null) {
+            c.add(Restrictions.eq("paciente", filter.getPaciente()));
+        }
+        if (filter.getObraSocial() != null) {
+            c.createAlias("paciente", "paciente");
+            c.add(Restrictions.eq("paciente.obraSocial", filter.getObraSocial()));
+        }
+        if (filter.getMes() != null) {
+            c.add(Restrictions.eq("fecha", filter.getMes()));
+        }
+
+        return this.listByCriteria(c);
     }
 
 }

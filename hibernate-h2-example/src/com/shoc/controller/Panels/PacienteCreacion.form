@@ -628,18 +628,12 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="cbDispositivoTerapia">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Internacion"/>
-                <StringItem index="1" value="Hospital Jornada Completa"/>
-                <StringItem index="2" value="Hospital Media Jornada"/>
-                <StringItem index="3" value="Ambulatorio"/>
-                <StringItem index="4" value="Disp. 5"/>
-              </StringArray>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new DefaultComboBoxModel&lt;&gt;(DispositivosEnum.values())" type="code"/>
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;DispositivosEnum&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>

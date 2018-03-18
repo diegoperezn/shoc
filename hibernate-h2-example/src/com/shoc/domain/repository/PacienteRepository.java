@@ -6,11 +6,12 @@
 package com.shoc.domain.repository;
 
 import com.shoc.domain.Paciente;
+import com.shoc.domain.service.IFaturaDetailsSearch;
 import com.shoc.domain.service.ISearchPaciente;
-import java.util.Calendar;
+import com.shoc.domain.utils.DateUtils;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
@@ -54,11 +55,50 @@ public class PacienteRepository extends Repository<Paciente> {
     public List<Paciente> listarPacientesActivos(Date desde) {
         DetachedCriteria c = this.createCriteria();
 
-        Disjunction or = Restrictions.disjunction();
-        or.add(Restrictions.isNull("egreso"));
-        or.add(Restrictions.ge("egreso", desde));
-        c.add(or);
+        Conjunction fechas = contruirCriteriaActivoEnFecha(desde);
         
+        c.add(fechas);
+
+        return this.listByCriteria(c);
+    }
+
+    private Conjunction contruirCriteriaActivoEnFecha(Date desde) {
+        desde = DateUtils.getMinimaFecha(desde).getTime();
+        Date hasta = DateUtils.getMinimaFechaMesSiguiente(desde).getTime();
+        
+        Conjunction fechas = Restrictions.conjunction();
+        Conjunction ingreso = Restrictions.conjunction();
+        
+        ingreso.add(Restrictions.lt("ingreso", hasta));
+        
+        Disjunction egreso = Restrictions.disjunction();
+        
+        Conjunction fechaEgreso = Restrictions.conjunction();
+        fechaEgreso.add(Restrictions.ge("egreso", desde));
+        egreso.add(Restrictions.isNull("egreso"));
+        
+        egreso.add(fechaEgreso);
+        
+        fechas.add(ingreso);
+        fechas.add(egreso);
+        
+        return fechas;
+    }
+
+    public List<Paciente> listarPacientesActivos(IFaturaDetailsSearch filter) {
+        DetachedCriteria c = this.createCriteria();
+
+        Conjunction fechas = contruirCriteriaActivoEnFecha(filter.getMes());
+        c.add(fechas);
+        
+        if (filter.getPaciente() != null) {
+            c.add(Restrictions.eq("id", filter.getPaciente().getId()));
+        }
+
+        if (filter.getObraSocial() != null) {
+            c.add(Restrictions.eq("obraSocial", filter.getObraSocial()));
+        }
+
         return this.listByCriteria(c);
     }
 

@@ -58,12 +58,12 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
         tfEmailWeb.setText(ob.getEmailWeb());
 
         // Costos
-        tfCostoInternacion.setText(ob.getCosto(DispositivosEnum.INTERNACION).toString());
-        tfCostoJornadaCompleta.setText(ob.getCosto(DispositivosEnum.HDJC).toString());
-        tfCostoMediaJornada.setText(ob.getCosto(DispositivosEnum.HDMC).toString());
-        tfCostoAmbulatorio.setText(ob.getCosto(DispositivosEnum.AMBULATORIO).toString());
-        tfCosto5.setText(ob.getCosto(DispositivosEnum.DISPOSITIVO).toString());
-        
+        tfCostoInternacion.setText(String.valueOf(ob.getCosto(DispositivosEnum.INTERNACION)));
+        tfCostoJornadaCompleta.setText(String.valueOf(ob.getCosto(DispositivosEnum.HDJC)));
+        tfCostoMediaJornada.setText(String.valueOf(ob.getCosto(DispositivosEnum.HDMC)));
+        tfCostoAmbulatorio.setText(String.valueOf(ob.getCosto(DispositivosEnum.AMBULATORIO)));
+        tfCosto5.setText(String.valueOf(ob.getCosto(DispositivosEnum.DISPOSITIVO)));
+
         tfFormaDePago.setText(ob.getFormaDePago());
         tfCategoriaIva.setText(ob.getCategoriaIva());
         cbModulo.setSelected(ob.getModulo());

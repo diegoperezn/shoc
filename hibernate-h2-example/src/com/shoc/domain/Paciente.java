@@ -5,12 +5,21 @@
  */
 package com.shoc.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Transient;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -39,7 +48,7 @@ public class Paciente implements IPaciente {
     private ObraSocial obraSocial;
     private String dispositivo;
     private Date cambioDispositivo;
-    private DispositivosEnum dispositivoTerapia;
+    private List<HistoricoDispositivo> historicoDispositivo = new ArrayList<>();
     private String fase;
     private Date ausencia;
     private Date egreso;
@@ -56,7 +65,6 @@ public class Paciente implements IPaciente {
     }
 
     public Paciente(IPaciente iPaciente) {
-        this.id = iPaciente.getId();
         this.nombre = iPaciente.getNombre();
         this.documento = iPaciente.getDocumento();
         this.observaciones = iPaciente.getObservaciones();
@@ -71,7 +79,7 @@ public class Paciente implements IPaciente {
         this.obraSocial = iPaciente.getObraSocial();
         this.dispositivo = iPaciente.getDispositivo();
         this.cambioDispositivo = iPaciente.getCambioDispositivo();
-        this.dispositivoTerapia = iPaciente.getDispositivoTerapia();
+        this.changeDispositivoTerapia(iPaciente.getDispositivoTerapia());
         this.fase = iPaciente.getFase();
         this.ausencia = iPaciente.getAusencia();
         this.egreso = iPaciente.getEgreso();
@@ -81,8 +89,32 @@ public class Paciente implements IPaciente {
         this.localidad = iPaciente.getLocalidad();
         this.codigoPostal = iPaciente.getCodigoPostal();
     }
-    
-    
+
+    public void actualizar(IPaciente iPaciente) {
+        this.nombre = iPaciente.getNombre();
+        this.documento = iPaciente.getDocumento();
+        this.observaciones = iPaciente.getObservaciones();
+        this.gravado = iPaciente.getGravado();
+        this.celular = iPaciente.getCelular();
+        this.telefono = iPaciente.getTelefono();
+        this.email = iPaciente.getEmail();
+        this.responsable = iPaciente.getResponsable();
+        this.ingreso = iPaciente.getIngreso();
+        this.vencimientoBeca = iPaciente.getVencimientoBeca();
+        this.terapista = iPaciente.getTerapista();
+        this.obraSocial = iPaciente.getObraSocial();
+        this.dispositivo = iPaciente.getDispositivo();
+        this.cambioDispositivo = iPaciente.getCambioDispositivo();
+        this.changeDispositivoTerapia(iPaciente.getDispositivoTerapia());
+        this.fase = iPaciente.getFase();
+        this.ausencia = iPaciente.getAusencia();
+        this.egreso = iPaciente.getEgreso();
+        this.causalEgreso = iPaciente.getCausalEgreso();
+        this.direccion = iPaciente.getDireccion();
+        this.provincia = iPaciente.getProvincia();
+        this.localidad = iPaciente.getLocalidad();
+        this.codigoPostal = iPaciente.getCodigoPostal();
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -144,8 +176,8 @@ public class Paciente implements IPaciente {
         this.cambioDispositivo = cambioDispositivo;
     }
 
-    public void setDispositivoTerapia(DispositivosEnum dispositivoTerapia) {
-        this.dispositivoTerapia = dispositivoTerapia;
+    public void setHistoricoDispositivo(List<HistoricoDispositivo> historicoDispositivo) {
+        this.historicoDispositivo = historicoDispositivo;
     }
 
     public void setFase(String fase) {
@@ -264,7 +296,6 @@ public class Paciente implements IPaciente {
     public String getDispositivo() {
         return dispositivo;
     }
-    
 
     @Column
     @Override
@@ -272,10 +303,17 @@ public class Paciente implements IPaciente {
         return cambioDispositivo;
     }
 
-    @Column
     @Override
+    @Transient
     public DispositivosEnum getDispositivoTerapia() {
-        return dispositivoTerapia;
+        return this.dispositivoActivo().getDispositivo();
+    }
+
+    @OrderBy("fechaCambio DESC")
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "paciente", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public List<HistoricoDispositivo> getHistoricoDispositivo() {
+        return historicoDispositivo;
     }
 
     @Column
@@ -326,5 +364,30 @@ public class Paciente implements IPaciente {
         return codigoPostal;
     }
 
+    private HistoricoDispositivo dispositivoActivo() {
+        for (HistoricoDispositivo hist : historicoDispositivo) {
+            if (hist.getFechaCambio() == null) {
+                return hist;
+            }
+        }
+
+        return null;
+    }
+
+    private void changeDispositivoTerapia(DispositivosEnum dispositivoTerapia) {
+        if (this.historicoDispositivo.isEmpty()) {
+            this.historicoDispositivo.add(new HistoricoDispositivo(
+                    dispositivoTerapia, this));
+        } else if (!this.historicoDispositivo.get(0).getDispositivo().equals(dispositivoTerapia)) {
+            this.dispositivoActivo().setFechaCambio(new Date());
+            this.historicoDispositivo.add(new HistoricoDispositivo(
+                    dispositivoTerapia, this));
+        }
+    }
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 
 }

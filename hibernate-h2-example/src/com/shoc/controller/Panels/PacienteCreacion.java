@@ -13,6 +13,7 @@ import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
 import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -377,7 +378,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
         jLabel25.setText("Fase:");
 
-        cbDispositivoTerapia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Internacion", "Hospital Jornada Completa", "Hospital Media Jornada", "Ambulatorio", "Disp. 5" }));
+        cbDispositivoTerapia.setModel(new DefaultComboBoxModel<>(DispositivosEnum.values()));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -548,7 +549,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbDispositivoTerapia;
+    private javax.swing.JComboBox<DispositivosEnum> cbDispositivoTerapia;
     private javax.swing.JCheckBox cbGravado;
     private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private org.jdesktop.swingx.JXDatePicker dpAusencia;

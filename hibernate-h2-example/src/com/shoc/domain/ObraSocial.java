@@ -10,10 +10,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -91,7 +94,7 @@ public class ObraSocial {
 
     @Id
     @GeneratedValue
-    
+
     public Long getId() {
         return id;
     }
@@ -108,7 +111,8 @@ public class ObraSocial {
         this.cuit = cuit;
     }
 
-    @OneToMany(mappedBy = "obraSocial")
+    @OneToMany(mappedBy = "obraSocial", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     public List<Dispositivo> getDispositivos() {
         return dispositivos;
     }
@@ -220,22 +224,22 @@ public class ObraSocial {
                 return disp.getCosto();
             }
         }
-        
-        return null;
+
+        return Double.valueOf("0");
     }
-    
+
     public void setCosto(DispositivosEnum dispositivo, Double costo) {
         Boolean edited = false;
-        
+
         for (Dispositivo disp : dispositivos) {
             if (dispositivo.equals(disp.getDispositivo())) {
                 disp.setCosto(costo);
                 edited = true;
-                
+
                 break;
-            } 
+            }
         }
-        
+
         if (!edited) {
             dispositivos.add(new Dispositivo(this, costo, dispositivo));
         }
@@ -276,6 +280,10 @@ public class ObraSocial {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        
         return this.getId() == ((ObraSocial) obj).getId();
     }
 

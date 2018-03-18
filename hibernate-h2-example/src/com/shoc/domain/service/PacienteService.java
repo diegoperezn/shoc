@@ -28,17 +28,24 @@ public class PacienteService {
     }
 
     private final PacienteRepository repo = PacienteRepository.getInstance();
-    
+
     public void createPaciente(IPaciente iPaciente) {
-        Paciente paciente = new Paciente(iPaciente);
+        Paciente paciente = null;
+
+        if (iPaciente.getId() == null) {
+            paciente = new Paciente(iPaciente);
+        } else {
+            paciente = this.get(iPaciente.getId());
+            paciente.actualizar(iPaciente);
+        }
 
         repo.save(paciente);
     }
-    
+
     public List<Paciente> listAll() {
         return repo.listAll();
     }
-    
+
     public Paciente get(Long id) {
         return repo.get(id);
     }
@@ -50,10 +57,15 @@ public class PacienteService {
     public List<Paciente> search(ISearchPaciente filter) {
         return this.repo.search(filter);
     }
-    
+
     // Lista los pacientes activos o dados de baja en el transcurso del mes
-    public List<Paciente> listarPacientesActivos(Date desde) {
-        return this.repo.listarPacientesActivos(desde);
+    public List<Paciente> listarPacientesActivos(Date fecha) {
+        return this.repo.listarPacientesActivos(fecha);
     }
-    
+
+    // Lista los pacientes activos o dados de baja en el transcurso del mes
+    public List<Paciente> listarPacientesActivos(IFaturaDetailsSearch filter) {
+        return this.repo.listarPacientesActivos(filter);
+    }
+
 }

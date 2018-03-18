@@ -5,13 +5,14 @@
  */
 package com.shoc.domain.service;
 
+import com.shoc.controller.Panels.FacturaList;
+import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.FacturaDetail;
+import com.shoc.domain.HistoricoDispositivo;
 import com.shoc.domain.IFacturable;
-import com.shoc.domain.IObraSocial;
-import com.shoc.domain.ObraSocial;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.repository.FacturaDetailRepository;
-import java.util.ArrayList;
+import com.shoc.domain.utils.DateUtils;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,13 +37,12 @@ public class FacturaDetailService {
 
     private final PacienteService pacienteService = PacienteService.getInstance();
 
-    
     public void createFacturaDetail(IFacturable ifd) {
         FacturaDetail fd = new FacturaDetail(ifd);
 
         repo.save(fd);
     }
-    
+
     public List<FacturaDetail> listAll() {
         return repo.listAll();
     }
@@ -55,46 +55,68 @@ public class FacturaDetailService {
         this.repo.delete(selectedId);
     }
 
-    public Calendar getFechaDesde() {
-        Date fecha = new Date();
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(fecha);
-        cal.add(Calendar.MONTH, -2);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-
-        return cal;
+    public List<FacturaDetail> generarYlistarFacuraDetails() {
+        return this.generarYlistarFacuraDetails(DateUtils.getMinimaFecha().getTime());
     }
 
-    public List<FacturaDetail> generarYlistarFacuraDetails() {
-        Calendar desde = getFechaDesde();
-        Date today = new Date();
+    public List<FacturaDetail> generarYlistarFacuraDetails(Date desde) {
+        List<Paciente> pacientes = this.pacienteService.listarPacientesActivos(desde);
 
-        List<Paciente> pacientes = this.pacienteService.listarPacientesActivos(desde.getTime());
+        buildFacturaDetails(pacientes, desde);
 
-        while (desde.after(today)) {
-            
-            for (Paciente paciente : pacientes) {
-                if (!this.repo.existInDetails(paciente, paciente.getDispositivoTerapia(), desde.getTime())) {
-                    this.createFacturaDetail(new IFacturable() {
-                        @Override
-                        public Date getFecha() {
-                            return desde.getTime();
-                        }
+        return this.repo.listAll();
+    }
 
-                        @Override
-                        public Paciente getPaciente() {
-                            return paciente;
-                        }
-                    });
+    public List<FacturaDetail> generarYlistarFacuraDetails(IFaturaDetailsSearch filter) {
+        List<Paciente> pacientes = this.pacienteService.listarPacientesActivos(filter);
+
+        buildFacturaDetails(pacientes, filter.getMes());
+
+        return this.repo.search(filter);
+    }
+
+    private void buildFacturaDetails(List<Paciente> pacientes, Date desde) {
+        for (Paciente paciente : pacientes) {
+
+            for (HistoricoDispositivo hist : paciente.getHistoricoDispositivo()) {
+                if (hist.getDispositivo().equals(paciente.getDispositivoTerapia())
+                        || (!hist.getDispositivo().equals(paciente.getDispositivoTerapia()) 
+                            && DateUtils.esMismoMes(hist.getFechaCambio(), desde))) {
+                    if (!this.repo.existInDetails(paciente, hist.getDispositivo(), desde)) {
+                        this.createFacturaDetail(new IFacturable() {
+
+                            @Override
+                            public Date getFecha() {
+                                return desde;
+                            }
+
+                            @Override
+                            public Paciente getPaciente() {
+                                return paciente;
+                            }
+
+                            @Override
+                            public DispositivosEnum getDispositivo() {
+                                return hist.getDispositivo();
+                            }
+
+                        });
+                    }
                 }
             }
-            
-            desde.add(Calendar.MONTH, 1);
         }
+    }
 
-        return new ArrayList<FacturaDetail>();
+    public void actualizarDias(Long id, Integer dias) {
+        FacturaDetail fd = this.repo.get(id);
+
+        fd.setDias(dias);
+
+        this.repo.save(fd);
+    }
+
+    public List<FacturaDetail> search(IFaturaDetailsSearch filter) {
+        return this.repo.search(filter);
     }
 
 }
