@@ -5,7 +5,7 @@
  */
 package com.shoc.domain.service;
 
-import com.shoc.controller.Panels.FacturaList;
+import com.shoc.controller.Panels.FacturaDetailsList;
 import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.HistoricoDispositivo;
@@ -107,10 +107,11 @@ public class FacturaDetailService {
         }
     }
 
-    public void actualizarDias(Long id, Integer dias) {
+    public void actualizarDias(Long id, Integer dias, Double totalMes) {
         FacturaDetail fd = this.repo.get(id);
 
         fd.setDias(dias);
+        fd.setMonto(totalMes);
 
         this.repo.save(fd);
     }

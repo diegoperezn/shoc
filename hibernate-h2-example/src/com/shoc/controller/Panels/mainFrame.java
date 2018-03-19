@@ -152,7 +152,7 @@ public class mainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        changePanel(new FacturaList());
+        changePanel(new FacturaDetailsList());
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**

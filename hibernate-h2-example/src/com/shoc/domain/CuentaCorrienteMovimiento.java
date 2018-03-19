@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -22,6 +23,7 @@ public class CuentaCorrienteMovimiento {
     private Long id;
     private MovimientoEnum movimiento;
     private CuentaCorriente cuenta;
+    private Factura factura;
     private String detalle;
     private Double monto;
 
@@ -33,6 +35,14 @@ public class CuentaCorrienteMovimiento {
         this.monto = monto;
         this.cuenta = cuenta;
         this.movimiento = MovimientoEnum.DEBITO;
+    }
+    
+    public CuentaCorrienteMovimiento(Factura factura, CuentaCorriente cuenta) {
+        this.monto = factura.getTotal();
+        this.detalle = "Movimiento por Factura Nro: " + factura.getId();
+        this.factura = factura;
+        this.cuenta = cuenta;
+        this.movimiento = MovimientoEnum.CREDITO;
     }
 
     @Id
@@ -60,6 +70,16 @@ public class CuentaCorrienteMovimiento {
     @JoinColumn(name = "cuenta_id", nullable = false)
     public CuentaCorriente getCuenta() {
         return cuenta;
+    }
+
+    @OneToOne
+    @JoinColumn
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
     public void setId(Long id) {

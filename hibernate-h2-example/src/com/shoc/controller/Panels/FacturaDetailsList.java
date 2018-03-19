@@ -10,30 +10,31 @@ import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.ObraSocial;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.service.FacturaDetailService;
+import com.shoc.domain.service.FacturaService;
 import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
 import com.shoc.domain.utils.DateUtils;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author diego
  */
-public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSearch {
+public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDetailsSearch {
 
     FacturaDetailService service = FacturaDetailService.getInstance();
 
+    FacturaService fService = FacturaService.getInstance();
     PacienteService pService = PacienteService.getInstance();
     ObraSocialService obService = ObraSocialService.getInstance();
     
     /**
      * Creates new form ObraSocialList
      */
-    public FacturaList() {
+    public FacturaDetailsList() {
         initComponents();
 
         cbPaciente.addItem(null);
@@ -90,6 +91,11 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton4.setText("Facturar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         tableCuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -266,12 +272,14 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
 
         for (int i = 0; i < model.getRowCount(); i++) {
             if (model.getValueAt(i, 6) != null) {
-                model.setValueAt(
-                        (Integer) model.getValueAt(i, 6) * (Double) model.getValueAt(i, 7),
+                final Integer dias = (Integer) model.getValueAt(i, 6);
+                final Double costo = (Double) model.getValueAt(i, 7);
+                final double totalMes = dias * costo;
+                model.setValueAt(totalMes,
                         i, 8
                 );
 
-                this.service.actualizarDias((Long) model.getValueAt(i, 1), (Integer) model.getValueAt(i, 6));
+                this.service.actualizarDias((Long) model.getValueAt(i, 1), (Integer) model.getValueAt(i, 6),totalMes);
             }
         }
     }//GEN-LAST:event_tableCuentasPropertyChange
@@ -284,39 +292,40 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         fillTable(this.service.generarYlistarFacuraDetails(this));
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        List<FacturaDetail> details = new ArrayList<FacturaDetails>();
+        
+        for (int i = 0; i < tableCuentas.getRowCount(); i++) {
+            
+            if ((Boolean) tableCuentas.getModel().getValueAt(i, 0)) {
+                details.add(this.service.get((Long) tableCuentas.getModel().getValueAt(i, 1)))
+            }
+            
+        }
+        
+        this.fService.crearFactura(this, details);
+        
+        fillTable(this.service.search(this));
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cbActivos;
-    private javax.swing.JCheckBox cbActivos1;
-    private javax.swing.JCheckBox cbActivos2;
     private javax.swing.JCheckBox cbActivos3;
     private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private javax.swing.JComboBox<Paciente> cbPaciente;
     private org.jdesktop.swingx.JXDatePicker dpMes;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableCuentas;
-    private javax.swing.JTextField tfNombre;
-    private javax.swing.JTextField tfNombre1;
-    private javax.swing.JTextField tfNombre2;
     // End of variables declaration//GEN-END:variables
 
     @Override
