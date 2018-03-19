@@ -17,6 +17,7 @@ import com.shoc.domain.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,15 +46,17 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     }
 
     private void fillTable(List<Factura> list) {
-        DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
+        DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
         model.setRowCount(0);
-        tableCuentas.getColumnModel().getColumn(0).setResizable(false);
-        tableCuentas.getColumnModel().getColumn(0).setPreferredWidth(5);
-        tableCuentas.getColumnModel().getColumn(0).setMaxWidth(5);
 
         list.forEach((factura) -> {
-            model.addRow(new Object[]{factura.getId(), factura.getFecha(), factura.getPaciente().getNombre(),
-                factura.getObraSocial().getRazonSocial(), factura.getTotal()
+            final String paciente = factura.getPaciente() != null ? 
+                    factura.getPaciente().getNombre() : null;
+            final String obraSocial = factura.getObraSocial() != null ? 
+                    factura.getObraSocial().getRazonSocial() : null;
+
+            model.addRow(new Object[]{factura.getId(), factura.getFecha(), paciente,
+                obraSocial, factura.getTotal()
             }
             );
         });
@@ -71,13 +74,12 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         jPanel3 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableCuentas = new javax.swing.JTable();
+        facturaTable = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
-        cbFacturado = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cbObraSocial = new javax.swing.JComboBox<>();
@@ -86,14 +88,14 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jButton4.setText("Facturar");
+        jButton4.setText("Detalle");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        tableCuentas.setModel(new javax.swing.table.DefaultTableModel(
+        facturaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -116,8 +118,8 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                 return canEdit [columnIndex];
             }
         });
-        tableCuentas.setFillsViewportHeight(true);
-        jScrollPane1.setViewportView(tableCuentas);
+        facturaTable.setFillsViewportHeight(true);
+        jScrollPane1.setViewportView(facturaTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -170,8 +172,6 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
             }
         });
 
-        cbFacturado.setText("Facturado");
-
         jLabel6.setText("Paciente:");
 
         jLabel7.setText("Mes:");
@@ -180,27 +180,22 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbPaciente, 0, 91, Short.MAX_VALUE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbObraSocial, 0, 91, Short.MAX_VALUE)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                        .addGap(30, 30, 30)
-                        .addComponent(cbFacturado, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, 0))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbPaciente, 0, 86, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(cbObraSocial, 0, 85, Short.MAX_VALUE)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
+                .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,9 +208,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                     .addComponent(jLabel5)
                     .addComponent(cbPaciente)
                     .addComponent(jLabel6)
-                    .addComponent(cbFacturado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
+                    .addComponent(jButton8))
                 .addGap(10, 10, 10))
         );
 
@@ -252,15 +245,19 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
+        DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
+        Long selectedId = Long.valueOf(model.getValueAt(facturaTable.getSelectedRow(), 0).toString());
+
+        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.changePanel(new FacturaDetails(selectedId), this);
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cbFacturado;
     private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private javax.swing.JComboBox<Paciente> cbPaciente;
     private org.jdesktop.swingx.JXDatePicker dpMes;
+    private javax.swing.JTable facturaTable;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
@@ -271,7 +268,6 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tableCuentas;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -286,13 +282,13 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
 
     @Override
     public Date getMes() {
-        return dpMes.getDate() != null 
+        return dpMes.getDate() != null
                 ? DateUtils.getMinimaFecha(dpMes.getDate()).getTime() : null;
     }
 
     @Override
     public Boolean getFacturado() {
-        return cbFacturado.isSelected();
+        return false;
     }
 
 }
