@@ -41,6 +41,7 @@ public class mainFrame extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -75,6 +76,8 @@ public class mainFrame extends javax.swing.JFrame {
         jMenu2.setText("Pacientes");
 
         jMenuItem4.setText("Nuevo");
+        jMenuItem4.setPreferredSize(null);
+        jMenuItem4.setSelected(true);
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -84,8 +87,7 @@ public class mainFrame extends javax.swing.JFrame {
 
         jMenuItem5.setText("Listado");
         jMenuItem5.setMinimumSize(new java.awt.Dimension(693, 334));
-        jMenuItem5.setPreferredSize(new java.awt.Dimension(693, 334));
-        jMenuItem5.setSize(new java.awt.Dimension(693, 334));
+        jMenuItem5.setPreferredSize(new java.awt.Dimension(118, 21));
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -105,13 +107,21 @@ public class mainFrame extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem6);
 
-        jMenuItem7.setText("Facturas");
+        jMenuItem7.setText("Facturacion");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
             }
         });
         jMenu3.add(jMenuItem7);
+
+        jMenuItem8.setText("Listado Facturas");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem8);
 
         jMenuBar1.add(jMenu3);
 
@@ -154,6 +164,10 @@ public class mainFrame extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         changePanel(new FacturaDetailsList());
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        changePanel(new FacturaList());
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,6 +217,7 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     // End of variables declaration//GEN-END:variables
 
     
