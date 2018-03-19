@@ -70,14 +70,17 @@ public class FacturaDetailService {
     public List<FacturaDetail> generarYlistarFacuraDetails(IFaturaDetailsSearch filter) {
         List<Paciente> pacientes = this.pacienteService.listarPacientesActivos(filter);
 
-        buildFacturaDetails(pacientes, filter.getMes());
+        Date desde = filter.getMes();
+        if (desde == null) {
+            desde = DateUtils.getMinimaFecha().getTime();
+        }
+        buildFacturaDetails(pacientes, desde);
 
         return this.repo.search(filter);
     }
 
     private void buildFacturaDetails(List<Paciente> pacientes, Date desde) {
         for (Paciente paciente : pacientes) {
-
             for (HistoricoDispositivo hist : paciente.getHistoricoDispositivo()) {
                 if (hist.getDispositivo().equals(paciente.getDispositivoTerapia())
                         || (!hist.getDispositivo().equals(paciente.getDispositivoTerapia()) 

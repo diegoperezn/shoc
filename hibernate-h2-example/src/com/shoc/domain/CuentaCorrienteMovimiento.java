@@ -39,7 +39,6 @@ public class CuentaCorrienteMovimiento {
     
     public CuentaCorrienteMovimiento(Factura factura, CuentaCorriente cuenta) {
         this.monto = factura.getTotal();
-        this.detalle = "Movimiento por Factura Nro: " + factura.getId();
         this.factura = factura;
         this.cuenta = cuenta;
         this.movimiento = MovimientoEnum.CREDITO;
@@ -63,7 +62,7 @@ public class CuentaCorrienteMovimiento {
 
     @Column
     public String getDetalle() {
-        return detalle;
+        return factura != null ? this.detalle = "Movimiento por Factura Nro: " + factura.getId() : detalle;
     }
 
     @ManyToOne

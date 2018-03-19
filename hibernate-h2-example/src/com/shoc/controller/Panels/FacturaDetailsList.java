@@ -30,7 +30,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     FacturaService fService = FacturaService.getInstance();
     PacienteService pService = PacienteService.getInstance();
     ObraSocialService obService = ObraSocialService.getInstance();
-    
+
     /**
      * Creates new form ObraSocialList
      */
@@ -39,11 +39,11 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
         cbPaciente.addItem(null);
         pService.listAll().forEach(p -> cbPaciente.addItem(p));
-        
+
         cbObraSocial.addItem(null);
         obService.listAll().forEach(ob -> cbObraSocial.addItem(ob));
-        
-        fillTable(service.generarYlistarFacuraDetails());
+
+        fillTable(service.search(this));
     }
 
     private void fillTable(List<FacturaDetail> list) {
@@ -54,9 +54,9 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         tableCuentas.getColumnModel().getColumn(0).setMaxWidth(5);
 
         list.forEach((cuenta) -> {
-            model.addRow( new Object[]{false, cuenta.getId(), cuenta.getFecha(), cuenta.getPaciente().getNombre(),
+            model.addRow(new Object[]{false, cuenta.getId(), cuenta.getFecha(), cuenta.getPaciente().getNombre(),
                 cuenta.getPaciente().getObraSocial().getRazonSocial(), cuenta.getDispositivo(),
-                cuenta.getDias(), cuenta.getCostoDispositivo(), null
+                cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
             );
         });
@@ -80,7 +80,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
-        cbActivos3 = new javax.swing.JCheckBox();
+        cbFacturado = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cbObraSocial = new javax.swing.JComboBox<>();
@@ -179,7 +179,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             }
         });
 
-        cbActivos3.setText("Facturado");
+        cbFacturado.setText("Facturado");
 
         jLabel6.setText("Paciente:");
 
@@ -217,7 +217,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                         .addGap(18, 18, 18)
                         .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(30, 30, 30)
-                        .addComponent(cbActivos3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbFacturado, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
         jPanel7Layout.setVerticalGroup(
@@ -231,7 +231,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                     .addComponent(jLabel5)
                     .addComponent(cbPaciente)
                     .addComponent(jLabel6)
-                    .addComponent(cbActivos3))
+                    .addComponent(cbFacturado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton8)
@@ -279,7 +279,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                         i, 8
                 );
 
-                this.service.actualizarDias((Long) model.getValueAt(i, 1), (Integer) model.getValueAt(i, 6),totalMes);
+                this.service.actualizarDias((Long) model.getValueAt(i, 1), (Integer) model.getValueAt(i, 6), totalMes);
             }
         }
     }//GEN-LAST:event_tableCuentasPropertyChange
@@ -293,24 +293,24 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        List<FacturaDetail> details = new ArrayList<FacturaDetails>();
-        
+        List<FacturaDetail> details = new ArrayList<FacturaDetail>();
+
         for (int i = 0; i < tableCuentas.getRowCount(); i++) {
-            
+
             if ((Boolean) tableCuentas.getModel().getValueAt(i, 0)) {
-                details.add(this.service.get((Long) tableCuentas.getModel().getValueAt(i, 1)))
+                details.add(this.service.get((Long) tableCuentas.getModel().getValueAt(i, 1)));
             }
-            
+
         }
-        
+
         this.fService.crearFactura(this, details);
-        
+
         fillTable(this.service.search(this));
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cbActivos3;
+    private javax.swing.JCheckBox cbFacturado;
     private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private javax.swing.JComboBox<Paciente> cbPaciente;
     private org.jdesktop.swingx.JXDatePicker dpMes;
@@ -340,7 +340,13 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
     @Override
     public Date getMes() {
-        return dpMes.getDate() != null ? DateUtils.getMinimaFecha(dpMes.getDate()).getTime() : null; 
+        return dpMes.getDate() != null 
+                ? DateUtils.getMinimaFecha(dpMes.getDate()).getTime() : null;
+    }
+
+    @Override
+    public Boolean getFacturado() {
+        return cbFacturado.isSelected();
     }
 
 }

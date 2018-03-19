@@ -49,6 +49,12 @@ public class FacturaDetailRepository extends Repository<FacturaDetail> {
     public List<FacturaDetail> search(IFaturaDetailsSearch filter) {
         DetachedCriteria c = this.createCriteria();
 
+        if (filter.getFacturado()) {
+            c.add(Restrictions.isNotNull("factura"));
+        } else {
+            c.add(Restrictions.isNull("factura"));
+        }
+        
         if (filter.getPaciente() != null) {
             c.add(Restrictions.eq("paciente", filter.getPaciente()));
         }

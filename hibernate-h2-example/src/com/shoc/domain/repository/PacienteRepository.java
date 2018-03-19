@@ -88,7 +88,14 @@ public class PacienteRepository extends Repository<Paciente> {
     public List<Paciente> listarPacientesActivos(IFaturaDetailsSearch filter) {
         DetachedCriteria c = this.createCriteria();
 
-        Conjunction fechas = contruirCriteriaActivoEnFecha(filter.getMes());
+        Date fecha;
+        if (filter.getMes() != null) {
+            fecha = filter.getMes();
+        } else {
+            fecha = new Date();
+        }
+        
+        Conjunction fechas = contruirCriteriaActivoEnFecha(fecha);
         c.add(fechas);
         
         if (filter.getPaciente() != null) {

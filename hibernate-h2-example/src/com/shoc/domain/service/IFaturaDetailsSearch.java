@@ -21,4 +21,5 @@ public interface IFaturaDetailsSearch {
     
     public Date getMes();
     
+    public Boolean getFacturado();
 }

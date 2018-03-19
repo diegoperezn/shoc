@@ -54,7 +54,7 @@ public class Factura {
         return id;
     }
 
-    @OneToMany(mappedBy = "factura")
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL)
     public List<FacturaDetail> getDetails() {
         return details;
     }
