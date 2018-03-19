@@ -5,6 +5,7 @@
  */
 package com.shoc.domain.service;
 
+import com.shoc.controller.Panels.FacturaList;
 import com.shoc.domain.Factura;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.ObraSocial;
@@ -69,6 +70,10 @@ public class FacturaService {
 
     public void deleteById(Long selectedId) {
         this.repo.delete(selectedId);
+    }
+
+    public List<Factura> search(FacturaList filter) {
+        return this.repo.search(filter);
     }
 
 }

@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author diego
  */
-public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDetailsSearch {
+public class FacturaDetail extends javax.swing.JPanel implements IFaturaDetailsSearch {
 
     FacturaDetailService service = FacturaDetailService.getInstance();
 
@@ -34,7 +34,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     /**
      * Creates new form ObraSocialList
      */
-    public FacturaDetailsList() {
+    public FacturaDetail() {
         initComponents();
 
         cbPaciente.addItem(null);
@@ -80,7 +80,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
-        cbActivos3 = new javax.swing.JCheckBox();
+        cbFacturado = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cbObraSocial = new javax.swing.JComboBox<>();
@@ -179,7 +179,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             }
         });
 
-        cbActivos3.setText("Facturado");
+        cbFacturado.setText("Facturado");
 
         jLabel6.setText("Paciente:");
 
@@ -217,7 +217,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                         .addGap(18, 18, 18)
                         .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(30, 30, 30)
-                        .addComponent(cbActivos3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbFacturado, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
         jPanel7Layout.setVerticalGroup(
@@ -231,7 +231,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                     .addComponent(jLabel5)
                     .addComponent(cbPaciente)
                     .addComponent(jLabel6)
-                    .addComponent(cbActivos3))
+                    .addComponent(cbFacturado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton8)
@@ -284,6 +284,14 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         }
     }//GEN-LAST:event_tableCuentasPropertyChange
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        fillTable(this.service.search(this));
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        fillTable(this.service.generarYlistarFacuraDetails(this));
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         List<FacturaDetail> details = new ArrayList<FacturaDetail>();
 
@@ -300,17 +308,9 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         fillTable(this.service.search(this));
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        fillTable(this.service.generarYlistarFacuraDetails(this));
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        fillTable(this.service.search(this));
-    }//GEN-LAST:event_jButton8ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cbActivos3;
+    private javax.swing.JCheckBox cbFacturado;
     private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private javax.swing.JComboBox<Paciente> cbPaciente;
     private org.jdesktop.swingx.JXDatePicker dpMes;
@@ -346,7 +346,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
     @Override
     public Boolean getFacturado() {
-        return cbActivos3.isSelected();
+        return cbFacturado.isSelected();
     }
 
 }
