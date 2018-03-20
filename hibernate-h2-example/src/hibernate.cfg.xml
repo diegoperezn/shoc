@@ -1,47 +1,31 @@
-<?xml version='1.0' encoding='utf-8'?>
-
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-
-    <session-factory>
-
-        <!-- Database connection settings -->
-        <property name="connection.driver_class">org.h2.Driver</property>
-        <property name="connection.url">jdbc:h2:~/database/test;AUTO_SERVER=TRUE</property>
-        <property name="connection.username">sa</property>
-        <property name="connection.password"/>
-        
-        <property name="hibernate.default_schema">PUBLIC</property>
-
-        <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
-
-        <property name="hibernate.current_session_context_class">thread</property>
-
-        <!-- SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
-
-        <!-- Disable the second-level cache  -->
-        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
-
-        <!-- Echo all executed SQL to stdout -->
-        <property name="show_sql">true</property>
-
-        <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">update</property>
-        
-        <mapping class="com.shoc.domain.ObraSocial"/>
-        <mapping class="com.shoc.domain.Paciente"/>
-        <mapping class="com.shoc.domain.CuentaCorriente"/>
-        <mapping class="com.shoc.domain.CuentaCorrienteMovimiento"/>
-        <mapping class="com.shoc.domain.Factura"/>
-        <mapping class="com.shoc.domain.FacturaDetail"/>
-        <mapping class="com.shoc.domain.Dispositivo"/>
-        <mapping class="com.shoc.domain.HistoricoDispositivo"/>
-
-    </session-factory>
-
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">org.h2.Driver</property>
+    <property name="connection.url">jdbc:h2:database/test;AUTO_SERVER=TRUE</property>
+    <property name="connection.username">sa</property>
+    <property name="connection.password"/>
+    <property name="hibernate.default_schema">PUBLIC</property>
+    <!-- JDBC connection pool (use the built-in) -->
+    <property name="connection.pool_size">1</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <!-- SQL dialect -->
+    <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+    <!-- Disable the second-level cache  -->
+    <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+    <!-- Echo all executed SQL to stdout -->
+    <property name="show_sql">true</property>
+    <!-- Drop and re-create the database schema on startup -->
+    <property name="hbm2ddl.auto">update</property>
+    <mapping class="com.shoc.domain.ObraSocial"/>
+    <mapping class="com.shoc.domain.Paciente"/>
+    <mapping class="com.shoc.domain.CuentaCorriente"/>
+    <mapping class="com.shoc.domain.CuentaCorrienteMovimiento"/>
+    <mapping class="com.shoc.domain.Factura"/>
+    <mapping class="com.shoc.domain.FacturaDetail"/>
+    <mapping class="com.shoc.domain.Dispositivo"/>
+    <mapping class="com.shoc.domain.HistoricoDispositivo"/>
+  </session-factory>
 </hibernate-configuration>

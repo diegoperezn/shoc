@@ -5,6 +5,7 @@
  */
 package com.shoc.domain;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ public class CuentaCorrienteMovimiento {
     private CuentaCorriente cuenta;
     private Factura factura;
     private String detalle;
+    private Date fecha;
     private Double monto;
 
     public CuentaCorrienteMovimiento() {
@@ -34,13 +36,15 @@ public class CuentaCorrienteMovimiento {
         this.detalle = detalle;
         this.monto = monto;
         this.cuenta = cuenta;
+        this.fecha = new Date();
         this.movimiento = MovimientoEnum.DEBITO;
     }
-    
+
     public CuentaCorrienteMovimiento(Factura factura, CuentaCorriente cuenta) {
         this.monto = factura.getTotal();
         this.factura = factura;
         this.cuenta = cuenta;
+        this.fecha = new Date();
         this.movimiento = MovimientoEnum.CREDITO;
     }
 
@@ -75,6 +79,15 @@ public class CuentaCorrienteMovimiento {
     @JoinColumn
     public Factura getFactura() {
         return factura;
+    }
+
+    @Column
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public void setFactura(Factura factura) {

@@ -20,20 +20,20 @@ public class HibernateUtil {
 
     private static final SessionFactory sessionFactory;
 
-    private static Logger logger = Logger.getGlobal();
+    //private static Logger logger = Logger.getGlobal();
 
     static {
         try {
             // Create the SessionFactory from standard (hibernate.cfg.xml) 
             // config file.
-            logger.info("Creando conexion");
+            //logger.info("Creando conexion");
             
             sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
         } catch (Throwable ex) {
             // Log the exception. 
             System.err.println("Initial SessionFactory creation failed." + ex);
             
-            logger.severe( ex.getMessage() );
+            //logger.severe( ex.getMessage() );
             
             throw new ExceptionInInitializerError(ex);
         }

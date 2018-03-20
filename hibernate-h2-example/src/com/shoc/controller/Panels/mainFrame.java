@@ -201,10 +201,12 @@ public class mainFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        /*
         String log4jConfigFile = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/log4j.xml";
         DOMConfigurator.configure(log4jConfigFile);
  
         logger.info("this is a information log message");
+        */
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

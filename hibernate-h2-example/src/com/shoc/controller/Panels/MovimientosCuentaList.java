@@ -21,7 +21,7 @@ import static org.hibernate.criterion.Projections.id;
 public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimiento {
 
     CuentaCorrienteService service = CuentaCorrienteService.getInstance();
-    Long cuentaId;
+    CuentaCorriente cuenta;
 
     /**
      * Creates new form ObraSocialList
@@ -29,29 +29,29 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
     public MovimientosCuentaList(Long id) {
         initComponents();
 
-        cuentaId = id;
+        cuenta = service.get(id);
+        lTitle.setText(lTitle.getText() + cuenta.getObraSocial().getRazonSocial() ); 
 
         fillTable();
     }
 
     private void fillTable() {
-        
-        CuentaCorriente cuenta = service.get(cuentaId);
+
         List<CuentaCorrienteMovimiento> list = cuenta.getMovimientos();
-        
+
         DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
         model.setRowCount(0);
 
         list.forEach((movimiento) -> {
             if (movimiento.getMovimiento().equals(MovimientoEnum.CREDITO)) {
-                model.addRow(new Object[]{movimiento.getId(), movimiento.getDetalle(), movimiento.getMonto(), null});
+                model.addRow(new Object[]{movimiento.getId(), movimiento.getFecha(), movimiento.getDetalle(), movimiento.getMonto(), null});
             } else {
-                model.addRow(new Object[]{movimiento.getId(), movimiento.getDetalle(), null, movimiento.getMonto()});
+                model.addRow(new Object[]{movimiento.getId(), movimiento.getFecha(), movimiento.getDetalle(), null, movimiento.getMonto()});
             }
         });
-        
+
         lSaldo.setText(cuenta.getBalance().toString());
-        
+
     }
 
     /**
@@ -75,13 +75,13 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         jLabel3 = new javax.swing.JLabel();
         lSaldo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lTitle = new javax.swing.JLabel();
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtros"));
 
         jLabel2.setText("Detalle:");
 
-        jButton5.setText("Buscar");
+        jButton5.setText("Agregar Movimiento");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -103,8 +103,8 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(tfMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jButton5)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -129,11 +129,11 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
 
             },
             new String [] {
-                "ID", "Detalle", "Credito", "Debito"
+                "ID", "Fecha", "Detalle", "Credito", "Debito"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -165,7 +165,7 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
                         .addComponent(lSaldo))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1)))
                 .addGap(10, 10, 10))
         );
         jPanel3Layout.setVerticalGroup(
@@ -180,8 +180,8 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
                 .addGap(16, 16, 16))
         );
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jLabel1.setText("Listado de Pacientes");
+        lTitle.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        lTitle.setText("Movimientos de cuenta corriente ");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -189,12 +189,12 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(lTitle)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -202,9 +202,9 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -212,7 +212,7 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,12 +228,15 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         this.service.addMovimiento(this);
+
+        cuenta = service.get(cuenta.getId());
+
+        fillTable();
     }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -242,6 +245,7 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lSaldo;
+    private javax.swing.JLabel lTitle;
     private javax.swing.JTable tablePacientes;
     private javax.swing.JTextField tfDetalle;
     private javax.swing.JTextField tfMonto;
@@ -259,7 +263,7 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
 
     @Override
     public Long getCuenta() {
-        return cuentaId;
+        return cuenta.getId();
     }
 
 }

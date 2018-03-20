@@ -146,8 +146,9 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         jLabel1.setText("Razon Social:");
 
-        taRequerimiento.setColumns(20);
-        taRequerimiento.setRows(5);
+        taRequerimiento.setColumns(10);
+        taRequerimiento.setLineWrap(true);
+        taRequerimiento.setRows(2);
         taRequerimiento.setNextFocusableComponent(tfCelular);
         jScrollPane1.setViewportView(taRequerimiento);
 
@@ -265,9 +266,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                 .addContainerGap())
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel11, jLabel2, jLabel3, jLabel8});
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Costos"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Facturacion"));
 
         tfCostoInternacion.setNextFocusableComponent(tfCostoJornadaCompleta);
 

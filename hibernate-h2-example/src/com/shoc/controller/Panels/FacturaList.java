@@ -145,7 +145,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         );
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jLabel1.setText("Detalles de Facturacion");
+        jLabel1.setText("Listado de facturas");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

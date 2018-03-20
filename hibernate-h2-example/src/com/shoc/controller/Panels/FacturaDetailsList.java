@@ -152,7 +152,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         );
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jLabel1.setText("Detalles de Facturacion");
+        jLabel1.setText("Facturacion");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
