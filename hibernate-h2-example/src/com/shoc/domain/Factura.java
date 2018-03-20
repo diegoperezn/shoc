@@ -45,10 +45,13 @@ public class Factura {
         this.details = details;
         this.details.forEach(d -> d.setFactura(this));
         this.paciente = p;
-        this.obraSocial = ob;
         this.fecha = new Date();
         this.total = details.stream().mapToDouble(d -> d.getMonto()).sum();
-        this.movimiento = new CuentaCorrienteMovimiento(this, ob.getCuenta());
+        
+        this.obraSocial = ob;
+        if (ob != null) {
+            this.movimiento = new CuentaCorrienteMovimiento(this, ob.getCuenta());
+        }
     }
 
     @Id

@@ -54,8 +54,11 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         tableCuentas.getColumnModel().getColumn(0).setMaxWidth(5);
 
         list.forEach((cuenta) -> {
-            model.addRow(new Object[]{false, cuenta.getId(), cuenta.getFecha(), cuenta.getPaciente().getNombre(),
-                cuenta.getPaciente().getObraSocial().getRazonSocial(), cuenta.getDispositivo(),
+            final String obraSocial = cuenta.getPaciente().getObraSocial() != null ? 
+                    cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
+            
+            
+            model.addRow(new Object[]{false, cuenta.getId(), cuenta.getFecha(), cuenta.getPaciente().getNombre(), obraSocial, cuenta.getDispositivo(),
                 cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
             );
@@ -109,7 +112,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                 java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, true, false, false
+                true, false, false, false, false, false, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -279,7 +282,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                         i, 8
                 );
 
-                this.service.actualizarDias((Long) model.getValueAt(i, 1), (Integer) model.getValueAt(i, 6), totalMes);
+                this.service.actualizarDias((Long) model.getValueAt(i, 1), dias, costo, totalMes);
             }
         }
     }//GEN-LAST:event_tableCuentasPropertyChange

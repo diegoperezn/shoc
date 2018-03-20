@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
  * @author diego
  */
 public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
-
+    
     ObraSocialService obService = ObraSocialService.getInstance();
     PacienteService pService = PacienteService.getInstance();
 
@@ -31,13 +31,12 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     public PacienteCreacion() {
         initComponents();
         initFields();
-
     }
     
     public PacienteCreacion(Long id, Boolean editable) {
         initComponents();
         initFields();
-      
+        
         Paciente p = this.pService.get(id);
         this.tfHistoriaClinica.setText(id.toString());
         this.tfNombre.setText(p.getNombre());
@@ -63,14 +62,13 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         this.tfFase.setText(p.getFase());
         this.dpAusencia.setDate(p.getAusencia());
         this.dpEgreso.setDate(p.getEgreso());
-        this.taEgreso.setText(p.getCausalEgreso()); 
+        this.taEgreso.setText(p.getCausalEgreso());        
     }
     
-    
-
     public void initFields() {
-         List<ObraSocial> obraSociales = obService.listAll();
-
+        List<ObraSocial> obraSociales = obService.listAll();
+        
+        cbObraSocial.addItem(null);
         for (ObraSocial obraSociale : obraSociales) {
             cbObraSocial.addItem(obraSociale);
         }
@@ -178,7 +176,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(tfHistoriaClinica, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbGravado)
                         .addGap(85, 85, 85))
                     .addComponent(tfNombre)
@@ -236,7 +234,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                     .addComponent(jLabel6))
                 .addGap(50, 50, 50)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                    .addComponent(tfEmail, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tfCelular)
                     .addComponent(tfTelefono)
                     .addComponent(tfResponsable))
@@ -361,7 +359,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                     .addComponent(tfFase)
                     .addComponent(dpVencimientoBeca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tfDispositivo)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addComponent(tfTerapista)
                     .addComponent(dpEgreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dpAusencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -415,7 +413,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                     .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addComponent(jLabel27))
                 .addContainerGap())
         );
@@ -460,38 +458,32 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel1, jPanel2, jPanel3});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -573,120 +565,120 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     public Date getAusencia() {
         return dpAusencia.getDate();
     }
-
+    
     @Override
     public Date getCambioDispositivo() {
         return dpCambioDispositivo.getDate();
     }
-
+    
     @Override
     public String getCausalEgreso() {
         return taEgreso.getText();
     }
-
+    
     @Override
     public String getCelular() {
         return tfCelular.getText();
     }
-
+    
     @Override
     public String getCodigoPostal() {
         return null;
     }
-
+    
     @Override
     public String getDireccion() {
         return tfDireccion.getText();
     }
-
+    
     @Override
     public String getDispositivo() {
         return tfDispositivo.getText();
     }
-
+    
     @Override
     public DispositivosEnum getDispositivoTerapia() {
         return (DispositivosEnum) cbDispositivoTerapia.getSelectedItem();
     }
-
+    
     @Override
     public String getDocumento() {
         return tfDocumento.getText();
     }
-
+    
     @Override
     public Date getEgreso() {
         return dpEgreso.getDate();
     }
-
+    
     @Override
     public String getEmail() {
         return tfEmail.getText();
     }
-
+    
     @Override
     public String getFase() {
         return tfFase.getText();
     }
-
+    
     @Override
     public Boolean getGravado() {
         return cbGravado.isSelected();
     }
-
+    
     @Override
     public Long getId() {
         return !tfHistoriaClinica.getText().isEmpty() ? Long.valueOf(tfHistoriaClinica.getText()) : null;
     }
-
+    
     @Override
     public Date getIngreso() {
         return dpIngreso.getDate();
     }
-
+    
     @Override
     public String getLocalidad() {
         return tfLocalidad.getText();
     }
-
+    
     @Override
     public String getNombre() {
         return tfNombre.getText();
     }
-
+    
     @Override
     public ObraSocial getObraSocial() {
         return (ObraSocial) cbObraSocial.getSelectedItem();
     }
-
+    
     @Override
     public String getObservaciones() {
         return taObservaciones.getText();
     }
-
+    
     @Override
     public String getProvincia() {
         return tfProvincia.getText();
     }
-
+    
     @Override
     public String getResponsable() {
         return tfResponsable.getText();
     }
-
+    
     @Override
     public String getTelefono() {
         return tfTelefono.getText();
     }
-
+    
     @Override
     public String getTerapista() {
         return tfTerapista.getText();
     }
-
+    
     @Override
     public Date getVencimientoBeca() {
         return dpVencimientoBeca.getDate();
     }
-
+    
 }

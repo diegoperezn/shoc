@@ -110,10 +110,11 @@ public class FacturaDetailService {
         }
     }
 
-    public void actualizarDias(Long id, Integer dias, Double totalMes) {
+    public void actualizarDias(Long id, Integer dias, Double costo , Double totalMes) {
         FacturaDetail fd = this.repo.get(id);
 
         fd.setDias(dias);
+        fd.setCostoDispositivo(costo);
         fd.setMonto(totalMes);
 
         this.repo.save(fd);

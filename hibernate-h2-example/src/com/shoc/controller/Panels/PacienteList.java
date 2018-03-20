@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author diego
  */
-public class PacienteList extends javax.swing.JPanel implements ISearchPaciente{
+public class PacienteList extends javax.swing.JPanel implements ISearchPaciente {
 
     PacienteService service = PacienteService.getInstance();
 
@@ -26,15 +26,16 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente{
     public PacienteList() {
         initComponents();
 
-        fillTable( service.listAll());
+        fillTable(service.listAll());
     }
 
     private void fillTable(List<Paciente> list) {
         DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
         model.setRowCount(0);
-        
-        list.forEach((paciente) -> {    
-            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), paciente.getObraSocial().getRazonSocial()});
+
+        list.forEach((paciente) -> {
+            final String obraSocial = paciente.getObraSocial() != null ? paciente.getObraSocial().getRazonSocial() : "Particular";
+            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), obraSocial});
         });
     }
 
@@ -256,7 +257,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente{
         Long selectedId = Long.valueOf(model.getValueAt(tablePacientes.getSelectedRow(), 0).toString());
 
         this.service.deleteById(selectedId);
-        
+
         model.removeRow(tablePacientes.getSelectedRow());
     }//GEN-LAST:event_jButton1ActionPerformed
 

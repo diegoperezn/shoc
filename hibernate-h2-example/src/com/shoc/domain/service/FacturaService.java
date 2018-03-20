@@ -45,7 +45,8 @@ public class FacturaService {
         }
         
         ObraSocial ob = filter.getObraSocial();
-        if (ob == null) {
+        if (ob == null 
+                && details.get(0).getPaciente().getObraSocial() != null) {
             ob = details.get(0).getPaciente().getObraSocial();
             for (FacturaDetail detail : details) {
                 if (!detail.getPaciente().getObraSocial().equals(ob)) {

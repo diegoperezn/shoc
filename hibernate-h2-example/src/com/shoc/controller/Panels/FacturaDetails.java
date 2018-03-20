@@ -38,7 +38,7 @@ public class FacturaDetails extends javax.swing.JPanel {
         }
         
         if (f.getPaciente() == null) {
-            pObraSocial.setVisible(false);
+            pPaciente.setVisible(false);
         } else {
             pLabel.setText(f.getPaciente().getNombre());
         }
@@ -53,8 +53,9 @@ public class FacturaDetails extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
 
         list.forEach((cuenta) -> {
-            model.addRow(new Object[]{cuenta.getFecha(), cuenta.getPaciente().getNombre(),
-                cuenta.getPaciente().getObraSocial().getRazonSocial(), cuenta.getDispositivo(),
+            final String obraSocial = cuenta.getPaciente().getObraSocial() != null ? 
+                    cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
+            model.addRow(new Object[]{cuenta.getFecha(), cuenta.getPaciente().getNombre(), obraSocial, cuenta.getDispositivo(),
                 cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
             );

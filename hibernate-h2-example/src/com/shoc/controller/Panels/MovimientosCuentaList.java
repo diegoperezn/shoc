@@ -51,7 +51,6 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         });
 
         lSaldo.setText(cuenta.getBalance().toString());
-
     }
 
     /**

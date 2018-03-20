@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+import javax.persistence.OrderBy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -53,6 +53,7 @@ public class CuentaCorriente {
 
     @OneToMany(mappedBy = "cuenta",
             cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy (value =  "Fecha desc")
     @Fetch (FetchMode.SUBSELECT)
     public List<CuentaCorrienteMovimiento> getMovimientos() {
         return movimientos;
