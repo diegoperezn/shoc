@@ -64,6 +64,7 @@ public class Paciente implements IPaciente {
         // this form used by Hibernate
     }
 
+    /*
     public Paciente(IPaciente iPaciente) {
         this.nombre = iPaciente.getNombre();
         this.documento = iPaciente.getDocumento();
@@ -89,6 +90,7 @@ public class Paciente implements IPaciente {
         this.localidad = iPaciente.getLocalidad();
         this.codigoPostal = iPaciente.getCodigoPostal();
     }
+    */
 
     public void actualizar(IPaciente iPaciente) {
         this.nombre = iPaciente.getNombre();

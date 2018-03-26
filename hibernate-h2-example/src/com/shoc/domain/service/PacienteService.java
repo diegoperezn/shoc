@@ -33,11 +33,12 @@ public class PacienteService {
         Paciente paciente = null;
 
         if (iPaciente.getId() == null) {
-            paciente = new Paciente(iPaciente);
+            paciente = new Paciente();
         } else {
             paciente = this.get(iPaciente.getId());
-            paciente.actualizar(iPaciente);
         }
+        
+        paciente.actualizar(iPaciente);
 
         repo.save(paciente);
     }

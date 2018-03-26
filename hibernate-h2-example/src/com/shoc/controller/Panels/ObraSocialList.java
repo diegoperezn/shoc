@@ -103,6 +103,9 @@ public class ObraSocialList extends javax.swing.JPanel {
         });
         tableObraSociales.setFillsViewportHeight(true);
         tableObraSociales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableObraSocialesMousePressed(evt);
+            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableObraSocialesMouseClicked(evt);
             }
@@ -184,7 +187,7 @@ public class ObraSocialList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableObraSocialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObraSocialesMouseClicked
-
+        System.out.println("com.shoc.controller.Panels.ObraSocialList.tableObraSocialesMouseClicked()");
     }//GEN-LAST:event_tableObraSocialesMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -216,6 +219,10 @@ public class ObraSocialList extends javax.swing.JPanel {
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
         topFrame.changePanel(new ObraSocialCreacion(selectedId, true), this);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tableObraSocialesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObraSocialesMousePressed
+        System.out.println("com.shoc.controller.Panels.ObraSocialList.tableObraSocialesMousePressed()");
+    }//GEN-LAST:event_tableObraSocialesMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

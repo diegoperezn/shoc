@@ -29,7 +29,15 @@ public class ObraSocialService {
     private final ObraSocialRepository repo = ObraSocialRepository.getInstance();
     
     public void createObraSocial(IObraSocial iob) {
-        ObraSocial ob = new ObraSocial(iob);
+        
+        ObraSocial ob = null;
+        if (iob.getId() != null) {
+            ob = this.repo.get(iob.getId());
+        } else {
+            ob = new ObraSocial();
+        }
+        
+        ob.actualizar(iob);
 
         repo.save(ob);
     }

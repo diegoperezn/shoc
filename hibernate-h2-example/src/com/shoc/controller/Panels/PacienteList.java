@@ -35,7 +35,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
         list.forEach((paciente) -> {
             final String obraSocial = paciente.getObraSocial() != null ? paciente.getObraSocial().getRazonSocial() : "Particular";
-            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), obraSocial});
+            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), obraSocial, paciente.getEgreso(), paciente.getDispositivoTerapia(), paciente.getTerapista()});
         });
     }
 
@@ -139,15 +139,22 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
             },
             new String [] {
-                "ID", "Nombre", "Obra Social"
+                "ID", "Nombre", "Obra Social", "Fecha Baja", "Dispositivo", "Terapista"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tablePacientes.setFillsViewportHeight(true);

@@ -63,8 +63,8 @@ public class ObraSocial {
         // this form used by Hibernate
     }
 
-    public ObraSocial(IObraSocial i) {
-        if (i.getId() == null) {
+    public void actualizar(IObraSocial i) {
+        if (this.cuenta == null) {
             this.cuenta = new CuentaCorriente(this);
         }
 
