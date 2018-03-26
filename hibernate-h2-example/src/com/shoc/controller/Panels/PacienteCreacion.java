@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
  * @author diego
  */
 public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
-    
+
     ObraSocialService obService = ObraSocialService.getInstance();
     PacienteService pService = PacienteService.getInstance();
 
@@ -32,26 +32,26 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         initComponents();
         initFields();
     }
-    
+
     public PacienteCreacion(Long id, Boolean editable) {
         initComponents();
         initFields();
-        
+
         Paciente p = this.pService.get(id);
         this.tfHistoriaClinica.setText(id.toString());
         this.tfNombre.setText(p.getNombre());
         this.tfDocumento.setText(p.getDocumento());
         this.taObservaciones.setText(p.getObservaciones());
-        
+
         this.tfCelular.setText(p.getCelular());
         this.tfTelefono.setText(p.getTelefono());
         this.tfEmail.setText(p.getEmail());
         this.tfResponsable.setText(p.getResponsable());
-        
+
         this.tfDireccion.setText(p.getDireccion());
         this.tfProvincia.setText(p.getProvincia());
         this.tfLocalidad.setText(p.getLocalidad());
-        
+
         this.dpIngreso.setDate(p.getIngreso());
         this.dpVencimientoBeca.setDate(p.getVencimientoBeca());
         this.tfTerapista.setText(p.getTerapista());
@@ -62,12 +62,12 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         this.tfFase.setText(p.getFase());
         this.dpAusencia.setDate(p.getAusencia());
         this.dpEgreso.setDate(p.getEgreso());
-        this.taEgreso.setText(p.getCausalEgreso());        
+        this.taEgreso.setText(p.getCausalEgreso());
     }
-    
+
     public void initFields() {
         List<ObraSocial> obraSociales = obService.listAll();
-        
+
         cbObraSocial.addItem(null);
         for (ObraSocial obraSociale : obraSociales) {
             cbObraSocial.addItem(obraSociale);
@@ -492,7 +492,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         pService.createPaciente(this);
-        
+
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
         topFrame.changePanel(new PacienteList(), this);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -565,120 +565,120 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     public Date getAusencia() {
         return dpAusencia.getDate();
     }
-    
+
     @Override
     public Date getCambioDispositivo() {
         return dpCambioDispositivo.getDate();
     }
-    
+
     @Override
     public String getCausalEgreso() {
         return taEgreso.getText();
     }
-    
+
     @Override
     public String getCelular() {
         return tfCelular.getText();
     }
-    
+
     @Override
     public String getCodigoPostal() {
         return null;
     }
-    
+
     @Override
     public String getDireccion() {
         return tfDireccion.getText();
     }
-    
+
     @Override
     public String getDispositivo() {
         return tfDispositivo.getText();
     }
-    
+
     @Override
     public DispositivosEnum getDispositivoTerapia() {
         return (DispositivosEnum) cbDispositivoTerapia.getSelectedItem();
     }
-    
+
     @Override
     public String getDocumento() {
         return tfDocumento.getText();
     }
-    
+
     @Override
     public Date getEgreso() {
         return dpEgreso.getDate();
     }
-    
+
     @Override
     public String getEmail() {
         return tfEmail.getText();
     }
-    
+
     @Override
     public String getFase() {
         return tfFase.getText();
     }
-    
+
     @Override
     public Boolean getGravado() {
         return cbGravado.isSelected();
     }
-    
+
     @Override
     public Long getId() {
         return !tfHistoriaClinica.getText().isEmpty() ? Long.valueOf(tfHistoriaClinica.getText()) : null;
     }
-    
+
     @Override
     public Date getIngreso() {
         return dpIngreso.getDate();
     }
-    
+
     @Override
     public String getLocalidad() {
         return tfLocalidad.getText();
     }
-    
+
     @Override
     public String getNombre() {
         return tfNombre.getText();
     }
-    
+
     @Override
     public ObraSocial getObraSocial() {
         return (ObraSocial) cbObraSocial.getSelectedItem();
     }
-    
+
     @Override
     public String getObservaciones() {
         return taObservaciones.getText();
     }
-    
+
     @Override
     public String getProvincia() {
         return tfProvincia.getText();
     }
-    
+
     @Override
     public String getResponsable() {
         return tfResponsable.getText();
     }
-    
+
     @Override
     public String getTelefono() {
         return tfTelefono.getText();
     }
-    
+
     @Override
     public String getTerapista() {
         return tfTerapista.getText();
     }
-    
+
     @Override
     public Date getVencimientoBeca() {
         return dpVencimientoBeca.getDate();
     }
-    
+
 }

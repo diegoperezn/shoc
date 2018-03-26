@@ -12,7 +12,6 @@ import com.shoc.domain.service.IFaturaDetailsSearch;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
 /**

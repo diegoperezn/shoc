@@ -12,7 +12,6 @@ import com.shoc.domain.service.CuentaCorrienteService;
 import com.shoc.domain.service.IMovimiento;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import static org.hibernate.criterion.Projections.id;
 
 /**
  *

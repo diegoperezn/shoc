@@ -56,7 +56,7 @@ public class PacienteRepository extends Repository<Paciente> {
         DetachedCriteria c = this.createCriteria();
 
         Conjunction fechas = contruirCriteriaActivoEnFecha(desde);
-        
+
         c.add(fechas);
 
         return this.listByCriteria(c);
@@ -65,23 +65,23 @@ public class PacienteRepository extends Repository<Paciente> {
     private Conjunction contruirCriteriaActivoEnFecha(Date desde) {
         desde = DateUtils.getMinimaFecha(desde).getTime();
         Date hasta = DateUtils.getMinimaFechaMesSiguiente(desde).getTime();
-        
+
         Conjunction fechas = Restrictions.conjunction();
         Conjunction ingreso = Restrictions.conjunction();
-        
+
         ingreso.add(Restrictions.lt("ingreso", hasta));
-        
+
         Disjunction egreso = Restrictions.disjunction();
-        
+
         Conjunction fechaEgreso = Restrictions.conjunction();
         fechaEgreso.add(Restrictions.ge("egreso", desde));
         egreso.add(Restrictions.isNull("egreso"));
-        
+
         egreso.add(fechaEgreso);
-        
+
         fechas.add(ingreso);
         fechas.add(egreso);
-        
+
         return fechas;
     }
 
@@ -94,10 +94,10 @@ public class PacienteRepository extends Repository<Paciente> {
         } else {
             fecha = new Date();
         }
-        
+
         Conjunction fechas = contruirCriteriaActivoEnFecha(fecha);
         c.add(fechas);
-        
+
         if (filter.getPaciente() != null) {
             c.add(Restrictions.eq("id", filter.getPaciente().getId()));
         }

@@ -98,8 +98,8 @@ public abstract class Repository<T extends Object> {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
         Transaction t = session.beginTransaction();
-        
-        List<T> result =  criteria.getExecutableCriteria(session).list();
+
+        List<T> result = criteria.getExecutableCriteria(session).list();
 
         session.getTransaction().commit();
 

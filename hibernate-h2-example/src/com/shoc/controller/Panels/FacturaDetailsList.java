@@ -54,10 +54,9 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         tableCuentas.getColumnModel().getColumn(0).setMaxWidth(5);
 
         list.forEach((cuenta) -> {
-            final String obraSocial = cuenta.getPaciente().getObraSocial() != null ? 
-                    cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
-            
-            
+            final String obraSocial = cuenta.getPaciente().getObraSocial() != null
+                    ? cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
+
             model.addRow(new Object[]{false, cuenta.getId(), cuenta.getFecha(), cuenta.getPaciente().getNombre(), obraSocial, cuenta.getDispositivo(),
                 cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
@@ -343,7 +342,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
     @Override
     public Date getMes() {
-        return dpMes.getDate() != null 
+        return dpMes.getDate() != null
                 ? DateUtils.getMinimaFecha(dpMes.getDate()).getTime() : null;
     }
 

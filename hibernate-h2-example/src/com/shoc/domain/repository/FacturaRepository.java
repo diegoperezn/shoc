@@ -6,8 +6,6 @@
 package com.shoc.domain.repository;
 
 import com.shoc.domain.Factura;
-import com.shoc.domain.FacturaDetail;
-import com.shoc.domain.ObraSocial;
 import com.shoc.domain.service.IFaturaDetailsSearch;
 import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;

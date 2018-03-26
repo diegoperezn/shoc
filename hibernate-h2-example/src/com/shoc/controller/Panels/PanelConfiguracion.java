@@ -21,11 +21,12 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         initComponents();
 
         AfipAuthentification auth = wsaa_test.autentificarAfip();
-        
+
         lToken.setText(auth.getToken());
         lSign.setText(auth.getSign());
-        
+
         lDirectorio.setText(System.getProperty("user.dir"));
+
     }
 
     /**

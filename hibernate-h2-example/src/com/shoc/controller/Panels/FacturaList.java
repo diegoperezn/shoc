@@ -7,14 +7,12 @@ package com.shoc.controller.Panels;
 
 import com.shoc.domain.Factura;
 import com.shoc.domain.service.IFaturaDetailsSearch;
-import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.ObraSocial;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.service.FacturaService;
 import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
 import com.shoc.domain.utils.DateUtils;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.SwingUtilities;

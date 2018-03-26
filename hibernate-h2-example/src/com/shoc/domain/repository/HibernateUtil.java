@@ -5,8 +5,6 @@ package com.shoc.domain.repository;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 
