@@ -5,7 +5,6 @@
  */
 package com.shoc.domain.service;
 
-import com.shoc.controller.Panels.FacturaDetailsList;
 import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.HistoricoDispositivo;
@@ -13,7 +12,6 @@ import com.shoc.domain.IFacturable;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.repository.FacturaDetailRepository;
 import com.shoc.domain.utils.DateUtils;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 

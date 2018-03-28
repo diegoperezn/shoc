@@ -20,10 +20,8 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     public PanelConfiguracion() {
         initComponents();
 
-        AfipAuthentification auth = wsaa_test.autentificarAfip();
-
-        lToken.setText(auth.getToken());
-        lSign.setText(auth.getSign());
+        lToken.setText(System.getProperty("shoc.afip.auth.token"));
+        lSign.setText(System.getProperty("shoc.afip.auth.sign"));
 
         lDirectorio.setText(System.getProperty("user.dir"));
 

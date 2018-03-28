@@ -5,8 +5,8 @@
  */
 package com.shoc.controller.Panels;
 
-import java.util.Map;
-import java.util.Properties;
+import com.shoc.afip.authen.AfipAuthentification;
+import com.shoc.afip.authen.wsaa_test;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 
@@ -24,12 +24,19 @@ public class mainFrame extends javax.swing.JFrame {
     public mainFrame() {
         initComponents();
         
+        AfipAuthentification auth = wsaa_test.autentificarAfip();
+        
+        System.setProperty("shoc.afip.auth.token", auth.getToken());
+        System.setProperty("shoc.afip.auth.sign", auth.getSign());
+        System.setProperty("shoc.afip.auth.cuit", "20326416763");
+        
+        /*
         Properties ps = System.getProperties();
         
         for (Map.Entry<Object, Object> entry : ps.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
-            
+         */  
         
     }
 

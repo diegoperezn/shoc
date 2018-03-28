@@ -7,7 +7,9 @@ package com.shoc.controller.Panels;
 
 import com.shoc.domain.Factura;
 import com.shoc.domain.FacturaDetail;
+import com.shoc.domain.service.AfipService;
 import com.shoc.domain.service.FacturaService;
+import fev1.dif.afip.gov.ar.CbteTipo;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -19,9 +21,10 @@ import javax.swing.table.DefaultTableModel;
 public class FacturaDetails extends javax.swing.JPanel {
 
     FacturaService fService = FacturaService.getInstance();
+    AfipService aService = AfipService.getInstance();
 
     Factura f = null;
-    
+
     /**
      * Creates new form ObraSocialList
      */
@@ -29,32 +32,35 @@ public class FacturaDetails extends javax.swing.JPanel {
         initComponents();
 
         f = fService.get(id);
-        
+
         if (f.getObraSocial() == null) {
             bCuentaCorriente.setVisible(false);
             pObraSocial.setVisible(false);
         } else {
             obLabel.setText(f.getObraSocial().getRazonSocial());
         }
-        
+
         if (f.getPaciente() == null) {
             pPaciente.setVisible(false);
         } else {
             pLabel.setText(f.getPaciente().getNombre());
         }
-        
+
         fLabel.setText(f.getFecha().toString());
         tLabel.setText(f.getTotal().toString());
-        
+
         fillTable(f.getDetails());
+
+        this.aService.listarTiposComprobante()
+                .parallelStream().forEach(i -> cbComprobantes.addItem(i));
     }
 
     private void fillTable(List<FacturaDetail> list) {
         DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
 
         list.forEach((cuenta) -> {
-            final String obraSocial = cuenta.getPaciente().getObraSocial() != null ? 
-                    cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
+            final String obraSocial = cuenta.getPaciente().getObraSocial() != null
+                    ? cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
             model.addRow(new Object[]{cuenta.getFecha(), cuenta.getPaciente().getNombre(), obraSocial, cuenta.getDispositivo(),
                 cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
@@ -89,6 +95,9 @@ public class FacturaDetails extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         fLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        cbComprobantes = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -142,7 +151,7 @@ public class FacturaDetails extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addComponent(bCuentaCorriente)
                 .addGap(10, 10, 10))
@@ -271,7 +280,36 @@ public class FacturaDetails extends javax.swing.JPanel {
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pObraSocial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10))
+                .addGap(4, 4, 4))
+        );
+
+        cbComprobantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbComprobantesActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Factura tipo:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbComprobantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(cbComprobantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -283,7 +321,8 @@ public class FacturaDetails extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -292,28 +331,37 @@ public class FacturaDetails extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCuentaCorrienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCuentaCorrienteActionPerformed
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new MovimientosCuentaList(f.getObraSocial().getCuenta().getId()), this); 
+        topFrame.changePanel(new MovimientosCuentaList(f.getObraSocial().getCuenta().getId()), this);
     }//GEN-LAST:event_bCuentaCorrienteActionPerformed
+
+    private void cbComprobantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbComprobantesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbComprobantesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCuentaCorriente;
+    private javax.swing.JComboBox<CbteTipo> cbComprobantes;
     private javax.swing.JLabel fLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
@@ -325,6 +373,5 @@ public class FacturaDetails extends javax.swing.JPanel {
     private javax.swing.JLabel tLabel;
     private javax.swing.JTable tableCuentas;
     // End of variables declaration//GEN-END:variables
-
 
 }
