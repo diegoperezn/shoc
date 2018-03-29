@@ -6,6 +6,7 @@
 package com.shoc.domain.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
@@ -15,7 +16,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.swing.JRViewer;
-import org.apache.commons.collections.map.ReferenceMap;
 
 public class GenerateReport {
 
@@ -32,7 +32,7 @@ public class GenerateReport {
         String destFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jasper";
         String printFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jrprint";
         String pdfFile = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/factura.pdf";
-        
+
         JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
 
         DataBeanList DataBeanList = new DataBeanList();
@@ -40,7 +40,10 @@ public class GenerateReport {
 
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList);
         Map parameters = new HashMap();
-        parameters.put("titleName", "CENTRO SHOC");
+
+        agregarShocValores(parameters);
+        agregarFacturaValores(parameters);
+
         try {
             JasperFillManager.fillReportToFile(
                     destFileName, printFileName, parameters, beanColDataSource);
@@ -57,6 +60,27 @@ public class GenerateReport {
             e.printStackTrace();
         }
 
+    }
+
+    private void agregarShocValores(Map parameters) {
+        parameters.put("nombreTitulo", "CENTRO SHOC");
+        parameters.put("razonSocial", "TIZZIANO VALENTINI ASOC. CIVIL");
+        parameters.put("domicilio", "Calle 224 N 850 c/Av. BELGRANO Y VERGARA");
+        parameters.put("localidad", "Sourigues - BERAZATEGUI - BUENOS AIRES");
+        parameters.put("telefono", "4210-1198");
+        parameters.put("email", "comunidadterapeutica@centroshoc.org");
+        parameters.put("condicionIva", "I.V.A. RESPONSABLE INSCRIPTO");
+    }
+
+    private void agregarFacturaValores(Map parameters) {
+        parameters.put("tipoComprobante", "A");
+        parameters.put("numero", "22222");
+        parameters.put("CAE", "661277273818");
+        parameters.put("fecha", new Date());
+        parameters.put("puntoVenta", "0003");
+        parameters.put("cuit", "30715891096");
+        parameters.put("ingBrutos", "30715891096");
+        parameters.put("inicioActividades", new Date());
     }
 
     public class DataBeanList {
