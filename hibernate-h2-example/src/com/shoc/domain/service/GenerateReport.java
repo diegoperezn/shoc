@@ -40,7 +40,7 @@ public class GenerateReport {
 
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList);
         Map parameters = new HashMap();
-        parameters.put("test", "anda? ;)");
+        parameters.put("titleName", "CENTRO SHOC");
         try {
             JasperFillManager.fillReportToFile(
                     destFileName, printFileName, parameters, beanColDataSource);
