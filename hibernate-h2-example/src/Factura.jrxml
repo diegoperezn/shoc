@@ -47,6 +47,9 @@
 	<parameter name="inicioActividades" class="java.util.Date">
 		<parameterDescription><![CDATA[inicioActividades]]></parameterDescription>
 	</parameter>
+	<parameter name="total" class="java.lang.String">
+		<parameterDescription><![CDATA[total]]></parameterDescription>
+	</parameter>
 	<field name="name" class="java.lang.String">
 		<fieldDescription><![CDATA[name]]></fieldDescription>
 	</field>
@@ -280,13 +283,6 @@
 		<band height="20">
 			<frame>
 				<reportElement mode="Opaque" x="0" y="5" width="554" height="15" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
 				<frame>
 					<reportElement x="0" y="0" width="200" height="15" backcolor="#CCCCCC"/>
 					<box>
@@ -413,16 +409,9 @@
 		<band height="15">
 			<frame>
 				<reportElement mode="Transparent" x="0" y="0" width="554" height="15" backcolor="#FFFFFF"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
 				<textField>
 					<reportElement x="0" y="0" width="200" height="15"/>
-					<box leftPadding="1"/>
+					<box leftPadding="0"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
@@ -430,7 +419,7 @@
 				</textField>
 				<textField>
 					<reportElement x="200" y="0" width="124" height="15"/>
-					<box leftPadding="1"/>
+					<box leftPadding="0"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
@@ -438,8 +427,40 @@
 				</textField>
 				<textField>
 					<reportElement x="324" y="0" width="30" height="15"/>
-					<box leftPadding="1"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="354" y="0" width="50" height="15"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="404" y="0" width="50" height="15"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="454" y="0" width="50" height="15"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="504" y="0" width="50" height="15"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
@@ -448,10 +469,52 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band/>
+		<band height="20">
+			<staticText>
+				<reportElement x="454" y="0" width="50" height="15"/>
+				<box rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="504" y="0" width="50" height="15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="26"/>
+		<band height="15">
+			<staticText>
+				<reportElement x="0" y="0" width="554" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA["Siempre hay otro camino"]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
 	<summary>
 		<band/>
