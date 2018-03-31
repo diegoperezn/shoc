@@ -5,6 +5,7 @@
  */
 package com.shoc.domain;
 
+import com.shoc.domain.service.ICliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -23,7 +25,7 @@ import org.hibernate.annotations.FetchMode;
  * @author diego
  */
 @Entity
-public class ObraSocial {
+public class ObraSocial implements ICliente {
 
     // General
     private Long id;
@@ -181,12 +183,31 @@ public class ObraSocial {
         return direccion;
     }
 
+    @Column
     public String getProvincia() {
         return provincia;
     }
 
+    @Column
     public String getLocalidad() {
         return localidad;
+    }
+
+    @Transient
+    public String getDomicilio() {
+        String domicilio = new String();
+
+        domicilio = direccion;
+
+        if (provincia != null && !provincia.isEmpty()) {
+            domicilio += " - " + provincia;
+        }
+
+        if (localidad != null && !localidad.isEmpty()) {
+            domicilio += " - " + localidad;
+        }
+
+        return domicilio;
     }
 
     @OneToOne(mappedBy = "obraSocial", cascade = CascadeType.ALL)
@@ -283,8 +304,20 @@ public class ObraSocial {
         if (obj == null) {
             return false;
         }
-        
+
         return this.getId() == ((ObraSocial) obj).getId();
+    }
+
+    @Override
+    @Transient
+    public String getNombre() {
+        return razonSocial;
+    }
+
+    @Override
+    @Transient
+    public String getDocumento() {
+        return cuit;
     }
 
 }

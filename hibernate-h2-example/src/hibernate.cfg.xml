@@ -27,5 +27,6 @@
     <mapping class="com.shoc.domain.FacturaDetail"/>
     <mapping class="com.shoc.domain.Dispositivo"/>
     <mapping class="com.shoc.domain.HistoricoDispositivo"/>
+    <mapping class="com.shoc.domain.Propiedad"/>
   </session-factory>
 </hibernate-configuration>

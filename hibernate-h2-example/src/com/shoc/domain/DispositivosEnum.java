@@ -19,6 +19,10 @@ public enum DispositivosEnum {
         this.detail = detail;
     }
 
+    public String getDetail() {
+        return detail;
+    }
+
     @Override
     public String toString() {
         return detail;

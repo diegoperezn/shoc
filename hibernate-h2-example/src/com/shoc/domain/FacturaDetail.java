@@ -27,6 +27,8 @@ public class FacturaDetail {
     private Double costoDispositivo;
     private Integer dias;
     private Double monto;
+    private Double alicuota;
+    private Double montoFinal;
     private Date fecha;
 
     public FacturaDetail() {
@@ -39,6 +41,7 @@ public class FacturaDetail {
             this.costoDispositivo = f.getPaciente().getObraSocial().getCosto(this.dispositivo);
         }
         this.fecha = f.getFecha();
+        this.alicuota = Double.valueOf("0.15");
     }
 
     @Id
@@ -84,6 +87,24 @@ public class FacturaDetail {
         return fecha;
     }
 
+    @Column
+    public Double getAlicuota() {
+        return alicuota;
+    }
+
+    @Column
+    public Double getMontoFinal() {
+        return montoFinal;
+    }
+
+    public void setAlicuota(Double alicuota) {
+        this.alicuota = alicuota;
+    }
+
+    public void setMontoFinal(Double montoFinal) {
+        this.montoFinal = montoFinal;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -109,7 +130,10 @@ public class FacturaDetail {
     }
 
     public void setMonto(Double monto) {
-        this.monto = monto;
+        if (monto != null) {
+            this.monto = monto;
+            this.montoFinal = this.monto + (this.monto * this.alicuota);
+        }
     }
 
     public void setFecha(Date fecha) {

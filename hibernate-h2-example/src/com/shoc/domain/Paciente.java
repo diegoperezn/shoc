@@ -5,6 +5,7 @@
  */
 package com.shoc.domain;
 
+import com.shoc.domain.service.ICliente;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
+import org.bouncycastle.util.Strings;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -26,7 +28,7 @@ import org.hibernate.annotations.FetchMode;
  * @author diego
  */
 @Entity
-public class Paciente implements IPaciente {
+public class Paciente implements IPaciente, ICliente {
 
     // General
     private Long id;
@@ -90,8 +92,7 @@ public class Paciente implements IPaciente {
         this.localidad = iPaciente.getLocalidad();
         this.codigoPostal = iPaciente.getCodigoPostal();
     }
-    */
-
+     */
     public void actualizar(IPaciente iPaciente) {
         this.nombre = iPaciente.getNombre();
         this.documento = iPaciente.getDocumento();
@@ -390,6 +391,30 @@ public class Paciente implements IPaciente {
     @Override
     public String toString() {
         return this.nombre;
+    }
+
+    @Override
+    @Transient
+    public String getDomicilio() {
+        String domicilio = new String();
+
+        domicilio = direccion;
+
+        if (provincia != null && !provincia.isEmpty()) {
+            domicilio += " - " + provincia;
+        }
+
+        if (localidad != null && !localidad.isEmpty()) {
+            domicilio += " - " + localidad;
+        }
+
+        return domicilio;
+    }
+
+    @Override
+    @Transient
+    public String getCategoriaIva() {
+        return "Consumidor Final";
     }
 
 }

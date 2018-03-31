@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
@@ -94,7 +95,22 @@ public class Factura {
     public Double getTotal() {
         return total;
     }
+    
+    @Transient
+    public String getCAE() {
+        return "123123123";
+    }
+    
+    @Transient
+    public String getTipoComprobante() {
+        return "A";
+    }
 
+    @Transient
+    public String getPuntoVenta() {
+        return "0003";
+    }
+    
     public void setMovimiento(CuentaCorrienteMovimiento movimiento) {
         this.movimiento = movimiento;
     }
