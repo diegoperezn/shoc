@@ -8,11 +8,16 @@ package com.shoc.controller.Panels;
 import com.shoc.domain.Factura;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.service.AfipService;
+import com.shoc.domain.service.FacturaGenerator;
 import com.shoc.domain.service.FacturaService;
 import fev1.dif.afip.gov.ar.CbteTipo;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -81,6 +86,7 @@ public class FacturaDetails extends javax.swing.JPanel {
         bCuentaCorriente = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCuentas = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -134,12 +140,21 @@ public class FacturaDetails extends javax.swing.JPanel {
         tableCuentas.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(tableCuentas);
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(600, 600, 600)
+                .addGap(497, 497, 497)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bCuentaCorriente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -153,7 +168,9 @@ public class FacturaDetails extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
-                .addComponent(bCuentaCorriente)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bCuentaCorriente)
+                    .addComponent(jButton1))
                 .addGap(10, 10, 10))
         );
 
@@ -349,11 +366,36 @@ public class FacturaDetails extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbComprobantesActionPerformed
 
+    FacturaGenerator service = FacturaGenerator.getInstance();
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /*
+        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+        try {
+            topFrame.changePanel(this.service.generatePdfReport(f.getId()), this);
+            //topFrame.changePanel(new FacturaPanel(f.getId()), this);
+        } catch (JRException ex) {
+            Logger.getLogger(FacturaDetails.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         */
+        try {
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            final JDialog frame = new JDialog(topFrame, "Factura", true);
+            frame.getContentPane().add(this.service.generatePdfReport(f.getId()));
+            frame.pack();
+            frame.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(FacturaDetails.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCuentaCorriente;
     private javax.swing.JComboBox<CbteTipo> cbComprobantes;
     private javax.swing.JLabel fLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -35,6 +35,9 @@
 	<field name="pacienteDNI" class="java.lang.String">
 		<fieldDescription><![CDATA[paciente.documento]]></fieldDescription>
 	</field>
+	<field name="fecha" class="java.util.Date">
+		<fieldDescription><![CDATA[fecha]]></fieldDescription>
+	</field>
 	<background>
 		<band/>
 	</background>
@@ -283,7 +286,7 @@
 					</staticText>
 				</frame>
 				<frame>
-					<reportElement x="200" y="0" width="124" height="15" backcolor="#CCCCCC"/>
+					<reportElement x="234" y="0" width="90" height="15" backcolor="#CCCCCC"/>
 					<box>
 						<pen lineWidth="1.0"/>
 						<topPen lineWidth="1.0"/>
@@ -292,7 +295,8 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<staticText>
-						<reportElement x="3" y="0" width="121" height="15"/>
+						<reportElement x="0" y="0" width="90" height="15"/>
+						<box leftPadding="3"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle">
 							<font size="8"/>
 						</textElement>
@@ -384,6 +388,24 @@
 						<text><![CDATA[Total]]></text>
 					</staticText>
 				</frame>
+				<frame>
+					<reportElement x="200" y="0" width="34" height="15" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<staticText>
+						<reportElement x="0" y="0" width="34" height="15"/>
+						<box leftPadding="3"/>
+						<textElement textAlignment="Left" verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Mes]]></text>
+					</staticText>
+				</frame>
 			</frame>
 		</band>
 	</columnHeader>
@@ -393,19 +415,11 @@
 				<reportElement mode="Transparent" x="0" y="0" width="554" height="15" backcolor="#FFFFFF"/>
 				<textField>
 					<reportElement x="0" y="0" width="200" height="15"/>
-					<box leftPadding="0"/>
+					<box leftPadding="3"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{paciente}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="200" y="0" width="124" height="15"/>
-					<box leftPadding="0"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{terapia}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="324" y="0" width="30" height="15"/>
@@ -445,7 +459,23 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{monto}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{montoFinal}]]></textFieldExpression>
+				</textField>
+				<textField pattern="MMM-yy">
+					<reportElement x="200" y="0" width="34" height="15"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="234" y="0" width="90" height="15"/>
+					<box leftPadding="3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{terapia}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

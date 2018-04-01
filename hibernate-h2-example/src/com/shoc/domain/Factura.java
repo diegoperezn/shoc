@@ -47,7 +47,7 @@ public class Factura {
         this.details.forEach(d -> d.setFactura(this));
         this.paciente = p;
         this.fecha = new Date();
-        this.total = details.stream().mapToDouble(d -> d.getMonto()).sum();
+        this.total = details.stream().mapToDouble(d -> d.getMontoFinal()).sum();
         
         this.obraSocial = ob;
         if (ob != null) {

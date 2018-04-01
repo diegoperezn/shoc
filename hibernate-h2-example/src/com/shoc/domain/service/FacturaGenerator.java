@@ -9,6 +9,7 @@ import com.shoc.domain.Factura;
 import java.util.HashMap;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -27,7 +28,7 @@ public class FacturaGenerator implements IParamentroFinder {
         return instance;
     }
 
-    String sourceFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jasper";
+    String sourceFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jrxml";
     String destFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jasper";
     String printFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jrprint";
     String pdfFile = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/{name}.pdf";
@@ -79,6 +80,8 @@ public class FacturaGenerator implements IParamentroFinder {
     // This method generates a PDF report 
     public JRViewer generatePdfReport(Long id) throws JRException {
 
+        //JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
+        
         final Factura factura = this.fService.get(id);
 
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(factura.getDetails());
@@ -86,7 +89,7 @@ public class FacturaGenerator implements IParamentroFinder {
         Map parameters = new HashMap();
         agregarShocValores(parameters, factura);
 
-        JasperPrint report = JasperFillManager.fillReport(sourceFileName, parameters, beanColDataSource);
+        JasperPrint report = JasperFillManager.fillReport(destFileName, parameters, beanColDataSource);
 
         JasperExportManager.exportReportToPdfFile(report,
                 pdfFile.replace("{name}", "factura_" + id));

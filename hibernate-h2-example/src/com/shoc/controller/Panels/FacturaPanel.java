@@ -7,6 +7,7 @@ package com.shoc.controller.Panels;
 
 import com.shoc.domain.service.FacturaGenerator;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.swing.JRViewer;
 
 /**
  *
@@ -22,7 +23,13 @@ public class FacturaPanel extends javax.swing.JPanel {
     public FacturaPanel(Long id) throws JRException {
         initComponents();
         
-        this.add(this.service.generatePdfReport(id));
+        final JRViewer generatePdfReport = this.service.generatePdfReport(id);
+        
+        this.add(generatePdfReport);
+        generatePdfReport.setVisible(true);
+        
+        this.revalidate();
+        this.repaint();
     }
 
     /**
