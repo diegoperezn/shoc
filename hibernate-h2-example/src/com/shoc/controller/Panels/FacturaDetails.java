@@ -56,8 +56,10 @@ public class FacturaDetails extends javax.swing.JPanel {
 
         fillTable(f.getDetails());
 
+        /*
         this.aService.listarTiposComprobante()
                 .parallelStream().forEach(i -> cbComprobantes.addItem(i));
+        */
     }
 
     private void fillTable(List<FacturaDetail> list) {

@@ -24,11 +24,13 @@ public class mainFrame extends javax.swing.JFrame {
     public mainFrame() {
         initComponents();
         
-        AfipAuthentification auth = wsaa_test.autentificarAfip();
+        /*
+                AfipAuthentification auth = wsaa_test.autentificarAfip();
         
         System.setProperty("shoc.afip.auth.token", auth.getToken());
         System.setProperty("shoc.afip.auth.sign", auth.getSign());
         System.setProperty("shoc.afip.auth.cuit", "20326416763");
+        */
         
         /*
         Properties ps = System.getProperties();

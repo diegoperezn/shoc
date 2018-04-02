@@ -11,9 +11,12 @@ import com.shoc.domain.ObraSocial;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -30,6 +33,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
      */
     public PacienteCreacion() {
         initComponents();
+
         initFields();
     }
 
@@ -86,13 +90,13 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        tfNombre = new javax.swing.JTextField();
+        tfNombre = new RequiredTextfield();
         cbGravado = new javax.swing.JCheckBox();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taObservaciones = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        tfDocumento = new javax.swing.JTextField();
+        tfDocumento = new RequiredTextfield();
         tfHistoriaClinica = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -105,14 +109,14 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        tfLocalidad = new javax.swing.JTextField();
-        tfDireccion = new javax.swing.JTextField();
+        tfLocalidad = new RequiredTextfield();
+        tfDireccion = new RequiredTextfield();
         jLabel23 = new javax.swing.JLabel();
-        tfProvincia = new javax.swing.JTextField();
+        tfProvincia = new RequiredTextfield();
         jLabel20 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        dpVencimientoBeca = new org.jdesktop.swingx.JXDatePicker();
+        dpVencimientoBeca = new RequiredDatePicker();
         jLabel13 = new javax.swing.JLabel();
         cbObraSocial = new javax.swing.JComboBox<>();
         tfFase = new javax.swing.JTextField();
@@ -123,7 +127,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         dpEgreso = new org.jdesktop.swingx.JXDatePicker();
         jScrollPane2 = new javax.swing.JScrollPane();
         taEgreso = new javax.swing.JTextArea();
-        dpIngreso = new org.jdesktop.swingx.JXDatePicker();
+        dpIngreso = new RequiredDatePicker();
         dpCambioDispositivo = new org.jdesktop.swingx.JXDatePicker();
         tfDispositivo = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -491,10 +495,14 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        pService.createPaciente(this);
+        Boolean valido = this.validarFormulario();
 
-        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new PacienteList(), this);
+        if (valido) {
+            pService.createPaciente(this);
+
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new PacienteList(), this);
+        } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -679,6 +687,28 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     @Override
     public Date getVencimientoBeca() {
         return dpVencimientoBeca.getDate();
+    }
+
+    private Boolean validarFormulario() {
+        Boolean valid = true;
+        List panels = Arrays.asList(this.getComponents());
+        List componentes = new ArrayList();
+
+        for (Object panel : panels) {
+            if (panel instanceof JPanel) {
+                componentes.addAll(
+                        Arrays.asList(((JPanel) panel).getComponents())
+                );
+            }
+        }
+
+        for (Object componente : componentes) {
+            if (componente instanceof IValidable) {
+                valid = ((IValidable) componente).valid() && valid;
+            }
+        }
+
+        return valid;
     }
 
 }
