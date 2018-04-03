@@ -186,10 +186,17 @@ public class ObraSocialList extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Por favor seleccione una obra social", "Error", JOptionPane.ERROR);
         } else {
             Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
-            if (JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social") == 1) {
-                this.service.deleteById(selectedId);
+            //System.out.println(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social"));
 
-                model.removeRow(tableObraSociales.getSelectedRow());
+            if (JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social") == 0) {
+                try {
+                    this.service.deleteById(selectedId);
+
+                    model.removeRow(tableObraSociales.getSelectedRow());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "La obra social no puede ser borrada por relaciones activas");
+                }
+
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

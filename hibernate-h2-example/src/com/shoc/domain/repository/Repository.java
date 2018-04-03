@@ -22,57 +22,90 @@ public abstract class Repository<T extends Object> {
     public T load(Long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-        session.beginTransaction();
+        Transaction t = session.beginTransaction();
 
-        T result = (T) session.load(getEntityClass(), id);
+        try {
+            T result = (T) session.load(getEntityClass(), id);
 
-        session.getTransaction().commit();
+            t.commit();
 
-        return result;
+            return result;
+        } catch (Exception e) {
+            t.rollback();
+
+            throw e;
+        }
+
     }
 
     public T get(Long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-        session.beginTransaction();
+        Transaction t = session.beginTransaction();
 
-        T result = (T) session.get(getEntityClass(), id);
+        try {
+            T result = (T) session.get(getEntityClass(), id);
 
-        session.getTransaction().commit();
+            t.commit();
 
-        return result;
+            return result;
+        } catch (Exception e) {
+            t.rollback();
+
+            throw e;
+        }
+
     }
 
     public void delete(Long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-        session.beginTransaction();
+        Transaction t = session.beginTransaction();
 
-        T result = (T) session.get(getEntityClass(), id);
+        try {
+            T result = (T) session.get(getEntityClass(), id);
 
-        session.delete(result);
+            session.delete(result);
 
-        session.getTransaction().commit();
+            t.commit();
+        } catch (Exception e) {
+            t.rollback();
+
+            throw e;
+        }
+
     }
 
     public void delete(T entity) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-        session.beginTransaction();
+        Transaction t = session.beginTransaction();
 
-        session.delete(entity);
+        try {
+            session.delete(entity);
 
-        session.getTransaction().commit();
+            t.commit();
+        } catch (Exception e) {
+            t.rollback();
+
+            throw e;
+        }
     }
 
     public void save(T entity) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-        session.beginTransaction();
+        Transaction t = session.beginTransaction();
 
-        session.saveOrUpdate(entity);
+        try {
+            session.saveOrUpdate(entity);
 
-        session.getTransaction().commit();
+            t.commit();
+        } catch (Exception e) {
+            t.rollback();
+
+            throw e;
+        }
     }
 
     public List<T> listAll() {
@@ -80,14 +113,21 @@ public abstract class Repository<T extends Object> {
 
         Transaction t = session.beginTransaction();
 
-        Criteria c
-                = session.createCriteria(getEntityClass());
+        try {
+            Criteria c
+                    = session.createCriteria(getEntityClass());
 
-        List<T> result = c.list();
+            List<T> result = c.list();
 
-        t.commit();
+            t.commit();
 
-        return result;
+            return result;
+
+        } catch (Exception e) {
+            t.rollback();
+
+            throw e;
+        }
     }
 
     protected DetachedCriteria createCriteria() {
@@ -99,11 +139,18 @@ public abstract class Repository<T extends Object> {
 
         Transaction t = session.beginTransaction();
 
-        List<T> result = criteria.getExecutableCriteria(session).list();
+        try {
+            List<T> result = criteria.getExecutableCriteria(session).list();
 
-        session.getTransaction().commit();
+            t.commit();
 
-        return result;
+            return result;
+
+        } catch (Exception e) {
+            t.rollback();
+
+            throw e;
+        }
     }
 
 }

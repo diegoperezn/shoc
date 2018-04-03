@@ -8,10 +8,8 @@ package com.shoc.controller.Panels.componentes;
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import org.h2.util.StringUtils;
 
 /**
@@ -51,19 +49,20 @@ public class RequiredTextfield extends JTextField implements IValidable {
     }
 
     public void setLabel(JLabel label) {
-        this.relatedLabel = label;
+            this.relatedLabel = label;
     }
 
     public boolean valid() {
-        boolean isEmpty = this.getText().isEmpty();
+        boolean isValid = this.getText().isEmpty() 
+                || (!StringUtils.isNumber(this.getText()) && checkNumeric);
 
-        if (isEmpty || (!StringUtils.isNumber(this.getText()) && checkNumeric)) {
+        if (isValid ) {
             relatedLabel.setForeground(Color.RED);
         } else {
             relatedLabel.setForeground(Color.BLACK);
         }
 
-        return !isEmpty;
+        return !isValid;
     }
 
 }
