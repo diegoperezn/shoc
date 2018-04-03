@@ -5,13 +5,21 @@
  */
 package com.shoc.controller.Panels;
 
+import com.shoc.controller.Panels.componentes.IValidable;
+import com.shoc.controller.Panels.componentes.RequiredTextfield;
 import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.IObraSocial;
 import com.shoc.domain.ObraSocial;
 import com.shoc.domain.service.ObraSocialService;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -27,14 +35,30 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
      */
     public ObraSocialCreacion() {
         initComponents();
+        initFields();
+    }
+
+    private List<Component> getAllComponents() {
+        List panels = Arrays.asList(this.getComponents());
+        List<Component> componentes = new ArrayList();
+        for (Object panel : panels) {
+            if (panel instanceof JPanel) {
+                componentes.addAll(
+                        Arrays.asList(((JPanel) panel).getComponents())
+                );
+            }
+        }
+        return componentes;
     }
 
     public ObraSocialCreacion(Long id, Boolean editable) {
         initComponents();
 
-        for (Component comp : this.getComponents()) {
-            if (comp instanceof JTextField) {
-                ((JTextField) comp).setEditable(editable);
+        initFields();
+
+        for (Component comp : getAllComponents()) {
+            if (comp instanceof JTextComponent) {
+                ((JTextComponent) comp).setEditable(editable);
             }
         }
 
@@ -86,12 +110,12 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        tfCUIT = new javax.swing.JTextField();
-        tfRazonSocial = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        tfCUIT = new RequiredTextfield();
+        tfRazonSocial = new RequiredTextfield();
+        lRazonSocial = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taRequerimiento = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
+        lCuit = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tfResponsable = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -104,28 +128,28 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
         tfEmailWeb = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        tfCostoInternacion = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        tfCostoJornadaCompleta = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        tfCostoAmbulatorio = new javax.swing.JTextField();
-        tfCosto5 = new javax.swing.JTextField();
+        tfCostoInternacion = new RequiredTextfield();
+        lInternacion = new javax.swing.JLabel();
+        tfCostoJornadaCompleta = new RequiredTextfield();
+        lAmbulatorio = new javax.swing.JLabel();
+        lMediaJornada = new javax.swing.JLabel();
+        lJornadaCompleta = new javax.swing.JLabel();
+        tfCostoAmbulatorio = new RequiredTextfield();
+        tfCosto5 = new RequiredTextfield();
         jLabel18 = new javax.swing.JLabel();
         tfFormaDePago = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         tfCategoriaIva = new javax.swing.JTextField();
         cbModulo = new javax.swing.JCheckBox();
-        tfCostoMediaJornada = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
+        tfCostoMediaJornada = new RequiredTextfield();
+        ldispo5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        tfDireccion = new javax.swing.JTextField();
-        tfProvincia = new javax.swing.JTextField();
-        tfLocalidad = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        tfDireccion = new RequiredTextfield();
+        tfProvincia = new RequiredTextfield();
+        tfLocalidad = new RequiredTextfield();
+        lDireccion = new javax.swing.JLabel();
+        lLocalidad = new javax.swing.JLabel();
+        lProvincia = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         bCancelar = new javax.swing.JButton();
         bGrabar = new javax.swing.JButton();
@@ -144,7 +168,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfRazonSocial.setNextFocusableComponent(tfCUIT);
 
-        jLabel1.setText("Razon Social:");
+        lRazonSocial.setText("Razon Social:");
 
         taRequerimiento.setColumns(10);
         taRequerimiento.setLineWrap(true);
@@ -152,7 +176,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
         taRequerimiento.setNextFocusableComponent(tfCelular);
         jScrollPane1.setViewportView(taRequerimiento);
 
-        jLabel6.setText("CUIT:");
+        lCuit.setText("CUIT:");
 
         jLabel4.setText("Responsable:");
 
@@ -165,20 +189,20 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfRazonSocial, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                    .addComponent(tfCUIT, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                    .addComponent(tfRazonSocial, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                    .addComponent(tfCUIT, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                     .addComponent(tfResponsable))
                 .addGap(10, 10, 10))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel4, jLabel6});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel4, lCuit, lRazonSocial});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,11 +210,11 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfRazonSocial)
-                    .addComponent(jLabel1))
+                    .addComponent(lRazonSocial))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfCUIT)
-                    .addComponent(jLabel6))
+                    .addComponent(lCuit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -202,7 +226,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel4, jLabel6, jLabel7});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel4, jLabel7, lCuit, lRazonSocial});
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Contacto"));
 
@@ -235,7 +259,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                     .addComponent(jLabel11))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfCelular, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(tfCelular, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                     .addComponent(tfEmail)
                     .addComponent(tfTelefono)
                     .addComponent(tfEmailWeb))
@@ -270,15 +294,15 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfCostoInternacion.setNextFocusableComponent(tfCostoJornadaCompleta);
 
-        jLabel5.setText("Interncion:");
+        lInternacion.setText("Interncion:");
 
         tfCostoJornadaCompleta.setNextFocusableComponent(tfCostoMediaJornada);
 
-        jLabel15.setText("Ambulatorio:");
+        lAmbulatorio.setText("Ambulatorio:");
 
-        jLabel13.setText("Media jornada:");
+        lMediaJornada.setText("Media jornada:");
 
-        jLabel12.setText("Jornada completa:");
+        lJornadaCompleta.setText("Jornada completa:");
 
         tfCostoAmbulatorio.setNextFocusableComponent(tfCosto5);
 
@@ -301,7 +325,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfCostoMediaJornada.setNextFocusableComponent(tfCostoAmbulatorio);
 
-        jLabel16.setText("Dipositivo 5:");
+        ldispo5.setText("Dipositivo 5:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -317,11 +341,11 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ldispo5, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lInternacion, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lJornadaCompleta, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lMediaJornada, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lAmbulatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfCostoJornadaCompleta)
@@ -334,7 +358,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                 .addGap(10, 10, 10))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel12, jLabel13, jLabel15, jLabel16, jLabel18, jLabel19, jLabel5});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel18, jLabel19, lAmbulatorio, lInternacion, lJornadaCompleta, lMediaJornada, ldispo5});
 
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,23 +366,23 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfCostoInternacion)
-                    .addComponent(jLabel5))
+                    .addComponent(lInternacion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfCostoJornadaCompleta)
-                    .addComponent(jLabel12))
+                    .addComponent(lJornadaCompleta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfCostoMediaJornada)
-                    .addComponent(jLabel13))
+                    .addComponent(lMediaJornada))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfCostoAmbulatorio)
-                    .addComponent(jLabel15))
+                    .addComponent(lAmbulatorio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfCosto5)
-                    .addComponent(jLabel16))
+                    .addComponent(ldispo5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfFormaDePago)
@@ -380,13 +404,13 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfLocalidad.setNextFocusableComponent(tfLocalidad);
 
-        jLabel22.setText("Direccion:");
-        jLabel22.setMaximumSize(new java.awt.Dimension(86, 16));
-        jLabel22.setMinimumSize(new java.awt.Dimension(86, 16));
+        lDireccion.setText("Direccion:");
+        lDireccion.setMaximumSize(new java.awt.Dimension(86, 16));
+        lDireccion.setMinimumSize(new java.awt.Dimension(86, 16));
 
-        jLabel20.setText("Localidad:");
+        lLocalidad.setText("Localidad:");
 
-        jLabel23.setText("Provincia:");
+        lProvincia.setText("Provincia:");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -396,13 +420,13 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lLocalidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(5, 5, 5)
@@ -419,15 +443,15 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfDireccion)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfProvincia)
-                    .addComponent(jLabel23))
+                    .addComponent(lProvincia))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfLocalidad)
-                    .addComponent(jLabel20))
+                    .addComponent(lLocalidad))
                 .addContainerGap())
         );
 
@@ -502,19 +526,40 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
     private void bGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGrabarActionPerformed
         if (bGrabar.getText().equals("Editar")) {
-            for (Component comp : this.getComponents()) {
-                if (comp instanceof JTextField) {
-                    ((JTextField) comp).setEditable(true);
-                }
+            for (Component comp : getAllComponents()) {
+                comp.setEnabled(true);
             }
             bGrabar.setText("Grabar");
         } else {
-            service.createObraSocial(this);
+            Boolean valido = this.validarFormulario();
 
-            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-            topFrame.changePanel(new ObraSocialList(), this);
+            if (valido) {
+                service.createObraSocial(this);
+
+                mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+                topFrame.changePanel(new ObraSocialList(), this);
+            }
         }
     }//GEN-LAST:event_bGrabarActionPerformed
+
+    private Boolean validarFormulario() {
+        Boolean valid = true;
+        List componentes = getAllComponents();
+
+        for (Object componente : componentes) {
+            if (componente instanceof IValidable) {
+                valid = ((IValidable) componente).valid() && valid;
+            }
+        }
+
+        if (!valid) {
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            JOptionPane.showMessageDialog(topFrame, "Por favor complete los campos requeridos.", "Campos requeridos", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+        return valid;
+    }
 
     private void bCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelarActionPerformed
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
@@ -530,22 +575,12 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
     private javax.swing.JButton bCancelar;
     private javax.swing.JButton bGrabar;
     private javax.swing.JCheckBox cbModulo;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -554,6 +589,16 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lAmbulatorio;
+    private javax.swing.JLabel lCuit;
+    private javax.swing.JLabel lDireccion;
+    private javax.swing.JLabel lInternacion;
+    private javax.swing.JLabel lJornadaCompleta;
+    private javax.swing.JLabel lLocalidad;
+    private javax.swing.JLabel lMediaJornada;
+    private javax.swing.JLabel lProvincia;
+    private javax.swing.JLabel lRazonSocial;
+    private javax.swing.JLabel ldispo5;
     private javax.swing.JTextArea taRequerimiento;
     private javax.swing.JTextField tfCUIT;
     private javax.swing.JTextField tfCategoriaIva;
@@ -673,5 +718,20 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
     @Override
     public String getLocalidad() {
         return tfLocalidad.getText();
+    }
+
+    private void initFields() {
+        ((IValidable) this.tfRazonSocial).setLabel(lRazonSocial);
+        ((IValidable) this.tfCUIT).setLabel(lCuit);
+
+        ((IValidable) this.tfDireccion).setLabel(lDireccion);
+        ((IValidable) this.tfProvincia).setLabel(lProvincia);
+        ((IValidable) this.tfLocalidad).setLabel(lLocalidad);
+
+        ((IValidable) this.tfCostoInternacion).setLabel(lInternacion);
+        ((IValidable) this.tfCosto5).setLabel(ldispo5);
+        ((IValidable) this.tfCostoAmbulatorio).setLabel(lAmbulatorio);
+        ((IValidable) this.tfCostoJornadaCompleta).setLabel(lJornadaCompleta);
+        ((IValidable) this.tfCostoMediaJornada).setLabel(lMediaJornada);
     }
 }

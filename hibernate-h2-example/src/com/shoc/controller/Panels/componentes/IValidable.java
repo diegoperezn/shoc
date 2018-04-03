@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shoc.controller.Panels;
+package com.shoc.controller.Panels.componentes;
+
+import javax.swing.JLabel;
 
 /**
  *
  * @author diego
  */
-interface IValidable {
+public interface IValidable {
     
     public boolean valid();
+    
+    public void setLabel(JLabel label);
     
 }

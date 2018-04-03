@@ -8,6 +8,7 @@ package com.shoc.controller.Panels;
 import com.shoc.domain.ObraSocial;
 import com.shoc.domain.service.ObraSocialService;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +25,8 @@ public class ObraSocialList extends javax.swing.JPanel {
      */
     public ObraSocialList() {
         initComponents();
+
+        tableObraSociales.setDefaultEditor(Object.class, null);
 
         List<ObraSocial> list = service.listAll();
 
@@ -44,7 +47,6 @@ public class ObraSocialList extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -61,13 +63,6 @@ public class ObraSocialList extends javax.swing.JPanel {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Detalles");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
             }
         });
 
@@ -102,12 +97,10 @@ public class ObraSocialList extends javax.swing.JPanel {
             }
         });
         tableObraSociales.setFillsViewportHeight(true);
+        tableObraSociales.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableObraSociales.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tableObraSocialesMousePressed(evt);
-            }
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableObraSocialesMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tableObraSociales);
@@ -117,19 +110,15 @@ public class ObraSocialList extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,13 +126,12 @@ public class ObraSocialList extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -186,30 +174,24 @@ public class ObraSocialList extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tableObraSocialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObraSocialesMouseClicked
-        System.out.println("com.shoc.controller.Panels.ObraSocialList.tableObraSocialesMouseClicked()");
-    }//GEN-LAST:event_tableObraSocialesMouseClicked
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
         topFrame.changePanel(new ObraSocialCreacion());
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tableObraSociales.getModel();
-        Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
-
-        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new ObraSocialCreacion(selectedId, false), this);    // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableObraSociales.getModel();
-        Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
+        if (tableObraSociales.getSelectedRowCount() == 0) {
 
-        this.service.deleteById(selectedId);
-        
-        model.removeRow(tableObraSociales.getSelectedRow());
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una obra social", "Error", JOptionPane.ERROR);
+        } else {
+            Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
+            if (JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social") == 1) {
+                this.service.deleteById(selectedId);
+
+                model.removeRow(tableObraSociales.getSelectedRow());
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -221,7 +203,15 @@ public class ObraSocialList extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tableObraSocialesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObraSocialesMousePressed
-        System.out.println("com.shoc.controller.Panels.ObraSocialList.tableObraSocialesMousePressed()");
+
+        if (evt.getClickCount() == 2) {
+            DefaultTableModel model = (DefaultTableModel) tableObraSociales.getModel();
+            Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
+
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new ObraSocialCreacion(selectedId, true), this);    // TODO add your handling code here:
+        }
+
     }//GEN-LAST:event_tableObraSocialesMousePressed
 
 
@@ -229,7 +219,6 @@ public class ObraSocialList extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

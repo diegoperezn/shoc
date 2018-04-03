@@ -81,9 +81,9 @@ public class mainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SHOC");
-        setBounds(new java.awt.Rectangle(23, 46, 0, 0));
-        setPreferredSize(new java.awt.Dimension(715, 465));
-        setSize(new java.awt.Dimension(715, 465));
+        setBounds(new java.awt.Rectangle(24, 46, 0, 0));
+        setPreferredSize(new java.awt.Dimension(915, 565));
+        setSize(new java.awt.Dimension(915, 565));
 
         jMenu4.setText("Obras Sociales");
 
@@ -171,11 +171,11 @@ public class mainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 682, Short.MAX_VALUE)
+            .addGap(0, 725, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
+            .addGap(0, 505, Short.MAX_VALUE)
         );
 
         pack();

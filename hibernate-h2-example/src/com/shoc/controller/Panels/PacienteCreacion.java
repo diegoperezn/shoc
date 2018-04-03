@@ -5,17 +5,23 @@
  */
 package com.shoc.controller.Panels;
 
+import com.shoc.controller.Panels.componentes.RequiredDatePicker;
+import com.shoc.controller.Panels.componentes.IValidable;
+import com.shoc.controller.Panels.componentes.RequiredTextfield;
 import com.shoc.domain.DispositivosEnum;
 import com.shoc.domain.IPaciente;
 import com.shoc.domain.ObraSocial;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
+import java.awt.Component;
+import java.awt.TrayIcon.MessageType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -76,6 +82,15 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         for (ObraSocial obraSociale : obraSociales) {
             cbObraSocial.addItem(obraSociale);
         }
+
+        ((IValidable) this.tfNombre).setLabel(lNombre);
+        ((IValidable) this.tfDocumento).setLabel(lDocumento);
+        ((IValidable) this.tfDireccion).setLabel(lDireccion);
+        ((IValidable) this.tfProvincia).setLabel(lProvincia);
+        ((IValidable) this.tfLocalidad).setLabel(lLocalidad);
+        ((IValidable) this.dpIngreso).setLabel(lIngreso);
+        ((IValidable) this.dpVencimientoBeca).setLabel(lVencimiento);
+        //((IValidable) this.cbDispositivoTerapia).setLabel(lDispTerapia);
     }
 
     /**
@@ -95,10 +110,10 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taObservaciones = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
+        lDocumento = new javax.swing.JLabel();
         tfDocumento = new RequiredTextfield();
         tfHistoriaClinica = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lNombre = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         tfCelular = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -111,19 +126,19 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         jPanel3 = new javax.swing.JPanel();
         tfLocalidad = new RequiredTextfield();
         tfDireccion = new RequiredTextfield();
-        jLabel23 = new javax.swing.JLabel();
+        lProvincia = new javax.swing.JLabel();
         tfProvincia = new RequiredTextfield();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        lLocalidad = new javax.swing.JLabel();
+        lDireccion = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         dpVencimientoBeca = new RequiredDatePicker();
-        jLabel13 = new javax.swing.JLabel();
+        lVencimiento = new javax.swing.JLabel();
         cbObraSocial = new javax.swing.JComboBox<>();
         tfFase = new javax.swing.JTextField();
         dpAusencia = new org.jdesktop.swingx.JXDatePicker();
         jLabel17 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        lIngreso = new javax.swing.JLabel();
         dpEgreso = new org.jdesktop.swingx.JXDatePicker();
         jScrollPane2 = new javax.swing.JScrollPane();
         taEgreso = new javax.swing.JTextArea();
@@ -133,7 +148,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         jLabel19 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
+        lDispTerapia = new javax.swing.JLabel();
         tfTerapista = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
@@ -159,11 +174,11 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         taObservaciones.setRows(5);
         jScrollPane1.setViewportView(taObservaciones);
 
-        jLabel3.setText("Documento:");
+        lDocumento.setText("Documento:");
 
         tfHistoriaClinica.setEditable(false);
 
-        jLabel1.setText("Nombre y apellido:");
+        lNombre.setText("Nombre y apellido:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -172,8 +187,8 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
+                    .addComponent(lNombre)
+                    .addComponent(lDocumento)
                     .addComponent(jLabel10)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
@@ -200,11 +215,11 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                     .addComponent(cbGravado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lNombre)
                     .addComponent(tfNombre))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lDocumento)
                     .addComponent(tfDocumento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,11 +283,11 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Domicilio"));
 
-        jLabel23.setText("Provincia:");
+        lProvincia.setText("Provincia:");
 
-        jLabel20.setText("Localidad:");
+        lLocalidad.setText("Localidad:");
 
-        jLabel22.setText("Direccion:");
+        lDireccion.setText("Direccion:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -281,9 +296,9 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23))
+                    .addComponent(lLocalidad)
+                    .addComponent(lDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lProvincia))
                 .addGap(73, 73, 73)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfLocalidad, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
@@ -297,27 +312,27 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfDireccion)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfProvincia)
-                    .addComponent(jLabel23))
+                    .addComponent(lProvincia))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfLocalidad)
-                    .addComponent(jLabel20))
+                    .addComponent(lLocalidad))
                 .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tratamiento"));
 
-        jLabel13.setText("Vencimiento Beca:");
+        lVencimiento.setText("Vencimiento Beca:");
 
         jLabel17.setText("Fecha de Egreso:");
 
         jLabel16.setText("Terapista:");
 
-        jLabel12.setText("Fecha de ingreso:");
+        lIngreso.setText("Fecha de ingreso:");
 
         taEgreso.setColumns(10);
         taEgreso.setRows(5);
@@ -329,7 +344,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
         jLabel14.setText("Obra Social:");
 
-        jLabel28.setText("Disp. terapia:");
+        lDispTerapia.setText("Disp. terapia:");
 
         jLabel15.setText("Dispositivo:");
 
@@ -349,13 +364,13 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                     .addComponent(jLabel14)
                     .addComponent(jLabel15)
                     .addComponent(jLabel16)
-                    .addComponent(jLabel13)
+                    .addComponent(lVencimiento)
                     .addComponent(jLabel19)
                     .addComponent(jLabel27)
-                    .addComponent(jLabel28)
+                    .addComponent(lDispTerapia)
                     .addComponent(jLabel17)
                     .addComponent(jLabel18)
-                    .addComponent(jLabel12)
+                    .addComponent(lIngreso)
                     .addComponent(jLabel25))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,11 +392,11 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
+                    .addComponent(lIngreso)
                     .addComponent(dpIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
+                    .addComponent(lVencimiento)
                     .addComponent(dpVencimientoBeca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -401,7 +416,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
                     .addComponent(dpCambioDispositivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel28)
+                    .addComponent(lDispTerapia)
                     .addComponent(cbDispositivoTerapia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -502,7 +517,8 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
             mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.changePanel(new PacienteList(), this);
-        } 
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -522,10 +538,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     private org.jdesktop.swingx.JXDatePicker dpVencimientoBeca;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -533,13 +546,8 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -552,6 +560,14 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lDireccion;
+    private javax.swing.JLabel lDispTerapia;
+    private javax.swing.JLabel lDocumento;
+    private javax.swing.JLabel lIngreso;
+    private javax.swing.JLabel lLocalidad;
+    private javax.swing.JLabel lNombre;
+    private javax.swing.JLabel lProvincia;
+    private javax.swing.JLabel lVencimiento;
     private javax.swing.JTextArea taEgreso;
     private javax.swing.JTextArea taObservaciones;
     private javax.swing.JTextField tfCelular;
@@ -691,16 +707,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
     private Boolean validarFormulario() {
         Boolean valid = true;
-        List panels = Arrays.asList(this.getComponents());
-        List componentes = new ArrayList();
-
-        for (Object panel : panels) {
-            if (panel instanceof JPanel) {
-                componentes.addAll(
-                        Arrays.asList(((JPanel) panel).getComponents())
-                );
-            }
-        }
+        List<Component> componentes = getAllComponents();
 
         for (Object componente : componentes) {
             if (componente instanceof IValidable) {
@@ -708,7 +715,26 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
             }
         }
 
+        if (!valid) {
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            JOptionPane.showMessageDialog(topFrame, "Por favor complete los campos requeridos.", "Campos requeridos", JOptionPane.ERROR_MESSAGE);
+
+        }
+
         return valid;
+    }
+
+    private List<Component> getAllComponents() {
+        List panels = Arrays.asList(this.getComponents());
+        List<Component> componentes = new ArrayList();
+        for (Object panel : panels) {
+            if (panel instanceof JPanel) {
+                componentes.addAll(
+                        Arrays.asList(((JPanel) panel).getComponents())
+                );
+            }
+        }
+        return componentes;
     }
 
 }
