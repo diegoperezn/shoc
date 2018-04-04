@@ -39,7 +39,7 @@ public class RequiredTextfield extends JTextField implements IValidable {
             }
         });
     }
-    
+
     public RequiredTextfield() {
         addListener();
     }
@@ -49,20 +49,35 @@ public class RequiredTextfield extends JTextField implements IValidable {
     }
 
     public void setLabel(JLabel label) {
-            this.relatedLabel = label;
+        this.relatedLabel = label;
     }
 
     public boolean valid() {
-        boolean isValid = this.getText().isEmpty() 
-                || (!StringUtils.isNumber(this.getText()) && checkNumeric);
+        boolean isValid = !this.getText().isEmpty();
+        isValid = isValid && checkNumeric();
 
-        if (isValid ) {
-            relatedLabel.setForeground(Color.RED);
-        } else {
+        if (isValid) {
             relatedLabel.setForeground(Color.BLACK);
+        } else {
+            relatedLabel.setForeground(Color.RED);
         }
 
-        return !isValid;
+        return isValid;
+    }
+
+    private boolean checkNumeric() {
+        if (!checkNumeric) {
+            return true;
+        }
+        Boolean valid = true;
+
+        try {
+            Double.valueOf(this.getText());
+        } catch (Exception e) {
+            valid = false;
+        }
+
+        return valid;
     }
 
 }

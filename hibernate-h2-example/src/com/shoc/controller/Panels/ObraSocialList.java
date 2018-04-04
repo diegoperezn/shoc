@@ -183,12 +183,12 @@ public class ObraSocialList extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tableObraSociales.getModel();
         if (tableObraSociales.getSelectedRowCount() == 0) {
 
-            JOptionPane.showMessageDialog(this, "Por favor seleccione una obra social", "Error", JOptionPane.ERROR);
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una obra social", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
-            //System.out.println(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social"));
-
-            if (JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social") == 0) {
+            String nombre = model.getValueAt(tableObraSociales.getSelectedRow(), 1).toString();
+            
+            if (JOptionPane.showConfirmDialog(this, "¿Seguro desea eliminar la obra social \"" + nombre + "\"?") == 0) {
                 try {
                     this.service.deleteById(selectedId);
 
@@ -203,10 +203,16 @@ public class ObraSocialList extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableObraSociales.getModel();
-        Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
 
-        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new ObraSocialCreacion(selectedId, true), this);        // TODO add your handling code here:
+        if (tableObraSociales.getSelectedRowCount() == 0) {
+
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una obra social", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Long selectedId = Long.valueOf(model.getValueAt(tableObraSociales.getSelectedRow(), 0).toString());
+
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new ObraSocialCreacion(selectedId, true), this);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tableObraSocialesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObraSocialesMousePressed

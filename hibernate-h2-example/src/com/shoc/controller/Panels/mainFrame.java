@@ -7,7 +7,14 @@ package com.shoc.controller.Panels;
 
 import com.shoc.afip.authen.AfipAuthentification;
 import com.shoc.afip.authen.wsaa_test;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
@@ -17,29 +24,44 @@ import javax.swing.JPanel;
 public class mainFrame extends javax.swing.JFrame {
 
     private static Logger logger = Logger.getLogger("mainFrame");
-    
+
     /**
      * Creates new form mainFrame
      */
     public mainFrame() {
         initComponents();
-        
-        /*
-                AfipAuthentification auth = wsaa_test.autentificarAfip();
-        
-        System.setProperty("shoc.afip.auth.token", auth.getToken());
-        System.setProperty("shoc.afip.auth.sign", auth.getSign());
-        System.setProperty("shoc.afip.auth.cuit", "20326416763");
-        */
-        
-        /*
-        Properties ps = System.getProperties();
-        
-        for (Map.Entry<Object, Object> entry : ps.entrySet()) {
+
+        try {
+            final File file = new File(
+                    getClass().getResource("/icono.png").toURI()
+            );
+            System.out.println(file.getAbsolutePath());
+            this.setIconImage(ImageIO.read(file));
+
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            
+            Image img = kit.createImage(getClass().getResource("/icono.ico"));
+            this.setIconImage(img);
+
+            AfipAuthentification auth = wsaa_test.autentificarAfip();
+            
+            System.setProperty("shoc.afip.auth.token", auth.getToken());
+            System.setProperty("shoc.afip.auth.sign", auth.getSign());
+            System.setProperty("shoc.afip.auth.cuit", "20326416763");
+             
+ /*
+            Properties ps = System.getProperties();
+            
+            for (Map.Entry<Object, Object> entry : ps.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+             */
+        } catch (IOException ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-         */  
-        
+
     }
 
     /**
@@ -245,9 +267,8 @@ public class mainFrame extends javax.swing.JFrame {
         DOMConfigurator.configure(log4jConfigFile);
  
         logger.info("this is a information log message");
-        */
-        
-        /* Create and display the form */
+         */
+ /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new mainFrame().setVisible(true);
@@ -275,19 +296,18 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 
-    
     public void changePanel(JPanel panel, JPanel oldPanel) {
         if (oldPanel != null) {
             this.remove(oldPanel);
         }
-        
+
         panel.setVisible(true);
         this.setContentPane(panel);
-        
+
         this.revalidate();
         this.repaint();
     }
-    
+
     public void changePanel(JPanel panel) {
         this.changePanel(panel, null);
     }

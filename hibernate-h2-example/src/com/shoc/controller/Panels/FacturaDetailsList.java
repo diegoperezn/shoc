@@ -17,6 +17,7 @@ import com.shoc.domain.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -77,6 +78,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCuentas = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -130,13 +132,22 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         });
         jScrollPane1.setViewportView(tableCuentas);
 
+        jButton1.setText("Eliminar Item");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(600, 600, 600)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addGap(509, 509, 509)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -149,7 +160,9 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
-                .addComponent(jButton4)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton1))
                 .addGap(10, 10, 10))
         );
 
@@ -276,6 +289,12 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             if (model.getValueAt(i, 6) != null) {
                 final Integer dias = (Integer) model.getValueAt(i, 6);
                 final Double costo = (Double) model.getValueAt(i, 7);
+                /*
+                final double totalMes = 0 
+                if ( dias != null && costo != null ) {
+                    
+                }
+                */
                 final double totalMes = dias * costo;
                 model.setValueAt(totalMes,
                         i, 8
@@ -310,12 +329,35 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         fillTable(this.service.search(this));
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
+        if (tableCuentas.getSelectedRowCount() == 0) {
+
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un detalle de factura", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Long selectedId = Long.valueOf(model.getValueAt(tableCuentas.getSelectedRow(), 0).toString());
+            //System.out.println(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social"));
+
+            if (JOptionPane.showConfirmDialog(this, "Seguro desea eliminar el detalle") == 0) {
+                try {
+                    this.service.deleteById(selectedId);
+
+                    model.removeRow(tableCuentas.getSelectedRow());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "El detalle no puede ser borrado por estar facturado ");
+                }
+
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbActivos3;
     private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private javax.swing.JComboBox<Paciente> cbPaciente;
     private org.jdesktop.swingx.JXDatePicker dpMes;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;

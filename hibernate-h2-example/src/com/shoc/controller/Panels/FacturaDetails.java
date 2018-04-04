@@ -5,12 +5,12 @@
  */
 package com.shoc.controller.Panels;
 
+import ar.gov.afip.wsmtxca.service.impl.service.CodigoDescripcionType;
 import com.shoc.domain.Factura;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.service.AfipService;
 import com.shoc.domain.service.FacturaGenerator;
 import com.shoc.domain.service.FacturaService;
-import fev1.dif.afip.gov.ar.CbteTipo;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,10 +56,10 @@ public class FacturaDetails extends javax.swing.JPanel {
 
         fillTable(f.getDetails());
 
-        /*
+        
         this.aService.listarTiposComprobante()
                 .parallelStream().forEach(i -> cbComprobantes.addItem(i));
-        */
+        
     }
 
     private void fillTable(List<FacturaDetail> list) {
@@ -318,7 +318,7 @@ public class FacturaDetails extends javax.swing.JPanel {
                 .addGap(33, 33, 33)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbComprobantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbComprobantes, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -395,7 +395,7 @@ public class FacturaDetails extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCuentaCorriente;
-    private javax.swing.JComboBox<CbteTipo> cbComprobantes;
+    private javax.swing.JComboBox<CodigoDescripcionType> cbComprobantes;
     private javax.swing.JLabel fLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

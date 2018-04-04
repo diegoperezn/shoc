@@ -260,19 +260,39 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
-        Long selectedId = Long.valueOf(model.getValueAt(tablePacientes.getSelectedRow(), 0).toString());
+        if (tablePacientes.getSelectedRowCount() == 0) {
 
-        this.service.deleteById(selectedId);
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una obra social", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Long selectedId = Long.valueOf(model.getValueAt(tablePacientes.getSelectedRow(), 0).toString());
+            String nombre = model.getValueAt(tablePacientes.getSelectedRow(), 1).toString();
 
-        model.removeRow(tablePacientes.getSelectedRow());
+            if (JOptionPane.showConfirmDialog(this, "¿Seguro desea eliminar el paciente \"" + nombre + "\"?") == 0) {
+                try {
+
+                    this.service.deleteById(selectedId);
+
+                    model.removeRow(tablePacientes.getSelectedRow());
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "El paciente no puede ser eliminado ya que tiene item facturados");
+                }
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
-        Long selectedId = Long.valueOf(model.getValueAt(tablePacientes.getSelectedRow(), 0).toString());
 
-        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new PacienteCreacion(selectedId, true), this);        // TODO add your handling code here:
+        if (tablePacientes.getSelectedRowCount() == 0) {
+
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una obra social", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Long selectedId = Long.valueOf(model.getValueAt(tablePacientes.getSelectedRow(), 0).toString());
+
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new PacienteCreacion(selectedId, true), this);        // TODO add your handling code here:
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

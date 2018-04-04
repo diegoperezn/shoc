@@ -324,6 +324,11 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
         });
 
         tfCostoMediaJornada.setNextFocusableComponent(tfCostoAmbulatorio);
+        tfCostoMediaJornada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfCostoMediaJornadaActionPerformed(evt);
+            }
+        });
 
         ldispo5.setText("Dipositivo 5:");
 
@@ -569,6 +574,10 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
     private void cbModuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbModuloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbModuloActionPerformed
+
+    private void tfCostoMediaJornadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCostoMediaJornadaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCostoMediaJornadaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

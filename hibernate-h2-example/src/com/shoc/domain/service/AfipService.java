@@ -5,8 +5,8 @@
  */
 package com.shoc.domain.service;
 
+import ar.gov.afip.wsmtxca.service.impl.service.CodigoDescripcionType;
 import com.shoc.domain.repository.AfipTiposRepository;
-import fev1.dif.afip.gov.ar.CbteTipo;
 import java.util.List;
 
 /**
@@ -27,7 +27,7 @@ public class AfipService {
 
     private final AfipTiposRepository repo = AfipTiposRepository.getInstance();
 
-    public List<CbteTipo> listarTiposComprobante(){
+    public List<CodigoDescripcionType> listarTiposComprobante(){
         return this.repo.listarTiposFactura();
     }
     

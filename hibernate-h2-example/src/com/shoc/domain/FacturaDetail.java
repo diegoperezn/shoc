@@ -39,9 +39,13 @@ public class FacturaDetail {
         this.dispositivo = f.getDispositivo();
         if (f.getPaciente().getObraSocial() != null) {
             this.costoDispositivo = f.getPaciente().getObraSocial().getCosto(this.dispositivo);
+        } else {
+            this.costoDispositivo = Double.valueOf("0");
         }
         this.fecha = f.getFecha();
         this.alicuota = Double.valueOf("0.15");
+        this.dias = 0;
+        this.monto = Double.valueOf("0");
     }
 
     @Id
