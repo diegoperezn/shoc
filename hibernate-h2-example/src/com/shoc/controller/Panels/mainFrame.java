@@ -6,20 +6,21 @@
 package com.shoc.controller.Panels;
 
 import com.shoc.afip.authen.AfipAuthentification;
-import com.shoc.afip.authen.wsaa_test;
+import com.shoc.afip.authen.AfipAuthentificationService;
 import com.shoc.domain.service.PropiedadService;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,16 +28,19 @@ import javax.swing.JPanel;
  */
 public class mainFrame extends javax.swing.JFrame {
 
-    private static Logger logger = Logger.getLogger("mainFrame");
-
     private PropiedadService service = PropiedadService.getInstance();
 
     private boolean readProperties = true;
+
+    final static Logger logger = Logger.getLogger(mainFrame.class);
 
     /**
      * Creates new form mainFrame
      */
     public mainFrame() {
+
+        logger.info("test");
+
         initComponents();
 
         try {
@@ -44,25 +48,34 @@ public class mainFrame extends javax.swing.JFrame {
             buildDatabase();
 
             //agregarIcon();
-            //conectarAfip();
-            
+            conectarAfip();
         } catch (Exception ex) {
-            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(null, ex);
         }
     }
 
     private void imprimirVariables() {
-        Properties props = new Properties();
-        String basePath = System.getProperties().getProperty("user.dir");
-
-        File configFile = new File(basePath.concat("/").concat("app.properties"));
+        Properties props = new Properties(System.getProperties());
+        //String basePath = System.getProperties().getProperty("user.dir");
+        //String appFile = basePath.concat("/").concat("app.properties");
+        //File configFile = new File(loader.getResourceAsStream("app.properties"));
 
         try {
-            FileReader reader = new FileReader(configFile);
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            InputStream stream = loader.getResourceAsStream("app.properties");
 
-            //props.load(reader);
+            //FileReader reader = new FileReader(configFile);
             
-            System.getProperties().load(reader);
+            props.load(stream);
+            
+            logger.info("HIBERNATE URL (Props) -------->>> " + props.getProperty("hibernate.connection.url"));
+            props.size();
+
+            System.getProperties().load(stream);
+            
+            logger.info("HIBERNATE URL (Java) -------->>> " + System.getProperty("hibernate.connection.url"));
+
+            //System.getProperties().putIfAbsent("hibernate.connection.url", props.getProperty("hibernate.connection.url"));
         } catch (Exception e) {
             readProperties = false;
         }
@@ -70,12 +83,12 @@ public class mainFrame extends javax.swing.JFrame {
         Properties ps = System.getProperties();
 
         for (Map.Entry<Object, Object> entry : ps.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+            logger.info(entry.getKey() + ": " + entry.getValue());
         }
     }
 
-    private void conectarAfip() {
-        AfipAuthentification auth = wsaa_test.autentificarAfip();
+    private void conectarAfip() throws FileNotFoundException {
+        AfipAuthentification auth = AfipAuthentificationService.autentificarAfip();
 
         System.setProperty("shoc.afip.auth.token", auth.getToken());
         System.setProperty("shoc.afip.auth.sign", auth.getSign());

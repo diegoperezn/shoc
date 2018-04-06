@@ -28,10 +28,10 @@ public class FacturaGenerator implements IParamentroFinder {
         return instance;
     }
 
-    String sourceFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jrxml";
-    String destFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jasper";
-    String printFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura.jrprint";
-    String pdfFile = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/{name}.pdf";
+    String sourceFileName = "./Factura.jrxml";
+    String destFileName = "./Factura.jasper";
+    String printFileName = "./Factura.jrprint";
+    String pdfFile = "./{name}.pdf";
 
     private PropiedadService pService = PropiedadService.getInstance();
     private FacturaService fService = FacturaService.getInstance();
@@ -80,7 +80,9 @@ public class FacturaGenerator implements IParamentroFinder {
     // This method generates a PDF report 
     public JRViewer generatePdfReport(Long id) throws JRException {
 
-        JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
+        //JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
+        
+        
         
         final Factura factura = this.fService.get(id);
 
