@@ -11,6 +11,7 @@ import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.service.AfipService;
 import com.shoc.domain.service.FacturaGenerator;
 import com.shoc.domain.service.FacturaService;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,8 @@ public class FacturaDetails extends javax.swing.JPanel {
     AfipService aService = AfipService.getInstance();
 
     Factura f = null;
+
+    SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
 
     /**
      * Creates new form ObraSocialList
@@ -56,10 +59,9 @@ public class FacturaDetails extends javax.swing.JPanel {
 
         fillTable(f.getDetails());
 
-        
         this.aService.listarTiposComprobante()
                 .parallelStream().forEach(i -> cbComprobantes.addItem(i));
-        
+
     }
 
     private void fillTable(List<FacturaDetail> list) {
@@ -68,7 +70,7 @@ public class FacturaDetails extends javax.swing.JPanel {
         list.forEach((cuenta) -> {
             final String obraSocial = cuenta.getPaciente().getObraSocial() != null
                     ? cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
-            model.addRow(new Object[]{cuenta.getFecha(), cuenta.getPaciente().getNombre(), obraSocial, cuenta.getDispositivo(),
+            model.addRow(new Object[]{cuenta.getPaciente().getNombre(), format.format(cuenta.getFecha()), obraSocial, cuenta.getDispositivo(),
                 cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
             );
@@ -121,7 +123,7 @@ public class FacturaDetails extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Fecha", "Paciente", "Obra Social", "Dispositivo", "Dias", "Costo dipositivo", "Monto"
+                "Paciente", "Fecha", "Obra Social", "Dispositivo", "Dias", "Costo dipositivo", "Monto"
             }
         ) {
             Class[] types = new Class [] {
@@ -142,7 +144,7 @@ public class FacturaDetails extends javax.swing.JPanel {
         tableCuentas.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(tableCuentas);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Ver factura");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -157,7 +159,7 @@ public class FacturaDetails extends javax.swing.JPanel {
                 .addGap(497, 497, 497)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bCuentaCorriente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bCuentaCorriente, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -302,12 +304,6 @@ public class FacturaDetails extends javax.swing.JPanel {
                 .addGap(4, 4, 4))
         );
 
-        cbComprobantes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbComprobantesActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Factura tipo:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -315,7 +311,7 @@ public class FacturaDetails extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbComprobantes, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,12 +319,9 @@ public class FacturaDetails extends javax.swing.JPanel {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cbComprobantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel3)
+                .addComponent(cbComprobantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -338,10 +331,10 @@ public class FacturaDetails extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -350,12 +343,12 @@ public class FacturaDetails extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -363,10 +356,6 @@ public class FacturaDetails extends javax.swing.JPanel {
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
         topFrame.changePanel(new MovimientosCuentaList(f.getObraSocial().getCuenta().getId()), this);
     }//GEN-LAST:event_bCuentaCorrienteActionPerformed
-
-    private void cbComprobantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbComprobantesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbComprobantesActionPerformed
 
     FacturaGenerator service = FacturaGenerator.getInstance();
 

@@ -20,13 +20,8 @@
               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel4" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jPanel7" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jPanel7" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
           </Group>
@@ -41,7 +36,7 @@
               <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jPanel3" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,7 +58,7 @@
                   <EmptySpace min="-2" pref="509" max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton4" pref="113" max="32767" attributes="0"/>
+                  <Component id="jButton4" pref="123" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -143,9 +138,9 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="321" max="32767" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="322" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -190,15 +185,15 @@
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" pref="61" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cbPaciente" max="32767" attributes="0"/>
+                          <Component id="cbPaciente" pref="97" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="cbObraSocial" max="32767" attributes="0"/>
+                          <Component id="cbObraSocial" pref="97" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="dpMes" max="32767" attributes="0"/>
+                          <Component id="dpMes" pref="144" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="cbActivos3" min="-2" pref="124" max="-2" attributes="0"/>
                       </Group>

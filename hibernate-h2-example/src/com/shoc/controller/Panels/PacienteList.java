@@ -11,11 +11,12 @@ import com.shoc.domain.service.PacienteService;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -27,6 +28,8 @@ import javax.swing.table.TableModel;
 public class PacienteList extends javax.swing.JPanel implements ISearchPaciente {
 
     PacienteService service = PacienteService.getInstance();
+
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
      * Creates new form ObraSocialList
@@ -43,7 +46,9 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
         list.forEach((paciente) -> {
             final String obraSocial = paciente.getObraSocial() != null ? paciente.getObraSocial().getRazonSocial() : "Particular";
-            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), obraSocial, paciente.getEgreso(), paciente.getDispositivoTerapia(), paciente.getTerapista()});
+            final String baja = paciente.getEgreso() != null ? format.format(paciente.getEgreso()) : null;
+            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), obraSocial,
+                baja, paciente.getDispositivoTerapia(), paciente.getTerapista()});
         });
     }
 
@@ -62,6 +67,10 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         jButton5 = new javax.swing.JButton();
         cbActivos = new javax.swing.JCheckBox();
         jButton4 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        dpDesdeBaja = new org.jdesktop.swingx.JXDatePicker();
+        dpHastaBaja = new org.jdesktop.swingx.JXDatePicker();
+        jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -92,33 +101,56 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
             }
         });
 
+        jLabel3.setText("Baja fecha desde:");
+
+        jLabel4.setText("hasta:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cbActivos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, 0)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dpDesdeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addGap(12, 12, 12)
+                        .addComponent(dpHastaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbActivos)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbActivos)
+                    .addComponent(cbActivos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(dpDesdeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dpHastaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -183,7 +215,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addGap(10, 10, 10))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(299, 299, 299)
@@ -198,7 +230,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
                 .addGap(9, 9, 9)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -352,6 +384,8 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbActivos;
+    private org.jdesktop.swingx.JXDatePicker dpDesdeBaja;
+    private org.jdesktop.swingx.JXDatePicker dpHastaBaja;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -359,6 +393,8 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -375,5 +411,15 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
     @Override
     public Boolean getActivo() {
         return this.cbActivos.isSelected();
+    }
+
+    @Override
+    public Date getDesdeBaja() {
+        return this.dpDesdeBaja.getDate();
+    }
+
+    @Override
+    public Date getHastaBaja() {
+        return this.dpHastaBaja.getDate();
     }
 }

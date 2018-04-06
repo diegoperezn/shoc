@@ -7,11 +7,15 @@ package com.shoc.controller.Panels;
 
 import com.shoc.afip.authen.AfipAuthentification;
 import com.shoc.afip.authen.wsaa_test;
+import com.shoc.domain.service.PropiedadService;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -25,6 +29,10 @@ public class mainFrame extends javax.swing.JFrame {
 
     private static Logger logger = Logger.getLogger("mainFrame");
 
+    private PropiedadService service = PropiedadService.getInstance();
+
+    private boolean readProperties = true;
+
     /**
      * Creates new form mainFrame
      */
@@ -32,36 +40,59 @@ public class mainFrame extends javax.swing.JFrame {
         initComponents();
 
         try {
-            final File file = new File(
-                    getClass().getResource("/icono.png").toURI()
-            );
-            System.out.println(file.getAbsolutePath());
-            this.setIconImage(ImageIO.read(file));
+            imprimirVariables();
+            buildDatabase();
 
-            Toolkit kit = Toolkit.getDefaultToolkit();
+            //agregarIcon();
+            //conectarAfip();
             
-            Image img = kit.createImage(getClass().getResource("/icono.ico"));
-            this.setIconImage(img);
-
-            AfipAuthentification auth = wsaa_test.autentificarAfip();
-            
-            System.setProperty("shoc.afip.auth.token", auth.getToken());
-            System.setProperty("shoc.afip.auth.sign", auth.getSign());
-            System.setProperty("shoc.afip.auth.cuit", "20326416763");
-             
- /*
-            Properties ps = System.getProperties();
-            
-            for (Map.Entry<Object, Object> entry : ps.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-            }
-             */
-        } catch (IOException ex) {
-            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+    private void imprimirVariables() {
+        Properties props = new Properties();
+        String basePath = System.getProperties().getProperty("user.dir");
+
+        File configFile = new File(basePath.concat("/").concat("app.properties"));
+
+        try {
+            FileReader reader = new FileReader(configFile);
+
+            //props.load(reader);
+            
+            System.getProperties().load(reader);
+        } catch (Exception e) {
+            readProperties = false;
+        }
+
+        Properties ps = System.getProperties();
+
+        for (Map.Entry<Object, Object> entry : ps.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    private void conectarAfip() {
+        AfipAuthentification auth = wsaa_test.autentificarAfip();
+
+        System.setProperty("shoc.afip.auth.token", auth.getToken());
+        System.setProperty("shoc.afip.auth.sign", auth.getSign());
+        System.setProperty("shoc.afip.auth.cuit", "20326416763");
+    }
+
+    private void agregarIcon() throws URISyntaxException, IOException {
+        final File file = new File(
+                getClass().getResource("/icono.png").toURI()
+        );
+        System.out.println(file.getAbsolutePath());
+        this.setIconImage(ImageIO.read(file));
+
+        Toolkit kit = Toolkit.getDefaultToolkit();
+
+        Image img = kit.createImage(getClass().getResource("/icono.ico"));
+        this.setIconImage(img);
     }
 
     /**
@@ -86,9 +117,9 @@ public class mainFrame extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
@@ -153,14 +184,6 @@ public class mainFrame extends javax.swing.JFrame {
 
         jMenu3.setText("Facturacion");
 
-        jMenuItem6.setText("Cuentas corrientes");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem6);
-
         jMenuItem7.setText("Facturacion");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +199,14 @@ public class mainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem8);
+
+        jMenuItem6.setText("Cuentas corrientes");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
 
         jMenuItem11.setText("Configuracion");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
@@ -310,5 +341,9 @@ public class mainFrame extends javax.swing.JFrame {
 
     public void changePanel(JPanel panel) {
         this.changePanel(panel, null);
+    }
+
+    private void buildDatabase() {
+        service.listAll();
     }
 }

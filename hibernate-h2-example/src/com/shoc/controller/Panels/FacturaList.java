@@ -125,7 +125,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(600, 600, 600)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -136,7 +136,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addComponent(jButton4)
                 .addGap(10, 10, 10))
@@ -150,9 +150,9 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(278, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(278, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,15 +182,15 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbPaciente, 0, 86, Short.MAX_VALUE)
+                .addComponent(cbPaciente, 0, 89, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(cbObraSocial, 0, 85, Short.MAX_VALUE)
+                .addComponent(cbObraSocial, 0, 89, Short.MAX_VALUE)
                 .addGap(36, 36, 36)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -218,11 +218,8 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(10, 10, 10)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
@@ -234,7 +231,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(10, 10, 10))
         );
     }// </editor-fold>//GEN-END:initComponents
 

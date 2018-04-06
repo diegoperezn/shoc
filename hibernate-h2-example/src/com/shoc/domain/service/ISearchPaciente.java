@@ -5,6 +5,8 @@
  */
 package com.shoc.domain.service;
 
+import java.util.Date;
+
 /**
  *
  * @author diego
@@ -13,5 +15,7 @@ public interface ISearchPaciente {
     
     public String getNombre();
     public Boolean getActivo();
+    public Date getDesdeBaja();
+    public Date getHastaBaja();
             
 }

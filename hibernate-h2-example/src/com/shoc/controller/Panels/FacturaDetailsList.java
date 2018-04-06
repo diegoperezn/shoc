@@ -14,6 +14,7 @@ import com.shoc.domain.service.FacturaService;
 import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
 import com.shoc.domain.utils.DateUtils;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,8 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     PacienteService pService = PacienteService.getInstance();
     ObraSocialService obService = ObraSocialService.getInstance();
 
+    SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
+    
     /**
      * Creates new form ObraSocialList
      */
@@ -58,7 +61,8 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             final String obraSocial = cuenta.getPaciente().getObraSocial() != null
                     ? cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
 
-            model.addRow(new Object[]{false, cuenta.getId(), cuenta.getFecha(), cuenta.getPaciente().getNombre(), obraSocial, cuenta.getDispositivo(),
+            model.addRow(new Object[]{false, cuenta.getId(), format.format( cuenta.getFecha() ), cuenta.getPaciente().getNombre(), 
+                obraSocial, cuenta.getDispositivo(),
                 cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
             );
@@ -147,7 +151,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                 .addGap(509, 509, 509)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -174,9 +178,9 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(321, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(322, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,15 +226,15 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbPaciente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbPaciente, 0, 97, Short.MAX_VALUE)
                         .addGap(12, 12, 12)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(cbObraSocial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbObraSocial, 0, 97, Short.MAX_VALUE)
                         .addGap(36, 36, 36)
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
-                        .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                         .addGap(30, 30, 30)
                         .addComponent(cbActivos3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
@@ -262,11 +266,8 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(10, 10, 10)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
@@ -278,7 +279,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(10, 10, 10))
         );
     }// </editor-fold>//GEN-END:initComponents
 

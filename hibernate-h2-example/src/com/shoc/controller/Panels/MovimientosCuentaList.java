@@ -230,6 +230,9 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         cuenta = service.get(cuenta.getId());
 
         fillTable();
+        
+        tfDetalle.setText(new String());
+        tfMonto.setText(new String() );
     }//GEN-LAST:event_jButton5ActionPerformed
 
 

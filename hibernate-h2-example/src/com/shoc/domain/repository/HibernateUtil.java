@@ -5,8 +5,9 @@ package com.shoc.domain.repository;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import org.hibernate.cfg.AnnotationConfiguration;
+import java.util.Properties;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /**
  * Hibernate Utility class with a convenient method to get Session Factory
@@ -19,20 +20,18 @@ public class HibernateUtil {
     private static final SessionFactory sessionFactory;
 
     //private static Logger logger = Logger.getGlobal();
-
     static {
+
         try {
-            // Create the SessionFactory from standard (hibernate.cfg.xml) 
-            // config file.
-            //logger.info("Creando conexion");
             
-            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+            Properties dbConnectionProperties = System.getProperties();
+            
+            sessionFactory = new Configuration().mergeProperties(dbConnectionProperties).configure().buildSessionFactory();
         } catch (Throwable ex) {
             // Log the exception. 
             System.err.println("Initial SessionFactory creation failed." + ex);
-            
+
             //logger.severe( ex.getMessage() );
-            
             throw new ExceptionInInitializerError(ex);
         }
     }

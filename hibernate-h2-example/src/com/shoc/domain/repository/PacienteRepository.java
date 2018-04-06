@@ -42,11 +42,33 @@ public class PacienteRepository extends Repository<Paciente> {
         DetachedCriteria c = this.createCriteria();
         Criterion crtrn;
 
+        Criterion egresoDates = null;
+        if (filter.getDesdeBaja() != null
+                || filter.getHastaBaja() != null) {
+            if (filter.getDesdeBaja() != null && filter.getHastaBaja() != null) {
+                egresoDates
+                        = Restrictions.between("egreso", filter.getDesdeBaja(), filter.getHastaBaja());
+            } else if (filter.getDesdeBaja() != null) {
+                egresoDates
+                        = Restrictions.ge("egreso", filter.getDesdeBaja());
+            } else if (filter.getHastaBaja() != null) {
+                egresoDates
+                        = Restrictions.le("egreso", filter.getHastaBaja());
+            }
+        }
+
         c.add(Restrictions.ilike("nombre", "%" + filter.getNombre() + "%"));
         if (filter.getActivo()) {
-            c.add(Restrictions.isNull("egreso"));
+            if (egresoDates != null) {
+                c.add(Restrictions.or(Restrictions.isNull("egreso"), egresoDates));
+            } else {
+                c.add(Restrictions.isNull("egreso"));
+            }
         } else {
             c.add(Restrictions.isNotNull("egreso"));
+            if (egresoDates != null) {
+                c.add(egresoDates);
+            }
         }
 
         return this.listByCriteria(c);
