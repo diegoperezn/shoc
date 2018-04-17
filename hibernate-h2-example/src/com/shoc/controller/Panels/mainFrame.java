@@ -8,6 +8,7 @@ package com.shoc.controller.Panels;
 import com.shoc.afip.authen.AfipAuthentification;
 import com.shoc.afip.authen.AfipAuthentificationService;
 import com.shoc.domain.service.PropiedadService;
+import com.shoc.domain.service.personasFinderService;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
@@ -29,7 +30,8 @@ import org.apache.log4j.Logger;
 public class mainFrame extends javax.swing.JFrame {
 
     private PropiedadService service = PropiedadService.getInstance();
-
+    private personasFinderService pservice = personasFinderService.getInstance();
+    
     private boolean readProperties = true;
 
     final static Logger logger = Logger.getLogger(mainFrame.class);
@@ -48,7 +50,8 @@ public class mainFrame extends javax.swing.JFrame {
             buildDatabase();
 
             //agregarIcon();
-            conectarAfip();
+            
+            //pservice.buscarPersona(Long.MIN_VALUE);
         } catch (Exception ex) {
             logger.error(null, ex);
         }
@@ -85,14 +88,6 @@ public class mainFrame extends javax.swing.JFrame {
         for (Map.Entry<Object, Object> entry : ps.entrySet()) {
             logger.info(entry.getKey() + ": " + entry.getValue());
         }
-    }
-
-    private void conectarAfip() throws FileNotFoundException {
-        AfipAuthentification auth = AfipAuthentificationService.autentificarAfip();
-
-        System.setProperty("shoc.afip.auth.token", auth.getToken());
-        System.setProperty("shoc.afip.auth.sign", auth.getSign());
-        System.setProperty("shoc.afip.auth.cuit", "20326416763");
     }
 
     private void agregarIcon() throws URISyntaxException, IOException {

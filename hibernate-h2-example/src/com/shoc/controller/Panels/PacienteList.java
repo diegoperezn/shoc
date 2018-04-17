@@ -47,8 +47,9 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         list.forEach((paciente) -> {
             final String obraSocial = paciente.getObraSocial() != null ? paciente.getObraSocial().getRazonSocial() : "Particular";
             final String baja = paciente.getEgreso() != null ? format.format(paciente.getEgreso()) : null;
-            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), obraSocial,
-                baja, paciente.getDispositivoTerapia(), paciente.getTerapista()});
+            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), paciente.getDocumento(),
+                format.format(paciente.getIngreso()), baja, format.format(paciente.getVencimientoBeca()),
+                paciente.getDispositivoTerapia(), paciente.getTerapista(), obraSocial});
         });
     }
 
@@ -113,7 +114,6 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dpDesdeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -143,14 +143,15 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
                     .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbActivos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dpHastaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(dpDesdeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(dpHastaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)))
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton5)
+                        .addComponent(jButton4)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -182,14 +183,14 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
             },
             new String [] {
-                "ID", "Nombre", "Obra Social", "Fecha Baja", "Dispositivo", "Terapista"
+                "H.C.", "Nombre", "DNI", "Fecha Ingreso", "Fecha Baja", "Venc. Beca", "Fase", "Terapista", "Obra Social"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -203,8 +204,8 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         tablePacientes.setFillsViewportHeight(true);
         tablePacientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tablePacientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablePacientesMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablePacientesMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(tablePacientes);
@@ -280,10 +281,6 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tablePacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePacientesMouseClicked
-
-    }//GEN-LAST:event_tablePacientesMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
@@ -380,6 +377,16 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void tablePacientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePacientesMousePressed
+        if (evt.getClickCount() == 2) {
+            DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
+            Long selectedId = Long.valueOf(model.getValueAt(tablePacientes.getSelectedRow(), 0).toString());
+
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new PacienteCreacion(selectedId, true), this);    // TODO add your handling code here:
+        }
+    }//GEN-LAST:event_tablePacientesMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -346,6 +346,11 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tfLocalidad">
+          <Properties>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="dpIngreso"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RequiredTextfield()"/>
           </AuxValues>

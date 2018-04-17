@@ -283,6 +283,8 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Domicilio"));
 
+        tfLocalidad.setNextFocusableComponent(dpIngreso);
+
         lProvincia.setText("Provincia:");
 
         lLocalidad.setText("Localidad:");

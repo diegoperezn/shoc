@@ -71,8 +71,8 @@
 				</box>
 				<textField isBlankWhenNull="false">
 					<reportElement x="0" y="0" width="277" height="29"/>
-					<textElement textAlignment="Center" verticalAlignment="Bottom">
-						<font fontName="Helvetica" size="20" isBold="true"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="20" isBold="true"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$P{finder}.find("nombreTitulo")]]></textFieldExpression>
 				</textField>

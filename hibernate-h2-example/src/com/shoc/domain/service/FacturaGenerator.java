@@ -80,9 +80,7 @@ public class FacturaGenerator implements IParamentroFinder {
     // This method generates a PDF report 
     public JRViewer generatePdfReport(Long id) throws JRException {
 
-        //JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
-        
-        
+        JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
         
         final Factura factura = this.fService.get(id);
 
