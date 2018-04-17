@@ -82,6 +82,8 @@ public class FacturaGenerator implements IParamentroFinder {
 
         JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
         
+        
+        
         final Factura factura = this.fService.get(id);
 
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(factura.getDetails());
