@@ -38,6 +38,9 @@ public class Factura {
     private CuentaCorrienteMovimiento movimiento;
     private Date fecha;
     private Double total;
+    private Double subtotal;
+    private Double importeNoGravado;
+    private Double importeGravado;
 
     public Factura() {
     }
@@ -47,6 +50,10 @@ public class Factura {
         this.details.forEach(d -> d.setFactura(this));
         this.paciente = p;
         this.fecha = new Date();
+        
+        this.subtotal = details.stream().mapToDouble(d -> d.getMonto()).sum();
+        this.importeNoGravado = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? 0 : d.getMonto()).sum();
+        this.importeGravado = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? d.getMonto() : 0).sum();
         this.total = details.stream().mapToDouble(d -> d.getMontoFinal()).sum();
         
         this.obraSocial = ob;
@@ -139,4 +146,28 @@ public class Factura {
         this.fecha = fecha;
     }
 
+    public Double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public Double getImporteNoGravado() {
+        return importeNoGravado;
+    }
+
+    public void setImporteNoGravado(Double importeNoGravado) {
+        this.importeNoGravado = importeNoGravado;
+    }
+
+    public Double getImporteGravado() {
+        return importeGravado;
+    }
+
+    public void setImporteGravado(Double importeGravado) {
+        this.importeGravado = importeGravado;
+    }
+    
 }

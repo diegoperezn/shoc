@@ -7,8 +7,10 @@ package com.shoc.domain.repository;
 
 import ar.gov.afip.wsmtxca.service.impl.service.AuthRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.CodigoDescripcionType;
+import ar.gov.afip.wsmtxca.service.impl.service.ConsultaUltimoComprobanteAutorizadoRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultarPuntosVentaRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultarTiposComprobanteRequestType;
+import ar.gov.afip.wsmtxca.service.impl.service.ConsultarUltimoComprobanteAutorizadoRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.ExceptionFaultMsg;
 import ar.gov.afip.wsmtxca.service.impl.service.MTXCAService;
 import ar.gov.afip.wsmtxca.service.impl.service.MTXCAServicePortType;
@@ -108,8 +110,18 @@ public class AfipTiposRepository {
         //port.autorizarComprobante(parameters);
     }
 
-    public int consultarUltimoComprobante(short codigoTipoComprobante, short numeroPuntoVenta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int consultarUltimoComprobante(SociedadEnum sociedadEnum, short codigoTipoComprobante, short numeroPuntoVenta) throws ExceptionFaultMsg, IOException {
+        ConsultarUltimoComprobanteAutorizadoRequestType parameters = new ConsultarUltimoComprobanteAutorizadoRequestType();
+        
+        parameters.setAuthRequest(buildAuth(sociedadEnum));
+        
+        ConsultaUltimoComprobanteAutorizadoRequestType value = new ConsultaUltimoComprobanteAutorizadoRequestType();
+        value.setCodigoTipoComprobante(codigoTipoComprobante);
+        value.setNumeroPuntoVenta(numeroPuntoVenta);
+        
+        parameters.setConsultaUltimoComprobanteAutorizadoRequest(value);
+        
+        return port.consultarUltimoComprobanteAutorizado(parameters).getNumeroComprobante();
     }
 
 }

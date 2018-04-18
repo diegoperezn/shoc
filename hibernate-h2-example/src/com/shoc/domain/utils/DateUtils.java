@@ -47,4 +47,20 @@ public class DateUtils {
         return DateUtils.getMinimaFecha(fechaCambio).equals(DateUtils.getMinimaFecha(desde));
     }
 
+    public static Calendar getMaximaFecha(Date fecha) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        cal.add(Calendar.MONTH, 1);
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        
+        return cal;
+    }
+
 }

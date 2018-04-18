@@ -5,6 +5,7 @@
  */
 package com.shoc.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  *
@@ -28,7 +30,7 @@ public class FacturaDetail {
     private Integer dias;
     private Double monto;
     private Double alicuota;
-    private Double montoFinal;
+    private Double montoAlicuota;
     private Date fecha;
 
     public FacturaDetail() {
@@ -43,7 +45,7 @@ public class FacturaDetail {
             this.costoDispositivo = Double.valueOf("0");
         }
         this.fecha = f.getFecha();
-        this.alicuota = Double.valueOf("0.15");
+        this.alicuota = f.getPaciente().getGravado() ? Double.valueOf("10.5") : 0;
         this.dias = 0;
         this.monto = Double.valueOf("0");
     }
@@ -98,15 +100,24 @@ public class FacturaDetail {
 
     @Column
     public Double getMontoFinal() {
-        return montoFinal;
+        return monto + montoAlicuota;
+    }
+
+    @Transient
+    public String getDescripcion() {
+        SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
+        
+        return this.paciente.toString().concat(" - (")
+                .concat(paciente.getDocumento()).concat(") - ")
+                .concat(" - ").concat(format.format(this.fecha));
     }
 
     public void setAlicuota(Double alicuota) {
         this.alicuota = alicuota;
     }
 
-    public void setMontoFinal(Double montoFinal) {
-        this.montoFinal = montoFinal;
+    public void setMontoAlicuota(Double montoAlicuota) {
+        this.montoAlicuota = montoAlicuota;
     }
 
     public void setId(Long id) {
@@ -136,7 +147,7 @@ public class FacturaDetail {
     public void setMonto(Double monto) {
         if (monto != null) {
             this.monto = monto;
-            this.montoFinal = this.monto + (this.monto * this.alicuota);
+            this.montoAlicuota = this.monto * this.alicuota;
         }
     }
 
