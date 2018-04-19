@@ -6,7 +6,11 @@
 package com.shoc.domain.repository;
 
 import ar.gov.afip.wsmtxca.service.impl.service.AuthRequestType;
+import ar.gov.afip.wsmtxca.service.impl.service.AutorizarComprobanteRequestType;
+import ar.gov.afip.wsmtxca.service.impl.service.AutorizarComprobanteResponseType;
 import ar.gov.afip.wsmtxca.service.impl.service.CodigoDescripcionType;
+import ar.gov.afip.wsmtxca.service.impl.service.ComprobanteCAEResponseType;
+import ar.gov.afip.wsmtxca.service.impl.service.ComprobanteType;
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultaUltimoComprobanteAutorizadoRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultarPuntosVentaRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultarTiposComprobanteRequestType;
@@ -15,6 +19,7 @@ import ar.gov.afip.wsmtxca.service.impl.service.ExceptionFaultMsg;
 import ar.gov.afip.wsmtxca.service.impl.service.MTXCAService;
 import ar.gov.afip.wsmtxca.service.impl.service.MTXCAServicePortType;
 import ar.gov.afip.wsmtxca.service.impl.service.PuntoVentaType;
+import ar.gov.afip.wsmtxca.service.impl.service.ResultadoSimpleType;
 import com.shoc.afip.authen.AfipAuthentification;
 import com.shoc.afip.authen.AfipAuthentificationService;
 import com.shoc.domain.SociedadEnum;
@@ -105,9 +110,19 @@ public class AfipTiposRepository {
         return new ArrayList<>();
     }
     
-    public void enviarFactura() {
+    public ComprobanteCAEResponseType enviarFactura(SociedadEnum sociedadEnum, ComprobanteType comprobante) 
+            throws IOException, ExceptionFaultMsg, AfipException {
+        AutorizarComprobanteRequestType parameters = new AutorizarComprobanteRequestType();
+        parameters.setAuthRequest(buildAuth(sociedadEnum));
+        parameters.setComprobanteCAERequest(comprobante);
         
-        //port.autorizarComprobante(parameters);
+        AutorizarComprobanteResponseType response = port.autorizarComprobante(parameters);
+        
+        if (response.getResultado().equals(ResultadoSimpleType.R)) {
+            throw new AfipException(response.getArrayErrores().getCodigoDescripcion());
+        }
+        
+        return response.getComprobanteResponse();
     }
 
     public int consultarUltimoComprobante(SociedadEnum sociedadEnum, short codigoTipoComprobante, short numeroPuntoVenta) throws ExceptionFaultMsg, IOException {
@@ -123,5 +138,6 @@ public class AfipTiposRepository {
         
         return port.consultarUltimoComprobanteAutorizado(parameters).getNumeroComprobante();
     }
+
 
 }

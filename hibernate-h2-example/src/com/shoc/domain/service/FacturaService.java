@@ -5,12 +5,16 @@
  */
 package com.shoc.domain.service;
 
+import ar.gov.afip.wsmtxca.service.impl.service.CodigoDescripcionType;
+import ar.gov.afip.wsmtxca.service.impl.service.ComprobanteCAEResponseType;
 import com.shoc.controller.Panels.FacturaList;
 import com.shoc.domain.Factura;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.ObraSocial;
 import com.shoc.domain.Paciente;
+import com.shoc.domain.SociedadEnum;
 import com.shoc.domain.repository.FacturaRepository;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,6 +63,20 @@ public class FacturaService {
         Factura factura = new Factura(p, ob, details);
         
         repo.save(factura);
+    }
+    
+    
+    public void marcarFacturaComoEnviadaAfip(Factura f, ComprobanteCAEResponseType response, CodigoDescripcionType codigoDescripcionType, SociedadEnum sociedadEnum) {
+        f.setCae(String.valueOf(response.getCAE()));
+        f.setNumeroComprobante(response.getNumeroComprobante());
+        f.setFechaEmision(new Date(response.getFechaEmision().getMillisecond()));
+        f.setFechaVencimiento(new Date(response.getFechaVencimientoCAE().getMillisecond()));
+        f.setTipoComprobante(codigoDescripcionType.getDescripcion());
+        //f.setPuntoDeVenta(puntoVentaType.toString());
+        f.setPuntoDeVenta("0001");
+        f.setSociedad(sociedadEnum.toString());
+        
+        repo.save(f);
     }
 
     public List<Factura> listAll() {

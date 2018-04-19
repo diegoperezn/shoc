@@ -109,4 +109,11 @@ public class PuntoVentaType {
         this.fechaBaja = value;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(numeroPuntoVenta);
+    }
+    
+    
+
 }

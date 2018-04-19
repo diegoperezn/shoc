@@ -45,7 +45,7 @@ public class FacturaDetail {
             this.costoDispositivo = Double.valueOf("0");
         }
         this.fecha = f.getFecha();
-        this.alicuota = f.getPaciente().getGravado() ? Double.valueOf("10.5") : 0;
+        this.alicuota = f.getPaciente().getGravado() ? Double.valueOf("0.105") : 0;
         this.dias = 0;
         this.monto = Double.valueOf("0");
     }
@@ -98,7 +98,7 @@ public class FacturaDetail {
         return alicuota;
     }
 
-    @Column
+    @Transient
     public Double getMontoFinal() {
         return monto + montoAlicuota;
     }
@@ -112,6 +112,13 @@ public class FacturaDetail {
                 .concat(" - ").concat(format.format(this.fecha));
     }
 
+    @Column
+    public Double getMontoAlicuota() {
+        return montoAlicuota;
+    }
+   
+    
+    
     public void setAlicuota(Double alicuota) {
         this.alicuota = alicuota;
     }

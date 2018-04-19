@@ -73,6 +73,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         this.dpAusencia.setDate(p.getAusencia());
         this.dpEgreso.setDate(p.getEgreso());
         this.taEgreso.setText(p.getCausalEgreso());
+        this.cbGravado.setSelected(p.getGravado());
     }
 
     public void initFields() {

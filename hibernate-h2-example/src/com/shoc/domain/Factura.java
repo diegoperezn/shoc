@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
@@ -41,6 +40,14 @@ public class Factura {
     private Double subtotal;
     private Double importeNoGravado;
     private Double importeGravado;
+    private String cae;
+    private String tipoComprobante;
+    private Integer numeroComprobante;
+    private String puntoDeVenta;
+    private Date fechaEmision;
+    private Date fechaVencimiento;
+    private String sociedad;
+    private Double montoIva;
 
     public Factura() {
     }
@@ -50,12 +57,13 @@ public class Factura {
         this.details.forEach(d -> d.setFactura(this));
         this.paciente = p;
         this.fecha = new Date();
-        
+
         this.subtotal = details.stream().mapToDouble(d -> d.getMonto()).sum();
         this.importeNoGravado = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? 0 : d.getMonto()).sum();
         this.importeGravado = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? d.getMonto() : 0).sum();
+        this.montoIva = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? d.getMontoAlicuota() : 0).sum();
         this.total = details.stream().mapToDouble(d -> d.getMontoFinal()).sum();
-        
+
         this.obraSocial = ob;
         if (ob != null) {
             this.movimiento = new CuentaCorrienteMovimiento(this, ob.getCuenta());
@@ -69,7 +77,7 @@ public class Factura {
     }
 
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Fetch (FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SUBSELECT)
     public List<FacturaDetail> getDetails() {
         return details;
     }
@@ -102,21 +110,39 @@ public class Factura {
     public Double getTotal() {
         return total;
     }
-    
-    @Transient
-    public String getCAE() {
-        return "123123123";
-    }
-    
-    @Transient
+
+    @Column
     public String getTipoComprobante() {
-        return "A";
+        return tipoComprobante;
     }
 
-    @Transient
-    public String getPuntoVenta() {
-        return "0003";
+    @Column
+    public Date getFechaEmision() {
+        return fechaEmision;
     }
+
+    @Column
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    @Column
+    public Integer getNumeroComprobante() {
+        return numeroComprobante;
+    }
+
+    @Column
+    public Double getMontoIva() {
+        return montoIva;
+    }
+
+    
+    
+    public void setNumeroComprobante(Integer numeroComprobante) {
+        this.numeroComprobante = numeroComprobante;
+    }
+
+    
     
     public void setMovimiento(CuentaCorrienteMovimiento movimiento) {
         this.movimiento = movimiento;
@@ -146,6 +172,7 @@ public class Factura {
         this.fecha = fecha;
     }
 
+    @Column
     public Double getSubtotal() {
         return subtotal;
     }
@@ -154,6 +181,7 @@ public class Factura {
         this.subtotal = subtotal;
     }
 
+    @Column
     public Double getImporteNoGravado() {
         return importeNoGravado;
     }
@@ -162,6 +190,7 @@ public class Factura {
         this.importeNoGravado = importeNoGravado;
     }
 
+    @Column
     public Double getImporteGravado() {
         return importeGravado;
     }
@@ -169,5 +198,58 @@ public class Factura {
     public void setImporteGravado(Double importeGravado) {
         this.importeGravado = importeGravado;
     }
+
+    @Column
+    public String getCae() {
+        return cae;
+    }
+
+    public void setCae(String cae) {
+        this.cae = cae;
+    }
+
+    /**
+     * @param tipoComprobante the tipoComprobante to set
+     */
+    public void setTipoComprobante(String tipoComprobante) {
+        this.tipoComprobante = tipoComprobante;
+    }
+
+    @Column
+    public String getPuntoDeVenta() {
+        return puntoDeVenta;
+    }
     
+    public void setPuntoDeVenta(String puntoDeVenta) {
+        this.puntoDeVenta = puntoDeVenta;
+    }
+    
+    public void setFechaEmision(Date fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    } 
+    
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    @Column
+    public String getSociedad() {
+        return sociedad;
+    }
+
+    public void setSociedad(String sociedad) {
+        this.sociedad = sociedad;
+    }
+
+    public boolean eviadaAfip() {
+        return this.cae != null;
+    }
+
+    /**
+     * @param montoIva the montoIva to set
+     */
+    public void setMontoIva(Double montoIva) {
+        this.montoIva = montoIva;
+    }
+
 }
