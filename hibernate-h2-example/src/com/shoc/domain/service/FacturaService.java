@@ -35,7 +35,7 @@ public class FacturaService {
 
     private final FacturaRepository repo = FacturaRepository.getInstance();
 
-    public void crearFactura(IFaturaDetailsSearch filter, List<FacturaDetail> details) {
+    public Factura crearFactura(IFaturaDetailsSearch filter, List<FacturaDetail> details) {
 
         Paciente p = filter.getPaciente();
         if (p == null) {
@@ -63,6 +63,8 @@ public class FacturaService {
         Factura factura = new Factura(p, ob, details);
         
         repo.save(factura);
+        
+        return factura;
     }
     
     
@@ -87,8 +89,16 @@ public class FacturaService {
         return repo.get(id);
     }
 
+     public void delete(Factura f) {
+        
+    }
+    
     public void deleteById(Long selectedId) {
-        this.repo.delete(selectedId);
+        Factura f = this.get(selectedId);
+        
+        f.getMovimiento().getCuenta().getMovimientos().remove(f.getMovimiento());
+        
+        this.repo.delete(f);
     }
 
     public List<Factura> search(FacturaList filter) {

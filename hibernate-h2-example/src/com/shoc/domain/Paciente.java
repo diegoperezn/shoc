@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import org.bouncycastle.util.Strings;
@@ -61,6 +62,8 @@ public class Paciente implements IPaciente, ICliente {
     private String provincia;
     private String localidad;
     private String codigoPostal;
+    
+    private CuentaCorriente cuenta;
 
     public Paciente() {
         // this form used by Hibernate
@@ -94,6 +97,10 @@ public class Paciente implements IPaciente, ICliente {
     }
      */
     public void actualizar(IPaciente iPaciente) {
+        if (this.obraSocial == null && this.cuenta == null) {
+            this.cuenta = new CuentaCorriente(this);
+        }
+        
         this.nombre = iPaciente.getNombre();
         this.documento = iPaciente.getDocumento();
         this.observaciones = iPaciente.getObservaciones();
@@ -215,6 +222,10 @@ public class Paciente implements IPaciente, ICliente {
         this.codigoPostal = codigoPostal;
     }
 
+    public void setCuenta(CuentaCorriente cuenta) {
+        this.cuenta = cuenta;
+    }
+    
     @Id
     @GeneratedValue
     @Override
@@ -415,6 +426,11 @@ public class Paciente implements IPaciente, ICliente {
     @Transient
     public String getCategoriaIva() {
         return "Consumidor Final";
+    }
+
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
+    public CuentaCorriente getCuenta() {
+        return cuenta;
     }
 
 }

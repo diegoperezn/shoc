@@ -16,7 +16,6 @@ import com.shoc.domain.service.FacturaGenerator;
 import com.shoc.domain.service.FacturaService;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
@@ -43,7 +42,6 @@ public class FacturaDetails extends javax.swing.JPanel {
     SimpleDateFormat completeFormat = new SimpleDateFormat("dd/MM/yyyy");
     DecimalFormat currencyFormatter = new DecimalFormat("$ ##.##");
     DecimalFormat df = new DecimalFormat("##.##%");
-    
 
     /**
      * Creates new form ObraSocialList
@@ -59,7 +57,6 @@ public class FacturaDetails extends javax.swing.JPanel {
     private void popularPanel() {
 
         if (f.getObraSocial() == null) {
-            bCuentaCorriente.setVisible(false);
             pObraSocial.setVisible(false);
         } else {
             obLabel.setText(f.getObraSocial().getRazonSocial());
@@ -72,8 +69,6 @@ public class FacturaDetails extends javax.swing.JPanel {
         }
 
         fLabel.setText(f.getFecha().toString());
-
-        
 
         lNoGrav.setText(currencyFormatter.format(f.getImporteNoGravado()));
         lGrav.setText(currencyFormatter.format(f.getImporteGravado()));
@@ -98,14 +93,15 @@ public class FacturaDetails extends javax.swing.JPanel {
 
     private void fillTable(List<FacturaDetail> list) {
         DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
+        model.setRowCount(0);
 
         list.forEach((cuenta) -> {
             final String obraSocial = cuenta.getPaciente().getObraSocial() != null
                     ? cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
-            model.addRow(new Object[]{cuenta.getPaciente().getNombre(), 
+            model.addRow(new Object[]{cuenta.getPaciente().getNombre(),
                 format.format(cuenta.getFecha()), obraSocial, cuenta.getDispositivo(),
-                cuenta.getDias(), currencyFormatter.format(cuenta.getCostoDispositivo()), 
-                df.format(cuenta.getAlicuota()), currencyFormatter.format(cuenta.getMontoAlicuota()), 
+                cuenta.getDias(), currencyFormatter.format(cuenta.getCostoDispositivo()),
+                df.format(cuenta.getAlicuota()), currencyFormatter.format(cuenta.getMontoAlicuota()),
                 currencyFormatter.format(cuenta.getMonto()), currencyFormatter.format(cuenta.getMontoFinal())
             }
             );
@@ -669,7 +665,8 @@ public class FacturaDetails extends javax.swing.JPanel {
 
     private void bCuentaCorrienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCuentaCorrienteActionPerformed
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new MovimientosCuentaList(f.getObraSocial().getCuenta().getId()), this);
+        final Long cuentaId = f.getObraSocial() != null ? f.getObraSocial().getCuenta().getId() : f.getPaciente().getCuenta().getId();
+        topFrame.changePanel(new MovimientosCuentaList(cuentaId), this);
     }//GEN-LAST:event_bCuentaCorrienteActionPerformed
 
     FacturaGenerator service = FacturaGenerator.getInstance();
@@ -736,11 +733,7 @@ public class FacturaDetails extends javax.swing.JPanel {
         } catch (AfipException ex) {
             String errores = new String();
 
-            for (CodigoDescripcionType error : ex.getErrores()) {
-                errores.concat(error.getDescripcion()).concat("\\n\\r");
-            }
-
-            JOptionPane.showMessageDialog(this, errores, "AFIP errores", JOptionPane.ERROR);
+            JOptionPane.showMessageDialog(this, ex.getErrores(), "AFIP errores", JOptionPane.ERROR_MESSAGE);
 
             Logger.getLogger(FacturaDetails.class.getName()).log(Level.SEVERE, null, ex);
         }

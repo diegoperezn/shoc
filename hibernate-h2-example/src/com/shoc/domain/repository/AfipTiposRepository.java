@@ -15,6 +15,7 @@ import ar.gov.afip.wsmtxca.service.impl.service.ConsultaUltimoComprobanteAutoriz
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultarPuntosVentaRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultarTiposComprobanteRequestType;
 import ar.gov.afip.wsmtxca.service.impl.service.ConsultarUltimoComprobanteAutorizadoRequestType;
+import ar.gov.afip.wsmtxca.service.impl.service.ConsultarUltimoComprobanteAutorizadoResponseType;
 import ar.gov.afip.wsmtxca.service.impl.service.ExceptionFaultMsg;
 import ar.gov.afip.wsmtxca.service.impl.service.MTXCAService;
 import ar.gov.afip.wsmtxca.service.impl.service.MTXCAServicePortType;
@@ -136,7 +137,9 @@ public class AfipTiposRepository {
         
         parameters.setConsultaUltimoComprobanteAutorizadoRequest(value);
         
-        return port.consultarUltimoComprobanteAutorizado(parameters).getNumeroComprobante();
+        ConsultarUltimoComprobanteAutorizadoResponseType response = port.consultarUltimoComprobanteAutorizado(parameters);
+        
+        return response.getNumeroComprobante() != null ? response.getNumeroComprobante() : 0;
     }
 
 

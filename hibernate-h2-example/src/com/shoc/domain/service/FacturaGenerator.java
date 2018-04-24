@@ -28,18 +28,26 @@ public class FacturaGenerator implements IParamentroFinder {
         return instance;
     }
 
+    //String sourceFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura_1.jrxml";
+    String facturaA = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/FacturaA.jasper";
+    String facturaB = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/FacturaB.jasper";
+    //String printFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura_1.jrprint";
+    //String pdfFile = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/{name}.pdf";
+
+    /*
     String sourceFileName = "./Factura.jrxml";
-    String destFileName = "./Factura.jasper";
+    String facturaA = "./FacturaA.jasper";
+    String facturaB = "./FacturaB.jasper";
     String printFileName = "./Factura.jrprint";
     String pdfFile = "./{name}.pdf";
-
+     */
     private PropiedadService pService = PropiedadService.getInstance();
     private FacturaService fService = FacturaService.getInstance();
 
     public static void main(String[] args) throws JRException {
         FacturaGenerator r = new FacturaGenerator();
 
-        r.generatePdfReport(Long.valueOf("47"));
+        r.generatePdfReport(Long.valueOf("69"));
     }
 
     //private static final Logger logger = LoggerFactory;
@@ -80,22 +88,22 @@ public class FacturaGenerator implements IParamentroFinder {
     // This method generates a PDF report 
     public JRViewer generatePdfReport(Long id) throws JRException {
 
-        JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
-        
-        
-        
+        //JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
         final Factura factura = this.fService.get(id);
+
+        String facturaJasper = facturaA;
+        if (factura.getObraSocial() == null) {
+            facturaJasper = facturaB;
+        }
 
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(factura.getDetails());
 
         Map parameters = new HashMap();
         agregarShocValores(parameters, factura);
 
-        JasperPrint report = JasperFillManager.fillReport(destFileName, parameters, beanColDataSource);
+        JasperPrint report = JasperFillManager.fillReport(facturaJasper, parameters, beanColDataSource);
 
-        JasperExportManager.exportReportToPdfFile(report,
-                pdfFile.replace("{name}", "factura_" + id));
-
+        //JasperExportManager.exportReportToPdfFile(report, pdfFile.replace("{name}", "factura_" + id));
         return new JRViewer(report);
     }
 

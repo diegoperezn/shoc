@@ -5,6 +5,7 @@
  */
 package com.shoc.controller.Panels;
 
+import com.shoc.domain.Factura;
 import com.shoc.domain.service.IFaturaDetailsSearch;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.ObraSocial;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,7 +36,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     ObraSocialService obService = ObraSocialService.getInstance();
 
     SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
-    
+
     /**
      * Creates new form ObraSocialList
      */
@@ -61,7 +63,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             final String obraSocial = cuenta.getPaciente().getObraSocial() != null
                     ? cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
 
-            model.addRow(new Object[]{false, cuenta.getId(), format.format( cuenta.getFecha() ), cuenta.getPaciente().getNombre(), 
+            model.addRow(new Object[]{false, cuenta.getId(), format.format(cuenta.getFecha()), cuenta.getPaciente().getNombre(),
                 obraSocial, cuenta.getDispositivo(),
                 cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
             }
@@ -83,6 +85,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCuentas = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -143,19 +146,28 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             }
         });
 
+        jButton5.setText("Facturar y ver");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(509, 509, 509)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                .addGap(10, 10, 10))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -163,11 +175,12 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
-                    .addComponent(jButton1))
-                .addGap(10, 10, 10))
+                    .addComponent(jButton1)
+                    .addComponent(jButton5))
+                .addGap(9, 9, 9))
         );
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -178,9 +191,9 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(321, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,15 +239,15 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbPaciente, 0, 97, Short.MAX_VALUE)
+                        .addComponent(cbPaciente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(12, 12, 12)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(cbObraSocial, 0, 97, Short.MAX_VALUE)
+                        .addComponent(cbObraSocial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(36, 36, 36)
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
-                        .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                        .addComponent(dpMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(30, 30, 30)
                         .addComponent(cbActivos3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
@@ -295,7 +308,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
                 if ( dias != null && costo != null ) {
                     
                 }
-                */
+                 */
                 final double totalMes = dias * costo;
                 model.setValueAt(totalMes,
                         i, 8
@@ -307,6 +320,14 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     }//GEN-LAST:event_tableCuentasPropertyChange
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        crearFactura();
+
+        JOptionPane.showMessageDialog(this, "La factura se creo correctamente");
+
+        fillTable(this.service.search(this));
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private Factura crearFactura() {
         List<FacturaDetail> details = new ArrayList<FacturaDetail>();
 
         for (int i = 0; i < tableCuentas.getRowCount(); i++) {
@@ -317,10 +338,8 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
         }
 
-        this.fService.crearFactura(this, details);
-
-        fillTable(this.service.search(this));
-    }//GEN-LAST:event_jButton4ActionPerformed
+        return this.fService.crearFactura(this, details);
+    }
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         fillTable(this.service.generarYlistarFacuraDetails(this));
@@ -336,7 +355,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
             JOptionPane.showMessageDialog(this, "Por favor seleccione un detalle de factura", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            Long selectedId = Long.valueOf(model.getValueAt(tableCuentas.getSelectedRow(), 0).toString());
+            Long selectedId = Long.valueOf(model.getValueAt(tableCuentas.getSelectedRow(), 1).toString());
             //System.out.println(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar la obra social"));
 
             if (JOptionPane.showConfirmDialog(this, "Seguro desea eliminar el detalle") == 0) {
@@ -352,6 +371,13 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Factura f = crearFactura();
+
+        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.changePanel(new FacturaDetails(f.getId()), this);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbActivos3;
@@ -360,6 +386,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     private org.jdesktop.swingx.JXDatePicker dpMes;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;

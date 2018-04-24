@@ -40,18 +40,20 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         cbObraSocial.addItem(null);
         obService.listAll().forEach(ob -> cbObraSocial.addItem(ob));
 
-        fillTable(service.search(this));
+        fillTable();
     }
 
-    private void fillTable(List<Factura> list) {
+    private void fillTable() {
+        List<Factura> list = service.search(this);
+
         DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
         model.setRowCount(0);
 
         list.forEach((factura) -> {
-            final String paciente = factura.getPaciente() != null ? 
-                    factura.getPaciente().getNombre() : null;
-            final String obraSocial = factura.getObraSocial() != null ? 
-                    factura.getObraSocial().getRazonSocial() : null;
+            final String paciente = factura.getPaciente() != null
+                    ? factura.getPaciente().getNombre() : null;
+            final String obraSocial = factura.getObraSocial() != null
+                    ? factura.getObraSocial().getRazonSocial() : null;
 
             model.addRow(new Object[]{factura.getId(), factura.getFecha(), paciente,
                 obraSocial, factura.getTotal()
@@ -73,6 +75,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         facturaTable = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -117,15 +120,29 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
             }
         });
         facturaTable.setFillsViewportHeight(true);
+        facturaTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                facturaTableMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(facturaTable);
+
+        jButton1.setText("Eliminar Factura");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(600, 600, 600)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                .addGap(497, 497, 497)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -138,7 +155,9 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
-                .addComponent(jButton4)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton1))
                 .addGap(10, 10, 10))
         );
 
@@ -236,7 +255,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        fillTable(this.service.search(this));
+        fillTable();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -247,12 +266,31 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         topFrame.changePanel(new FacturaDetails(selectedId), this);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
+        Long selectedId = Long.valueOf(model.getValueAt(facturaTable.getSelectedRow(), 0).toString());
+
+        this.service.deleteById(selectedId);
+        fillTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void facturaTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_facturaTableMousePressed
+        if (evt.getClickCount() == 2) {
+            DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
+            Long selectedId = Long.valueOf(model.getValueAt(facturaTable.getSelectedRow(), 0).toString());
+
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new FacturaDetails(selectedId), this);
+        }
+    }//GEN-LAST:event_facturaTableMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<ObraSocial> cbObraSocial;
     private javax.swing.JComboBox<Paciente> cbPaciente;
     private org.jdesktop.swingx.JXDatePicker dpMes;
     private javax.swing.JTable facturaTable;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;

@@ -29,7 +29,7 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         initComponents();
 
         cuenta = service.get(id);
-        lTitle.setText(lTitle.getText() + cuenta.getObraSocial().getRazonSocial() ); 
+        lTitle.setText(lTitle.getText() + cuenta.getNombreDuenio() ); 
 
         fillTable();
     }

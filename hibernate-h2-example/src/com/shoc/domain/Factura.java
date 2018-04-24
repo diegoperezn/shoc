@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
@@ -59,14 +60,16 @@ public class Factura {
         this.fecha = new Date();
 
         this.subtotal = details.stream().mapToDouble(d -> d.getMonto()).sum();
-        this.importeNoGravado = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? 0 : d.getMonto()).sum();
-        this.importeGravado = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? d.getMonto() : 0).sum();
-        this.montoIva = details.stream().mapToDouble(d -> d.getPaciente().getGravado() ? d.getMontoAlicuota() : 0).sum();
+        this.importeNoGravado = details.stream().mapToDouble(d -> d.isGravado() ? 0 : d.getMonto()).sum();
+        this.importeGravado = details.stream().mapToDouble(d -> d.isGravado() ? d.getMonto() : 0).sum();
+        this.montoIva = details.stream().mapToDouble(d -> d.isGravado() ? d.getMontoAlicuota() : 0).sum();
         this.total = details.stream().mapToDouble(d -> d.getMontoFinal()).sum();
 
         this.obraSocial = ob;
         if (ob != null) {
             this.movimiento = new CuentaCorrienteMovimiento(this, ob.getCuenta());
+        } else {
+            this.movimiento = new CuentaCorrienteMovimiento(this, p.getCuenta());
         }
     }
 
@@ -101,7 +104,7 @@ public class Factura {
         return fecha;
     }
 
-    @OneToOne(mappedBy = "factura", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
     public CuentaCorrienteMovimiento getMovimiento() {
         return movimiento;
     }
@@ -252,4 +255,9 @@ public class Factura {
         this.montoIva = montoIva;
     }
 
+    @Transient
+    public String getNumeroComprobanteFactura() {
+        return String.format("%08d", numeroComprobante);
+    }
+    
 }

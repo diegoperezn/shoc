@@ -32,6 +32,7 @@ public class FacturaDetail {
     private Double alicuota;
     private Double montoAlicuota;
     private Date fecha;
+    private Boolean gravado;
 
     public FacturaDetail() {
     }
@@ -45,7 +46,8 @@ public class FacturaDetail {
             this.costoDispositivo = Double.valueOf("0");
         }
         this.fecha = f.getFecha();
-        this.alicuota = f.getPaciente().getGravado() ? Double.valueOf("0.105") : 0;
+        this.gravado = f.getPaciente().getGravado();
+        this.alicuota = gravado ? Double.valueOf("0.105") : 0;
         this.dias = 0;
         this.monto = Double.valueOf("0");
     }
@@ -98,6 +100,15 @@ public class FacturaDetail {
         return alicuota;
     }
 
+    @Column
+    public Boolean isGravado() {
+        return gravado;
+    }
+
+    public void setGravado(Boolean gravado) {
+        this.gravado = gravado;
+    }
+    
     @Transient
     public Double getMontoFinal() {
         return monto + montoAlicuota;

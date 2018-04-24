@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -30,12 +31,18 @@ public class CuentaCorriente {
     private ObraSocial obraSocial;
     private List<CuentaCorrienteMovimiento> movimientos;
     private Double balance;
+    private Paciente paciente;
 
     public CuentaCorriente() {
     }
 
     public CuentaCorriente(ObraSocial obraSocial) {
         this.obraSocial = obraSocial;
+        this.balance = Double.MIN_NORMAL;
+    }
+
+    public CuentaCorriente(Paciente paciente) {
+        this.paciente = paciente;
         this.balance = Double.MIN_NORMAL;
     }
 
@@ -51,10 +58,20 @@ public class CuentaCorriente {
         return obraSocial;
     }
 
+    @OneToOne
+    @JoinColumn
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
     @OneToMany(mappedBy = "cuenta",
             cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @OrderBy (value =  "Fecha desc")
-    @Fetch (FetchMode.SUBSELECT)
+    @OrderBy(value = "Fecha desc")
+    @Fetch(FetchMode.SUBSELECT)
     public List<CuentaCorrienteMovimiento> getMovimientos() {
         return movimientos;
     }
@@ -90,6 +107,11 @@ public class CuentaCorriente {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    @Transient
+    public String getNombreDuenio() {
+        return this.getObraSocial() != null ? this.getObraSocial().getRazonSocial() : this.getPaciente().getNombre();
     }
 
 }

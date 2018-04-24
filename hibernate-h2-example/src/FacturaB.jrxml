@@ -42,7 +42,7 @@
 		<band/>
 	</background>
 	<title>
-		<band height="125">
+		<band height="148">
 			<frame>
 				<reportElement mode="Opaque" x="254" y="0" width="44" height="40"/>
 				<box>
@@ -57,17 +57,17 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="28" isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getTipoComprobante()]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getTipoComprobante().split(" ")[1]]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
-				<reportElement x="0" y="0" width="277" height="125"/>
+				<reportElement x="0" y="0" width="277" height="143"/>
 				<box>
-					<pen lineWidth="1.0" lineStyle="Solid"/>
+					<pen lineWidth="0.0" lineStyle="Solid"/>
 					<topPen lineWidth="1.0" lineStyle="Solid"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Dashed"/>
 				</box>
 				<textField isBlankWhenNull="false">
 					<reportElement x="0" y="0" width="277" height="29"/>
@@ -112,7 +112,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$P{finder}.find("email")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="103" width="277" height="15"/>
+					<reportElement x="-1" y="104" width="277" height="15"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="true"/>
 					</textElement>
@@ -120,94 +120,99 @@
 				</textField>
 			</frame>
 			<frame>
-				<reportElement x="277" y="0" width="277" height="125"/>
+				<reportElement x="277" y="0" width="277" height="143"/>
 				<box>
-					<pen lineWidth="1.0" lineStyle="Solid"/>
-					<topPen lineWidth="1.0" lineStyle="Solid"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
 				</box>
 				<frame>
-					<reportElement x="0" y="0" width="139" height="125"/>
+					<reportElement x="0" y="0" width="139" height="143"/>
 					<staticText>
-						<reportElement x="0" y="11" width="137" height="15"/>
+						<reportElement x="0" y="26" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
 						<text><![CDATA[Numero:]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="0" y="25" width="137" height="15"/>
+						<reportElement x="0" y="40" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
 						<text><![CDATA[CAE:]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="0" y="40" width="137" height="15"/>
+						<reportElement x="0" y="55" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
 						<text><![CDATA[Fecha:]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="0" y="55" width="137" height="15"/>
+						<reportElement x="0" y="70" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
 						<text><![CDATA[Punto Vta:]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="0" y="70" width="137" height="15"/>
+						<reportElement x="0" y="85" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
 						<text><![CDATA[C.U.I.T.:]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="0" y="85" width="137" height="15"/>
+						<reportElement x="0" y="100" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
 						<text><![CDATA[Ing. Brutos:]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="0" y="100" width="137" height="15"/>
+						<reportElement x="0" y="115" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
 						<text><![CDATA[Inicio Actividades:]]></text>
 					</staticText>
 				</frame>
 				<frame>
-					<reportElement x="147" y="0" width="130" height="125"/>
+					<reportElement x="147" y="0" width="130" height="143"/>
 					<textField>
-						<reportElement x="0" y="11" width="130" height="15"/>
+						<reportElement x="0" y="26" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
-						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getId()]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getNumeroComprobanteFactura()]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement x="0" y="25" width="130" height="15"/>
+						<reportElement x="0" y="40" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
-						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getCAE()]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getCae()]]></textFieldExpression>
 					</textField>
 					<textField pattern="dd/MM/yyyy">
-						<reportElement x="0" y="40" width="130" height="15"/>
+						<reportElement x="0" y="55" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
 						<textFieldExpression class="java.util.Date"><![CDATA[$P{factura}.getFecha()]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement x="0" y="55" width="130" height="15"/>
+						<reportElement x="0" y="70" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
-						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getPuntoVenta()]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getPuntoDeVenta()]]></textFieldExpression>
 					</textField>
 					<textField isBlankWhenNull="false">
-						<reportElement x="0" y="70" width="130" height="15"/>
+						<reportElement x="0" y="85" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
 						<textFieldExpression class="java.lang.String"><![CDATA[$P{finder}.find("cuit")]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement x="0" y="85" width="130" height="15"/>
+						<reportElement x="0" y="100" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
 						<textFieldExpression class="java.lang.String"><![CDATA[$P{finder}.find("ingBrutos")]]></textFieldExpression>
 					</textField>
 					<textField pattern="dd/MM/yyyy">
-						<reportElement x="0" y="100" width="130" height="15"/>
+						<reportElement x="0" y="115" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
 						<textFieldExpression class="java.util.Date"><![CDATA[$P{finder}.find("inicioActividades")]]></textFieldExpression>
 					</textField>
 				</frame>
 			</frame>
 			<line>
-				<reportElement x="276" y="40" width="1" height="85"/>
+				<reportElement x="276" y="40" width="1" height="103"/>
 			</line>
+			<staticText>
+				<reportElement x="277" y="0" width="277" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Factura]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -269,7 +274,7 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="5" width="554" height="15" backcolor="#CCCCCC"/>
 				<frame>
-					<reportElement x="0" y="0" width="200" height="15" backcolor="#CCCCCC"/>
+					<reportElement x="0" y="0" width="264" height="15" backcolor="#CCCCCC"/>
 					<box>
 						<pen lineWidth="1.0"/>
 						<topPen lineWidth="1.0"/>
@@ -278,7 +283,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<staticText>
-						<reportElement x="3" y="0" width="197" height="15"/>
+						<reportElement x="3" y="0" width="261" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle">
 							<font size="8"/>
 						</textElement>
@@ -286,7 +291,7 @@
 					</staticText>
 				</frame>
 				<frame>
-					<reportElement x="234" y="0" width="90" height="15" backcolor="#CCCCCC"/>
+					<reportElement x="298" y="0" width="126" height="15" backcolor="#CCCCCC"/>
 					<box>
 						<pen lineWidth="1.0"/>
 						<topPen lineWidth="1.0"/>
@@ -295,7 +300,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<staticText>
-						<reportElement x="0" y="0" width="90" height="15"/>
+						<reportElement x="0" y="0" width="126" height="15"/>
 						<box leftPadding="3"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle">
 							<font size="8"/>
@@ -304,7 +309,7 @@
 					</staticText>
 				</frame>
 				<frame>
-					<reportElement x="324" y="0" width="30" height="15" backcolor="#CCCCCC"/>
+					<reportElement x="424" y="0" width="30" height="15" backcolor="#CCCCCC"/>
 					<box>
 						<pen lineWidth="1.0"/>
 						<topPen lineWidth="1.0"/>
@@ -321,40 +326,6 @@
 					</staticText>
 				</frame>
 				<frame>
-					<reportElement x="354" y="0" width="50" height="15" backcolor="#CCCCCC"/>
-					<box>
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<staticText>
-						<reportElement x="0" y="0" width="50" height="15"/>
-						<textElement textAlignment="Center" verticalAlignment="Middle">
-							<font size="8"/>
-						</textElement>
-						<text><![CDATA[Precio unit.]]></text>
-					</staticText>
-				</frame>
-				<frame>
-					<reportElement x="404" y="0" width="50" height="15" backcolor="#CCCCCC"/>
-					<box>
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<staticText>
-						<reportElement x="0" y="0" width="50" height="15"/>
-						<textElement textAlignment="Center" verticalAlignment="Middle">
-							<font size="8"/>
-						</textElement>
-						<text><![CDATA[Subtotal]]></text>
-					</staticText>
-				</frame>
-				<frame>
 					<reportElement x="454" y="0" width="50" height="15" backcolor="#CCCCCC"/>
 					<box>
 						<pen lineWidth="1.0"/>
@@ -368,7 +339,7 @@
 						<textElement textAlignment="Center" verticalAlignment="Middle">
 							<font size="8"/>
 						</textElement>
-						<text><![CDATA[Alicuota IVA]]></text>
+						<text><![CDATA[Precio unit.]]></text>
 					</staticText>
 				</frame>
 				<frame>
@@ -389,7 +360,7 @@
 					</staticText>
 				</frame>
 				<frame>
-					<reportElement x="200" y="0" width="34" height="15" backcolor="#CCCCCC"/>
+					<reportElement x="264" y="0" width="34" height="15" backcolor="#CCCCCC"/>
 					<box>
 						<pen lineWidth="1.0"/>
 						<topPen lineWidth="1.0"/>
@@ -414,7 +385,7 @@
 			<frame>
 				<reportElement mode="Transparent" x="0" y="0" width="554" height="15" backcolor="#FFFFFF"/>
 				<textField>
-					<reportElement x="0" y="0" width="200" height="15"/>
+					<reportElement x="0" y="0" width="264" height="15"/>
 					<box leftPadding="3"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8"/>
@@ -422,7 +393,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{paciente}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="324" y="0" width="30" height="15"/>
+					<reportElement x="424" y="0" width="30" height="15"/>
 					<box leftPadding="0"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8"/>
@@ -430,28 +401,12 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{dias}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0.00">
-					<reportElement x="354" y="0" width="50" height="15"/>
-					<box leftPadding="0"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{costoDispositivo}]]></textFieldExpression>
-				</textField>
-				<textField pattern="¤ #,##0.00">
-					<reportElement x="404" y="0" width="50" height="15"/>
-					<box leftPadding="0"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{monto}]]></textFieldExpression>
-				</textField>
-				<textField pattern="#,##0.00 %">
 					<reportElement x="454" y="0" width="50" height="15"/>
 					<box leftPadding="0"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{alicuota}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{costoDispositivo} * ($F{alicuota} + 1)]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0.00">
 					<reportElement x="504" y="0" width="50" height="15"/>
@@ -462,7 +417,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{montoFinal}]]></textFieldExpression>
 				</textField>
 				<textField pattern="MMM-yy">
-					<reportElement x="200" y="0" width="34" height="15"/>
+					<reportElement x="264" y="0" width="34" height="15"/>
 					<box leftPadding="0"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8"/>
@@ -470,7 +425,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="234" y="0" width="90" height="15"/>
+					<reportElement x="298" y="0" width="126" height="15"/>
 					<box leftPadding="3"/>
 					<textElement verticalAlignment="Middle">
 						<font size="8"/>
@@ -481,35 +436,35 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="20">
-			<staticText>
-				<reportElement x="454" y="0" width="50" height="15"/>
-				<box rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Total:]]></text>
-			</staticText>
+		<band height="37">
 			<textField pattern="¤ #,##0.00">
 				<reportElement x="504" y="0" width="50" height="15"/>
 				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$P{factura}.getTotal()]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="424" y="0" width="80" height="15"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
 		</band>
 	</columnFooter>
 	<pageFooter>

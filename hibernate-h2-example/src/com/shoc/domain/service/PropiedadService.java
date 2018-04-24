@@ -44,6 +44,7 @@ public class PropiedadService {
     }
     
     public String getPropertyValue(String nombre) {
+        //return "Harcoded";
         return this.repo.getPropertyValue(nombre).getValor();
     }
 

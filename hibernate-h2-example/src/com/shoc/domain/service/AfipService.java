@@ -21,18 +21,15 @@ import com.shoc.domain.SociedadEnum;
 import com.shoc.domain.repository.AfipException;
 import com.shoc.domain.repository.AfipTiposRepository;
 import com.shoc.domain.utils.DateUtils;
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -61,6 +58,8 @@ public class AfipService {
         return this.repo.listarPuntoVenta(sociedad);
     }
 
+    private static final Short FACTURA_A_CODE = new Short("1");
+
     public void enviarFacturaAfip(SociedadEnum sociedadEnum, CodigoDescripcionType codigoDescripcionType,
             PuntoVentaType puntoVentaType, Factura f) throws AfipException {
         try {
@@ -79,13 +78,24 @@ public class AfipService {
 
             ICliente cliente = f.getObraSocial() != null ? f.getObraSocial() : f.getPaciente();
 
-            comprobante.setCodigoTipoDocumento(new Short("80"));
+            if (FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+                comprobante.setCodigoTipoDocumento(new Short("80"));
+            } else {
+                comprobante.setCodigoTipoDocumento(new Short("96"));
+            }
+
             comprobante.setNumeroDocumento(new Long(cliente.getDocumento()));
 
-            comprobante.setImporteGravado(new BigDecimal(f.getImporteGravado()));
-            comprobante.setImporteNoGravado(new BigDecimal(f.getImporteNoGravado()));
-            comprobante.setImporteTotal(new BigDecimal(f.getTotal()));
-            comprobante.setImporteSubtotal(new BigDecimal(f.getSubtotal()));
+            if (FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+                comprobante.setCodigoTipoDocumento(new Short("80"));
+            } else {
+                comprobante.setCodigoTipoDocumento(new Short("96"));
+            }
+
+            comprobante.setImporteGravado(toPrecision(f.getImporteGravado()));
+            comprobante.setImporteNoGravado(toPrecision(f.getImporteNoGravado()));
+            comprobante.setImporteTotal(toPrecision(f.getTotal()));
+            comprobante.setImporteSubtotal(toPrecision(f.getSubtotal()));
 
             comprobante.setCodigoMoneda("PES");
             comprobante.setCotizacionMoneda(new BigDecimal(BigInteger.ONE));
@@ -112,20 +122,30 @@ public class AfipService {
                 item.setUnidadesMtx(1);
                 item.setCodigoMtx("1");
                 item.setDescripcion(detail.getDescripcion());
-                item.setCantidad(new BigDecimal(detail.getDias()));
+                item.setCantidad(BigDecimal.valueOf(detail.getDias()));
                 item.setCodigoUnidadMedida(new Short("1"));
 
-                item.setPrecioUnitario(new BigDecimal(detail.getCostoDispositivo()));
-
-                if (detail.getPaciente().getGravado()) {
-                    item.setCodigoCondicionIVA(new Short("4"));
-                    item.setImporteIVA(new BigDecimal(detail.getMontoAlicuota()));
-                } else {
-                    item.setCodigoCondicionIVA(new Short("1"));
-                    item.setImporteIVA(new BigDecimal("0"));
+                Double precioUnitario = detail.getCostoDispositivo();
+                if (!FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+                    precioUnitario = precioUnitario + (precioUnitario * detail.getAlicuota());
                 }
 
-                item.setImporteItem(new BigDecimal(detail.getMontoFinal()));
+                item.setPrecioUnitario(toPrecision(precioUnitario));
+
+                if (detail.isGravado()) {
+                    item.setCodigoCondicionIVA(new Short("4"));
+                    if (FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+                        item.setImporteIVA(toPrecision(detail.getMontoAlicuota()));
+                    }
+
+                } else {
+                    item.setCodigoCondicionIVA(new Short("1"));
+                    if (FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+                        item.setImporteIVA(BigDecimal.ZERO);
+                    }
+                }
+
+                item.setImporteItem(toPrecision(detail.getMontoFinal()));
 
                 items.getItem().add(item);
             }
@@ -133,23 +153,23 @@ public class AfipService {
 
             if (f.getImporteGravado() != null && !f.getImporteGravado().equals(new Double("0"))) {
                 ArraySubtotalesIVAType subtotalIVA = new ArraySubtotalesIVAType();
-                
+
                 SubtotalIVAType ivaItem = new SubtotalIVAType();
                 ivaItem.setCodigo(new Short("4"));
-                ivaItem.setImporte(new BigDecimal(f.getMontoIva()));
-                
+                ivaItem.setImporte(toPrecision(f.getMontoIva()));
+
                 subtotalIVA.getSubtotalIVA().add(ivaItem);
                 comprobante.setArraySubtotalesIVA(subtotalIVA);
             }
 
             Logger.getLogger(AfipService.class.getName()).log(Level.INFO, comprobante.toString());
-            
+
             ComprobanteCAEResponseType response = this.repo.enviarFactura(sociedadEnum, comprobante);
 
             Logger.getLogger(AfipService.class.getName()).log(Level.INFO, response.toString());
-            
+
             fService.marcarFacturaComoEnviadaAfip(f, response, codigoDescripcionType, sociedadEnum);
-            
+
         } catch (ExceptionFaultMsg ex) {
             Logger.getLogger(AfipService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -160,5 +180,9 @@ public class AfipService {
 
     }
 
+    private BigDecimal toPrecision(Double value) {
+        BigDecimal a = new BigDecimal(value);
+        return a.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
 
 }
