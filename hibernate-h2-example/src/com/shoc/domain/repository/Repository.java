@@ -10,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 
 /**
  *
@@ -18,6 +19,10 @@ import org.hibernate.criterion.DetachedCriteria;
 public abstract class Repository<T extends Object> {
 
     public abstract Class getEntityClass();
+
+    public Order getDefaultOrder() {
+        return Order.desc("id");
+    }
 
     public T load(Long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -117,6 +122,7 @@ public abstract class Repository<T extends Object> {
             Criteria c
                     = session.createCriteria(getEntityClass());
 
+            c.addOrder(getDefaultOrder());
             List<T> result = c.list();
 
             t.commit();
@@ -131,7 +137,9 @@ public abstract class Repository<T extends Object> {
     }
 
     protected DetachedCriteria createCriteria() {
-        return DetachedCriteria.forClass(getEntityClass());
+        final DetachedCriteria criteria = DetachedCriteria.forClass(getEntityClass());
+        criteria.addOrder(getDefaultOrder());
+        return criteria;
     }
 
     public List<T> listByCriteria(DetachedCriteria criteria) {

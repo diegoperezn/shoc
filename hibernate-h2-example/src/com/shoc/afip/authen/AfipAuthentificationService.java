@@ -69,14 +69,14 @@ public class AfipAuthentificationService {
             throw e;
         }
 
-        String endpoint = config.getProperty("endpoint", "http://wsaahomo.afip.gov.ar/ws/services/LoginCms");
+        String endpoint = config.getProperty("endpoint");
         String dstDN = config.getProperty("dstdn");
 
-        String p12file = config.getProperty(sociedad.getCuit());
-        String signer = config.getProperty("keystore-signer", "diego");
-        String p12pass = config.getProperty("keystore-password", "clave");
+        String p12file = config.getProperty("keystore");
+        String signer = config.getProperty("keystore-signer");
+        String p12pass = config.getProperty("keystore-password");
 
-        Long TicketTime = new Long(config.getProperty("TicketTime", "36000"));
+        Long TicketTime = new Long(config.getProperty("TicketTime"));
 
         // Create LoginTicketRequest_xml_cms
         byte[] LoginTicketRequest_xml_cms = afip_wsaa_client.create_cms(p12file, p12pass,

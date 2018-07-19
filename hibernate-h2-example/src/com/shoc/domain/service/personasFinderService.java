@@ -13,9 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.xml.ws.BindingProvider;
 import org.apache.log4j.Logger;
-import sr.puc.server.ws.soap.a5.PersonaReturn;
-import sr.puc.server.ws.soap.a5.PersonaServiceA5;
-import sr.puc.server.ws.soap.a5.PersonaServiceA5_Service;
+import src.sr.puc.server.ws.soap.a5.PersonaReturn;
+import src.sr.puc.server.ws.soap.a5.PersonaServiceA5;
+import src.sr.puc.server.ws.soap.a5.PersonaServiceA5_Service;
 
 /**
  *

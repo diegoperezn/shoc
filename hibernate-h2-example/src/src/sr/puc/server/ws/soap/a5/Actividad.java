@@ -1,5 +1,4 @@
-
-package sr.puc.server.ws.soap.a5;
+package src.sr.puc.server.ws.soap.a5;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

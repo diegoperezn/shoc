@@ -34,6 +34,7 @@ public class FacturaDetailRepository extends Repository<FacturaDetail> {
     public Class getEntityClass() {
         return FacturaDetail.class;
     }
+    
 
     public boolean existInDetails(Paciente paciente, DispositivosEnum dispositivoTerapia, Date time) {
         DetachedCriteria c = this.createCriteria();

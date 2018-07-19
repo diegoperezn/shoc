@@ -7,7 +7,10 @@ package com.shoc.controller.Panels;
 
 import com.shoc.domain.CuentaCorriente;
 import com.shoc.domain.service.CuentaCorrienteService;
+import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class CuentaCorrienteList extends javax.swing.JPanel {
 
     CuentaCorrienteService service = CuentaCorrienteService.getInstance();
-
+    
     /**
      * Creates new form ObraSocialList
      */
@@ -34,7 +37,7 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
 
         list.forEach((cuenta) -> {
             model.addRow(new Object[]{cuenta.getId(), cuenta.getNombreDuenio(),
-                cuenta.getBalance()
+                NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format( cuenta.getBalance() )
             }
             );
         });
@@ -76,15 +79,27 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         tableCuentas.setFillsViewportHeight(true);
         tableCuentas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableCuentasMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableCuentasMousePressed(evt);
+            }
+        });
+        tableCuentas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableCuentasKeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(tableCuentas);
@@ -155,17 +170,29 @@ public class CuentaCorrienteList extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tableCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCuentasMouseClicked
-
-    }//GEN-LAST:event_tableCuentasMouseClicked
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        abrirPanelDetalles();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void abrirPanelDetalles() throws NumberFormatException {
         DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
         Long selectedId = Long.valueOf(model.getValueAt(tableCuentas.getSelectedRow(), 0).toString());
 
         mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
         topFrame.changePanel(new MovimientosCuentaList(selectedId), this);    // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }
+
+    private void tableCuentasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCuentasMousePressed
+        if (evt.getClickCount() == 2) {
+            abrirPanelDetalles();
+        }
+    }//GEN-LAST:event_tableCuentasMousePressed
+
+    private void tableCuentasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableCuentasKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirPanelDetalles();
+        }
+    }//GEN-LAST:event_tableCuentasKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

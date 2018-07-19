@@ -6,6 +6,7 @@
 package com.shoc.domain.repository;
 
 import com.shoc.domain.CuentaCorriente;
+import org.hibernate.criterion.Order;
 
 /**
  *
@@ -28,4 +29,10 @@ public class CuentaCorrienteRepository extends Repository<CuentaCorriente> {
         return CuentaCorriente.class;
     }
 
+    @Override
+    public Order getDefaultOrder() {
+        return Order.desc("balance");
+    }
+    
+    
 }

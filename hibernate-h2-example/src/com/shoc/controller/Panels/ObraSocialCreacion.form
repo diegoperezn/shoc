@@ -490,6 +490,9 @@
         <Component class="javax.swing.JCheckBox" name="cbModulo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modulo"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="tfDireccion"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbModuloActionPerformed"/>
@@ -584,7 +587,7 @@
         <Component class="javax.swing.JTextField" name="tfDireccion">
           <Properties>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tfDireccion"/>
+              <ComponentRef name="tfProvincia"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -594,7 +597,7 @@
         <Component class="javax.swing.JTextField" name="tfProvincia">
           <Properties>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tfProvincia"/>
+              <ComponentRef name="lLocalidad"/>
             </Property>
           </Properties>
           <AuxValues>

@@ -317,6 +317,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
         tfCategoriaIva.setNextFocusableComponent(cbModulo);
 
         cbModulo.setText("Modulo");
+        cbModulo.setNextFocusableComponent(tfDireccion);
         cbModulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbModuloActionPerformed(evt);
@@ -403,9 +404,9 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Domicilio"));
 
-        tfDireccion.setNextFocusableComponent(tfDireccion);
+        tfDireccion.setNextFocusableComponent(tfProvincia);
 
-        tfProvincia.setNextFocusableComponent(tfProvincia);
+        tfProvincia.setNextFocusableComponent(lLocalidad);
 
         tfLocalidad.setNextFocusableComponent(tfLocalidad);
 

@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
-import org.bouncycastle.util.Strings;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -62,7 +61,7 @@ public class Paciente implements IPaciente, ICliente {
     private String provincia;
     private String localidad;
     private String codigoPostal;
-    
+
     private CuentaCorriente cuenta;
 
     public Paciente() {
@@ -97,10 +96,11 @@ public class Paciente implements IPaciente, ICliente {
     }
      */
     public void actualizar(IPaciente iPaciente) {
+        this.obraSocial = iPaciente.getObraSocial();
         if (this.obraSocial == null && this.cuenta == null) {
             this.cuenta = new CuentaCorriente(this);
         }
-        
+
         this.nombre = iPaciente.getNombre();
         this.documento = iPaciente.getDocumento();
         this.observaciones = iPaciente.getObservaciones();
@@ -225,7 +225,7 @@ public class Paciente implements IPaciente, ICliente {
     public void setCuenta(CuentaCorriente cuenta) {
         this.cuenta = cuenta;
     }
-    
+
     @Id
     @GeneratedValue
     @Override

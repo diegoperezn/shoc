@@ -11,7 +11,7 @@ package com.shoc.domain;
  */
 public enum SociedadEnum {
 
-    CENTRO_SHOC("Centro Shoc", "20103962545"), TIZZIANO("Tizziano", "20103962545");
+    CENTRO_SHOC("S.H.O.C. Centro SRL", "30712346139"), TIZZIANO("Tizziano Valentini Asociación civil", "30714891096");
 
     private String detail;
     private String cuit;

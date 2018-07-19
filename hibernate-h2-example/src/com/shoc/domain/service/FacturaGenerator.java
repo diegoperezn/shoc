@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -28,7 +27,7 @@ public class FacturaGenerator implements IParamentroFinder {
         return instance;
     }
 
-    //String sourceFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura_1.jrxml";
+   String sourceFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/FacturaA.jrxml";
     String facturaA = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/FacturaA.jasper";
     String facturaB = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/FacturaB.jasper";
     //String printFileName = "/Users/diego/Dev/projects/shoc/Hibernate-H2-Example-master 10.49.48/hibernate-h2-example/src/Factura_1.jrprint";
@@ -41,13 +40,17 @@ public class FacturaGenerator implements IParamentroFinder {
     String printFileName = "./Factura.jrprint";
     String pdfFile = "./{name}.pdf";
      */
+    
+    //String facturaA = "./FacturaA.jasper";
+    //String facturaB = "./FacturaB.jasper";
+    
     private PropiedadService pService = PropiedadService.getInstance();
     private FacturaService fService = FacturaService.getInstance();
 
     public static void main(String[] args) throws JRException {
         FacturaGenerator r = new FacturaGenerator();
 
-        r.generatePdfReport(Long.valueOf("69"));
+        r.generatePdfReport(Long.valueOf("76"));
     }
 
     //private static final Logger logger = LoggerFactory;
@@ -88,7 +91,8 @@ public class FacturaGenerator implements IParamentroFinder {
     // This method generates a PDF report 
     public JRViewer generatePdfReport(Long id) throws JRException {
 
-        //JasperCompileManager.compileReportToFile(sourceFileName, destFileName);
+        JasperCompileManager.compileReportToFile(sourceFileName, facturaA);
+        
         final Factura factura = this.fService.get(id);
 
         String facturaJasper = facturaA;
@@ -104,6 +108,7 @@ public class FacturaGenerator implements IParamentroFinder {
         JasperPrint report = JasperFillManager.fillReport(facturaJasper, parameters, beanColDataSource);
 
         //JasperExportManager.exportReportToPdfFile(report, pdfFile.replace("{name}", "factura_" + id));
+        
         return new JRViewer(report);
     }
 

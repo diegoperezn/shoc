@@ -65,25 +65,36 @@ public class FacturaDetailService {
         return this.repo.listAll();
     }
 
-    public List<FacturaDetail> generarYlistarFacuraDetails(IFaturaDetailsSearch filter) {
+    public List<FacturaDetail> generarYlistarFacuraDetails(IFaturaDetailsSearch filter) throws Exception {
         List<Paciente> pacientes = this.pacienteService.listarPacientesActivos(filter);
+
+        if (pacientes.isEmpty()) {
+            throw new Exception("No hay pacientes activos para la busqueda realizada");
+        }
 
         Date desde = filter.getMes();
         if (desde == null) {
             desde = DateUtils.getMinimaFecha().getTime();
         }
-        buildFacturaDetails(pacientes, desde);
+        Boolean seCreoAlguno = buildFacturaDetails(pacientes, desde);
+
+        if (!seCreoAlguno) {
+            throw new Exception("Los pacientes encontrados en la busquedas ya tiene los item de facturación creados");
+        }
 
         return this.repo.search(filter);
     }
 
-    private void buildFacturaDetails(List<Paciente> pacientes, Date desde) {
+    private Boolean buildFacturaDetails(List<Paciente> pacientes, Date desde) {
+        Boolean seCreoAlguno = false;
+
         for (Paciente paciente : pacientes) {
             for (HistoricoDispositivo hist : paciente.getHistoricoDispositivo()) {
                 if (hist.getDispositivo().equals(paciente.getDispositivoTerapia())
-                        || (!hist.getDispositivo().equals(paciente.getDispositivoTerapia()) 
-                            && DateUtils.esMismoMes(hist.getFechaCambio(), desde))) {
+                        || (!hist.getDispositivo().equals(paciente.getDispositivoTerapia())
+                        && DateUtils.esMismoMes(hist.getFechaCambio(), desde))) {
                     if (!this.repo.existInDetails(paciente, hist.getDispositivo(), desde)) {
+                        seCreoAlguno = true;
                         this.createFacturaDetail(new IFacturable() {
 
                             @Override
@@ -106,9 +117,11 @@ public class FacturaDetailService {
                 }
             }
         }
+
+        return seCreoAlguno;
     }
 
-    public void actualizarDias(Long id, Integer dias, Double costo , Double totalMes) {
+    public void actualizarDias(Long id, Integer dias, Double costo, Double totalMes) {
         FacturaDetail fd = this.repo.get(id);
 
         fd.setDias(dias);

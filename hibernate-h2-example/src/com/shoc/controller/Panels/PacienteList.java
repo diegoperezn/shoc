@@ -8,6 +8,9 @@ package com.shoc.controller.Panels;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.service.ISearchPaciente;
 import com.shoc.domain.service.PacienteService;
+import java.awt.Component;
+import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -75,7 +79,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Editar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePacientes = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -84,6 +88,12 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtros"));
 
         jLabel2.setText("Nombre:");
+
+        tfNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfNombreKeyPressed(evt);
+            }
+        });
 
         jButton5.setText("Buscar");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +104,11 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
         cbActivos.setSelected(true);
         cbActivos.setText("Activos");
+        cbActivos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbActivosKeyPressed(evt);
+            }
+        });
 
         jButton4.setText("exportar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -103,6 +118,18 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         });
 
         jLabel3.setText("Baja fecha desde:");
+
+        dpDesdeBaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dpDesdeBajaKeyPressed(evt);
+            }
+        });
+
+        dpHastaBaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dpHastaBajaKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("hasta:");
 
@@ -171,10 +198,10 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
             }
         });
 
-        jButton2.setText("Editar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Editar.setText("Editar");
+        Editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                EditarActionPerformed(evt);
             }
         });
 
@@ -208,6 +235,11 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
                 tablePacientesMousePressed(evt);
             }
         });
+        tablePacientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablePacientesKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablePacientes);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -222,7 +254,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
                 .addGap(299, 299, 299)
                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -235,7 +267,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
                 .addGap(9, 9, 9)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -310,7 +342,11 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+        abrirPanelEdicion();
+    }//GEN-LAST:event_EditarActionPerformed
+
+    private void abrirPanelEdicion() throws NumberFormatException, HeadlessException {
         DefaultTableModel model = (DefaultTableModel) tablePacientes.getModel();
 
         if (tablePacientes.getSelectedRowCount() == 0) {
@@ -322,7 +358,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
             mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.changePanel(new PacienteCreacion(selectedId, true), this);        // TODO add your handling code here:
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         fillTable(this.service.search(this));
@@ -388,13 +424,41 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         }
     }//GEN-LAST:event_tablePacientesMousePressed
 
+    private void tablePacientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablePacientesKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirPanelEdicion();
+        }
+    }//GEN-LAST:event_tablePacientesKeyPressed
+
+    private void tfNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombreKeyPressed
+        enterEvent(evt);
+    }//GEN-LAST:event_tfNombreKeyPressed
+
+    private void dpDesdeBajaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dpDesdeBajaKeyPressed
+        enterEvent(evt);
+    }//GEN-LAST:event_dpDesdeBajaKeyPressed
+
+    private void dpHastaBajaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dpHastaBajaKeyPressed
+        enterEvent(evt);
+    }//GEN-LAST:event_dpHastaBajaKeyPressed
+
+    private void cbActivosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbActivosKeyPressed
+        enterEvent(evt);
+    }//GEN-LAST:event_cbActivosKeyPressed
+
+    private void enterEvent(KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            fillTable(this.service.search(this));
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Editar;
     private javax.swing.JCheckBox cbActivos;
     private org.jdesktop.swingx.JXDatePicker dpDesdeBaja;
     private org.jdesktop.swingx.JXDatePicker dpHastaBaja;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

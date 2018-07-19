@@ -15,6 +15,7 @@ import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -36,6 +37,11 @@ public class PacienteRepository extends Repository<Paciente> {
     @Override
     public Class getEntityClass() {
         return Paciente.class;
+    }
+
+    @Override
+    public Order getDefaultOrder() {
+        return Order.asc("nombre");
     }
 
     public List<Paciente> search(ISearchPaciente filter) {

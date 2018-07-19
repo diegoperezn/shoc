@@ -47,7 +47,7 @@ public class Factura {
     private String puntoDeVenta;
     private Date fechaEmision;
     private Date fechaVencimiento;
-    private String sociedad;
+    private SociedadEnum sociedad;
     private Double montoIva;
 
     public Factura() {
@@ -236,11 +236,11 @@ public class Factura {
     }
 
     @Column
-    public String getSociedad() {
+    public SociedadEnum getSociedad() {
         return sociedad;
     }
 
-    public void setSociedad(String sociedad) {
+    public void setSociedad(SociedadEnum sociedad) {
         this.sociedad = sociedad;
     }
 

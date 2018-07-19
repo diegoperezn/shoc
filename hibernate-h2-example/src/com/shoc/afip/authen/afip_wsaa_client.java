@@ -178,6 +178,7 @@ public class afip_wsaa_client {
         String UniqueId = new Long(GenTime.getTime() / 1000).toString();
 
         exptime.setTime(new Date(GenTime.getTime() + TicketTime));
+        //gentime.setTime(new Date(GenTime.getTime() - 5000));
 
         XMLGregorianCalendarImpl XMLGenTime = new XMLGregorianCalendarImpl(gentime);
         XMLGregorianCalendarImpl XMLExpTime = new XMLGregorianCalendarImpl(exptime);

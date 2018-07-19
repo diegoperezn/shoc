@@ -6,6 +6,7 @@
 package com.shoc.domain.repository;
 
 import com.shoc.domain.ObraSocial;
+import org.hibernate.criterion.Order;
 
 /**
  *
@@ -26,6 +27,11 @@ public class ObraSocialRepository extends Repository<ObraSocial> {
     @Override
     public Class getEntityClass() {
         return ObraSocial.class;
+    }
+    
+        @Override
+    public Order getDefaultOrder() {
+        return Order.asc("razonSocial");
     }
 
 }

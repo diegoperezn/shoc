@@ -1,5 +1,5 @@
 
-package sr.puc.server.ws.soap.a5;
+package src.sr.puc.server.ws.soap.a5;
 
 import java.util.ArrayList;
 import java.util.List;

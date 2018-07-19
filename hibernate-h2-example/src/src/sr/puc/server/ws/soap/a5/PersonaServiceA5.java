@@ -1,5 +1,5 @@
 
-package sr.puc.server.ws.soap.a5;
+package src.sr.puc.server.ws.soap.a5;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -30,12 +30,12 @@ public interface PersonaServiceA5 {
      * @param idPersona
      * @param token
      * @return
-     *     returns sr.puc.server.ws.soap.a5.PersonaReturn
+     *     returns src.sr.puc.server.ws.soap.a5.PersonaReturn
      */
     @WebMethod
     @WebResult(name = "personaReturn", targetNamespace = "")
-    @RequestWrapper(localName = "getPersona", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "sr.puc.server.ws.soap.a5.GetPersona")
-    @ResponseWrapper(localName = "getPersonaResponse", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "sr.puc.server.ws.soap.a5.GetPersonaResponse")
+    @RequestWrapper(localName = "getPersona", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "src.sr.puc.server.ws.soap.a5.GetPersona")
+    @ResponseWrapper(localName = "getPersonaResponse", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "src.sr.puc.server.ws.soap.a5.GetPersonaResponse")
     public PersonaReturn getPersona(
         @WebParam(name = "token", targetNamespace = "")
         String token,
@@ -49,12 +49,12 @@ public interface PersonaServiceA5 {
     /**
      * 
      * @return
-     *     returns sr.puc.server.ws.soap.a5.DummyReturn
+     *     returns src.sr.puc.server.ws.soap.a5.DummyReturn
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "dummy", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "sr.puc.server.ws.soap.a5.Dummy")
-    @ResponseWrapper(localName = "dummyResponse", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "sr.puc.server.ws.soap.a5.DummyResponse")
+    @RequestWrapper(localName = "dummy", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "src.sr.puc.server.ws.soap.a5.Dummy")
+    @ResponseWrapper(localName = "dummyResponse", targetNamespace = "http://a5.soap.ws.server.puc.sr/", className = "src.sr.puc.server.ws.soap.a5.DummyResponse")
     public DummyReturn dummy();
 
 }

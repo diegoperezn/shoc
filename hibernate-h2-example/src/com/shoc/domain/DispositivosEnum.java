@@ -11,7 +11,7 @@ package com.shoc.domain;
  */
 public enum DispositivosEnum {
 
-    INTERNACION("Internacion"), HDJC("Hospital Jornada Completa"), HDMC("Hospital Media Jornada"), AMBULATORIO("Ambulatorio"), DISPOSITIVO("Disp 5");
+    INTERNACION("Internacion"), HDJC("htal. de día jor. comp."), HDMC("Hosp. dia media jornada"), AMBULATORIO("Ambulatorio"), DISPOSITIVO("Consultorios externos");
 
     private String detail;
 

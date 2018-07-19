@@ -81,17 +81,17 @@ public class AfipTiposRepository {
     private AuthRequestType buildAuth(SociedadEnum sociedad) throws IOException {
         AuthRequestType authResponse = new AuthRequestType();
 
-        if (!System.getProperties().containsKey("shoc.afip.auth.token." + sociedad)) {
+        if (!System.getProperties().containsKey("shoc.afip.auth.token")) {
             AfipAuthentification auth = AfipAuthentificationService.autentificarAfip(sociedad, "wsmtxca");
 
-            System.setProperty("shoc.afip.auth.token." + sociedad, auth.getToken());
-            System.setProperty("shoc.afip.auth.sign." + sociedad, auth.getSign());
-            System.setProperty("shoc.afip.auth.cuit." + sociedad, sociedad.getCuit());
+            System.setProperty("shoc.afip.auth.token", auth.getToken());
+            System.setProperty("shoc.afip.auth.sign", auth.getSign());
+            
         }
 
-        authResponse.setToken(System.getProperty("shoc.afip.auth.token." + sociedad));
-        authResponse.setSign(System.getProperty("shoc.afip.auth.sign." + sociedad));
-        authResponse.setCuitRepresentada(Long.valueOf(System.getProperty("shoc.afip.auth.cuit." + sociedad)));
+        authResponse.setToken(System.getProperty("shoc.afip.auth.token"));
+        authResponse.setSign(System.getProperty("shoc.afip.auth.sign"));
+        authResponse.setCuitRepresentada(Long.valueOf(sociedad.getCuit()));
 
         return authResponse;
     }
@@ -116,7 +116,7 @@ public class AfipTiposRepository {
         AutorizarComprobanteRequestType parameters = new AutorizarComprobanteRequestType();
         parameters.setAuthRequest(buildAuth(sociedadEnum));
         parameters.setComprobanteCAERequest(comprobante);
-        
+
         AutorizarComprobanteResponseType response = port.autorizarComprobante(parameters);
         
         if (response.getResultado().equals(ResultadoSimpleType.R)) {

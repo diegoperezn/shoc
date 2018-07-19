@@ -16,11 +16,13 @@ import ar.gov.afip.wsmtxca.service.impl.service.ItemType;
 import ar.gov.afip.wsmtxca.service.impl.service.PuntoVentaType;
 import ar.gov.afip.wsmtxca.service.impl.service.SubtotalIVAType;
 import com.shoc.domain.Factura;
+import com.shoc.domain.FacturaAfipEnum;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.SociedadEnum;
 import com.shoc.domain.repository.AfipException;
 import com.shoc.domain.repository.AfipTiposRepository;
 import com.shoc.domain.utils.DateUtils;
+import fev1.dif.afip.gov.ar.PtoVenta;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -60,8 +62,8 @@ public class AfipService {
 
     private static final Short FACTURA_A_CODE = new Short("1");
 
-    public void enviarFacturaAfip(SociedadEnum sociedadEnum, CodigoDescripcionType codigoDescripcionType,
-            PuntoVentaType puntoVentaType, Factura f) throws AfipException {
+    public void enviarFacturaAfip(SociedadEnum sociedadEnum, FacturaAfipEnum codigoDescripcionType,
+            PtoVenta puntoVentaType, Factura f) throws AfipException {
         try {
             AutorizarComprobanteRequestType parameters = new AutorizarComprobanteRequestType();
 
@@ -78,15 +80,15 @@ public class AfipService {
 
             ICliente cliente = f.getObraSocial() != null ? f.getObraSocial() : f.getPaciente();
 
-            if (FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+            if (FacturaAfipEnum.FACTURA_A.equals(codigoDescripcionType)) {
                 comprobante.setCodigoTipoDocumento(new Short("80"));
             } else {
                 comprobante.setCodigoTipoDocumento(new Short("96"));
             }
 
-            comprobante.setNumeroDocumento(new Long(cliente.getDocumento()));
+            comprobante.setNumeroDocumento(new Long(cliente.getDocumento().replaceAll("[^0-9]", "")));
 
-            if (FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+            if (FacturaAfipEnum.FACTURA_A.equals(codigoDescripcionType)) {
                 comprobante.setCodigoTipoDocumento(new Short("80"));
             } else {
                 comprobante.setCodigoTipoDocumento(new Short("96"));
@@ -126,7 +128,7 @@ public class AfipService {
                 item.setCodigoUnidadMedida(new Short("1"));
 
                 Double precioUnitario = detail.getCostoDispositivo();
-                if (!FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+                if (!FacturaAfipEnum.FACTURA_A.equals(codigoDescripcionType)) {
                     precioUnitario = precioUnitario + (precioUnitario * detail.getAlicuota());
                 }
 
@@ -134,7 +136,7 @@ public class AfipService {
 
                 if (detail.isGravado()) {
                     item.setCodigoCondicionIVA(new Short("4"));
-                    if (FACTURA_A_CODE.equals(codigoDescripcionType.getCodigo())) {
+                    if (FacturaAfipEnum.FACTURA_A.equals(codigoDescripcionType)) {
                         item.setImporteIVA(toPrecision(detail.getMontoAlicuota()));
                     }
 

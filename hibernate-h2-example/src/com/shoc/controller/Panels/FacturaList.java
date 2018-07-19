@@ -13,8 +13,10 @@ import com.shoc.domain.service.FacturaService;
 import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
 import com.shoc.domain.utils.DateUtils;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,7 +29,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     FacturaService service = FacturaService.getInstance();
     PacienteService pService = PacienteService.getInstance();
     ObraSocialService obService = ObraSocialService.getInstance();
-
+    
     /**
      * Creates new form ObraSocialList
      */
@@ -40,6 +42,8 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         cbObraSocial.addItem(null);
         obService.listAll().forEach(ob -> cbObraSocial.addItem(ob));
 
+        dpMes.setDate(new Date());
+        
         fillTable();
     }
 
@@ -49,6 +53,8 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
         model.setRowCount(0);
 
+         
+        
         list.forEach((factura) -> {
             final String paciente = factura.getPaciente() != null
                     ? factura.getPaciente().getNombre() : null;
@@ -56,7 +62,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                     ? factura.getObraSocial().getRazonSocial() : null;
 
             model.addRow(new Object[]{factura.getId(), factura.getFecha(), paciente,
-                obraSocial, factura.getTotal()
+                obraSocial, NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format( factura.getTotal() ), factura.getCae()
             }
             );
         });
@@ -101,14 +107,14 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
 
             },
             new String [] {
-                "ID", "Fecha", "Paciente", "Obra Social", "Monto"
+                "ID", "Fecha", "Paciente", "Obra Social", "Monto", "CAE"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

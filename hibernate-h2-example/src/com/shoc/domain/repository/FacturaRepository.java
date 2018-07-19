@@ -7,6 +7,7 @@ package com.shoc.domain.repository;
 
 import com.shoc.domain.Factura;
 import com.shoc.domain.service.IFaturaDetailsSearch;
+import com.shoc.domain.utils.DateUtils;
 import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -43,7 +44,8 @@ public class FacturaRepository extends Repository<Factura> {
             c.add(Restrictions.eq("obraSocial", filter.getObraSocial()));
         }
         if (filter.getMes() != null) {
-            c.add(Restrictions.eq("fecha", filter.getMes()));
+            c.add(Restrictions.gt("fecha", filter.getMes()));
+            c.add(Restrictions.lt("fecha", DateUtils.getMaximaFecha(filter.getMes()).getTime()));
         }
 
         return this.listByCriteria(c);

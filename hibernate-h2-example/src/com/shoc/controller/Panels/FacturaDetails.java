@@ -5,19 +5,22 @@
  */
 package com.shoc.controller.Panels;
 
-import ar.gov.afip.wsmtxca.service.impl.service.CodigoDescripcionType;
 import ar.gov.afip.wsmtxca.service.impl.service.PuntoVentaType;
 import com.shoc.domain.Factura;
+import com.shoc.domain.FacturaAfipEnum;
 import com.shoc.domain.FacturaDetail;
 import com.shoc.domain.SociedadEnum;
 import com.shoc.domain.repository.AfipException;
 import com.shoc.domain.service.AfipService;
 import com.shoc.domain.service.FacturaGenerator;
 import com.shoc.domain.service.FacturaService;
+import fev1.dif.afip.gov.ar.PtoVenta;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -26,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.swing.JRViewer;
 
 /**
  *
@@ -40,7 +44,7 @@ public class FacturaDetails extends javax.swing.JPanel {
 
     SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
     SimpleDateFormat completeFormat = new SimpleDateFormat("dd/MM/yyyy");
-    DecimalFormat currencyFormatter = new DecimalFormat("$ ##.##");
+
     DecimalFormat df = new DecimalFormat("##.##%");
 
     /**
@@ -49,7 +53,29 @@ public class FacturaDetails extends javax.swing.JPanel {
     public FacturaDetails(Long id) {
         initComponents();
 
+        //cbComprobantes.setVisible(false);
+        //jLabel3.setVisible(false);
         f = fService.get(id);
+
+        if (!f.eviadaAfip()) {
+            FacturaAfipEnum[] list = FacturaAfipEnum.values();
+            DefaultComboBoxModel<FacturaAfipEnum> model = new DefaultComboBoxModel<>();
+            for (FacturaAfipEnum facturaAfipEnum : list) {
+                if ((facturaAfipEnum.getTipo().equals("fac") && f.getObraSocial() != null) 
+                        || (facturaAfipEnum.getTipo().equals("cf") && f.getObraSocial() == null)) {
+                    model.addElement(facturaAfipEnum);
+                }
+            }
+
+            if (f.getObraSocial() != null) {
+                cbSociedad.setSelectedItem(SociedadEnum.CENTRO_SHOC);
+            } else {
+                cbSociedad.setSelectedItem(SociedadEnum.TIZZIANO);
+            }
+            cbSociedadItemStateChanged(null);
+
+            cbComprobantes.setModel(model);
+        }
 
         popularPanel();
     }
@@ -70,18 +96,18 @@ public class FacturaDetails extends javax.swing.JPanel {
 
         fLabel.setText(f.getFecha().toString());
 
-        lNoGrav.setText(currencyFormatter.format(f.getImporteNoGravado()));
-        lGrav.setText(currencyFormatter.format(f.getImporteGravado()));
-        lSubTotal.setText(currencyFormatter.format(f.getSubtotal()));
-        lIva.setText(currencyFormatter.format(f.getMontoIva()));
-        lTotal.setText(currencyFormatter.format(f.getTotal()));
+        lNoGrav.setText(NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(f.getImporteNoGravado()));
+        lGrav.setText(NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(f.getImporteGravado()));
+        lSubTotal.setText(NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(f.getSubtotal()));
+        lIva.setText(NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(f.getMontoIva()));
+        lTotal.setText(NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(f.getTotal()));
 
         panelEnvioAfip.setVisible(!f.eviadaAfip());
         panelDetalleAfip.setVisible(f.eviadaAfip());
 
         if (f.eviadaAfip()) {
             lTipoComp.setText(f.getTipoComprobante());
-            lSociedad.setText(f.getSociedad());
+            lSociedad.setText(f.getSociedad().getDetail());
             lPtoVenta.setText(f.getPuntoDeVenta());
             lNroComprobante.setText(f.getNumeroComprobante().toString());
             lCAE.setText(f.getCae());
@@ -100,9 +126,9 @@ public class FacturaDetails extends javax.swing.JPanel {
                     ? cuenta.getPaciente().getObraSocial().getRazonSocial() : "Particular";
             model.addRow(new Object[]{cuenta.getPaciente().getNombre(),
                 format.format(cuenta.getFecha()), obraSocial, cuenta.getDispositivo(),
-                cuenta.getDias(), currencyFormatter.format(cuenta.getCostoDispositivo()),
-                df.format(cuenta.getAlicuota()), currencyFormatter.format(cuenta.getMontoAlicuota()),
-                currencyFormatter.format(cuenta.getMonto()), currencyFormatter.format(cuenta.getMontoFinal())
+                cuenta.getDias(), NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(cuenta.getCostoDispositivo()),
+                df.format(cuenta.getAlicuota()), NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(cuenta.getMontoAlicuota()),
+                NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(cuenta.getMonto()), NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(cuenta.getMontoFinal())
             }
             );
         });
@@ -684,8 +710,12 @@ public class FacturaDetails extends javax.swing.JPanel {
         try {
             mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
             final JDialog frame = new JDialog(topFrame, "Factura", true);
-            frame.getContentPane().add(this.service.generatePdfReport(f.getId()));
+            final JRViewer generatePdfReport = this.service.generatePdfReport(f.getId());
+            
+            
+            frame.getContentPane().add(generatePdfReport);
             frame.pack();
+            frame.setSize(1000, 1000);
             frame.setVisible(true);
         } catch (JRException ex) {
             Logger.getLogger(FacturaDetails.class.getName()).log(Level.SEVERE, null, ex);
@@ -698,9 +728,9 @@ public class FacturaDetails extends javax.swing.JPanel {
 
         try {
             final SociedadEnum sociedad = (SociedadEnum) cbSociedad.getSelectedItem();
-            this.aService.listarTiposComprobante(sociedad)
-                    .parallelStream().forEach(i -> cbComprobantes.addItem(i));
 
+            //this.aService.listarTiposComprobante(sociedad)
+            //        .parallelStream().forEach(i -> cbComprobantes.addItem(i));
             this.aService.listarPuntosVenta(sociedad)
                     .parallelStream().forEach(i -> cbPtoVenta.addItem(i));
 
@@ -720,8 +750,8 @@ public class FacturaDetails extends javax.swing.JPanel {
         try {
             aService.enviarFacturaAfip(
                     (SociedadEnum) cbSociedad.getSelectedItem(),
-                    (CodigoDescripcionType) cbComprobantes.getSelectedItem(),
-                    (PuntoVentaType) cbPtoVenta.getSelectedItem(),
+                    (FacturaAfipEnum) cbComprobantes.getSelectedItem(),
+                    (PtoVenta) cbPtoVenta.getSelectedItem(),
                     f);
 
             this.f = f;
@@ -733,7 +763,9 @@ public class FacturaDetails extends javax.swing.JPanel {
         } catch (AfipException ex) {
             String errores = new String();
 
-            JOptionPane.showMessageDialog(this, ex.getErrores(), "AFIP errores", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    ex.getErrores(),
+                    "AFIP errores", JOptionPane.ERROR_MESSAGE);
 
             Logger.getLogger(FacturaDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -742,7 +774,7 @@ public class FacturaDetails extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCuentaCorriente;
-    private javax.swing.JComboBox<CodigoDescripcionType> cbComprobantes;
+    private javax.swing.JComboBox<FacturaAfipEnum> cbComprobantes;
     private javax.swing.JComboBox<PuntoVentaType> cbPtoVenta;
     private javax.swing.JComboBox<SociedadEnum> cbSociedad;
     private javax.swing.JLabel fLabel;

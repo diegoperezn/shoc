@@ -5,12 +5,22 @@
  */
 package com.shoc.controller.Panels;
 
+import com.shoc.controller.Panels.componentes.IValidable;
+import com.shoc.controller.Panels.componentes.RequiredTextfield;
 import com.shoc.domain.CuentaCorriente;
 import com.shoc.domain.CuentaCorrienteMovimiento;
 import com.shoc.domain.MovimientoEnum;
 import com.shoc.domain.service.CuentaCorrienteService;
 import com.shoc.domain.service.IMovimiento;
+import java.awt.Component;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,6 +32,8 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
     CuentaCorrienteService service = CuentaCorrienteService.getInstance();
     CuentaCorriente cuenta;
 
+
+
     /**
      * Creates new form ObraSocialList
      */
@@ -29,7 +41,7 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         initComponents();
 
         cuenta = service.get(id);
-        lTitle.setText(lTitle.getText() + cuenta.getNombreDuenio() ); 
+        lTitle.setText(lTitle.getText() + cuenta.getNombreDuenio());
 
         fillTable();
     }
@@ -43,13 +55,13 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
 
         list.forEach((movimiento) -> {
             if (movimiento.getMovimiento().equals(MovimientoEnum.CREDITO)) {
-                model.addRow(new Object[]{movimiento.getId(), movimiento.getFecha(), movimiento.getDetalle(), movimiento.getMonto(), null});
+                model.addRow(new Object[]{movimiento.getId(), movimiento.getFecha(), movimiento.getDetalle(), NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(movimiento.getMonto()), null});
             } else {
-                model.addRow(new Object[]{movimiento.getId(), movimiento.getFecha(), movimiento.getDetalle(), null, movimiento.getMonto()});
+                model.addRow(new Object[]{movimiento.getId(), movimiento.getFecha(), movimiento.getDetalle(), null, NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(movimiento.getMonto())});
             }
         });
 
-        lSaldo.setText(cuenta.getBalance().toString());
+        lSaldo.setText(NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(cuenta.getBalance()));
     }
 
     /**
@@ -63,9 +75,9 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
 
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        tfDetalle = new javax.swing.JTextField();
+        tfDetalle = new RequiredTextfield();
         jButton5 = new javax.swing.JButton();
-        tfMonto = new javax.swing.JTextField();
+        tfMonto = new RequiredTextfield(true);
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -131,11 +143,18 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tablePacientes.setFillsViewportHeight(true);
@@ -146,8 +165,10 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
         });
         jScrollPane1.setViewportView(tablePacientes);
 
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel3.setText("Balance:");
 
+        lSaldo.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         lSaldo.setText("0");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -170,7 +191,7 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -225,16 +246,50 @@ public class MovimientosCuentaList extends javax.swing.JPanel implements IMovimi
     }//GEN-LAST:event_tablePacientesMouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        this.service.addMovimiento(this);
 
-        cuenta = service.get(cuenta.getId());
+        if (validarFormulario()) {
+            this.service.addMovimiento(this);
 
-        fillTable();
-        
-        tfDetalle.setText(new String());
-        tfMonto.setText(new String() );
+            cuenta = service.get(cuenta.getId());
+
+            fillTable();
+
+            tfDetalle.setText(new String());
+            tfMonto.setText(new String());
+        } 
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private Boolean validarFormulario() {
+        Boolean valid = true;
+        List<Component> componentes = getAllComponents();
+
+        for (Object componente : componentes) {
+            if (componente instanceof IValidable) {
+                valid = ((IValidable) componente).valid() && valid;
+            }
+        }
+
+        if (!valid) {
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            JOptionPane.showMessageDialog(topFrame, "Por favor complete los campos requeridos.", "Campos requeridos", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+        return valid;
+    }
+
+    private List<Component> getAllComponents() {
+        List panels = Arrays.asList(this.getComponents());
+        List<Component> componentes = new ArrayList();
+        for (Object panel : panels) {
+            if (panel instanceof JPanel) {
+                componentes.addAll(
+                        Arrays.asList(((JPanel) panel).getComponents())
+                );
+            }
+        }
+        return componentes;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton5;

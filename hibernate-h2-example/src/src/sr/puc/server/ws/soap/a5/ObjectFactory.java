@@ -1,5 +1,5 @@
 
-package sr.puc.server.ws.soap.a5;
+package src.sr.puc.server.ws.soap.a5;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the sr.puc.server.ws.soap.a5 package. 
+ * generated in the src.sr.puc.server.ws.soap.a5 package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -30,7 +30,7 @@ public class ObjectFactory {
     private final static QName _Dummy_QNAME = new QName("http://a5.soap.ws.server.puc.sr/", "dummy");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: sr.puc.server.ws.soap.a5
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: src.sr.puc.server.ws.soap.a5
      * 
      */
     public ObjectFactory() {

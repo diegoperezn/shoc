@@ -36,7 +36,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     ObraSocialService obService = ObraSocialService.getInstance();
 
     SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
-
+    
     /**
      * Creates new form ObraSocialList
      */
@@ -48,16 +48,14 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
         cbObraSocial.addItem(null);
         obService.listAll().forEach(ob -> cbObraSocial.addItem(ob));
+        
+        dpMes.setDate(new Date());
 
         fillTable(service.search(this));
     }
 
     private void fillTable(List<FacturaDetail> list) {
-        DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
-        model.setRowCount(0);
-        tableCuentas.getColumnModel().getColumn(0).setResizable(false);
-        tableCuentas.getColumnModel().getColumn(0).setPreferredWidth(5);
-        tableCuentas.getColumnModel().getColumn(0).setMaxWidth(5);
+        DefaultTableModel model = cleanTable();
 
         list.forEach((cuenta) -> {
             final String obraSocial = cuenta.getPaciente().getObraSocial() != null
@@ -65,10 +63,20 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
             model.addRow(new Object[]{false, cuenta.getId(), format.format(cuenta.getFecha()), cuenta.getPaciente().getNombre(),
                 obraSocial, cuenta.getDispositivo(),
-                cuenta.getDias(), cuenta.getCostoDispositivo(), cuenta.getMonto()
+                cuenta.getDias(), cuenta.getCostoDispositivo(), 
+                cuenta.getMonto() 
             }
             );
         });
+    }
+
+    private DefaultTableModel cleanTable() {
+        DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
+        model.setRowCount(0);
+        tableCuentas.getColumnModel().getColumn(0).setResizable(false);
+        tableCuentas.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tableCuentas.getColumnModel().getColumn(0).setMaxWidth(5);
+        return model;
     }
 
     /**
@@ -132,6 +140,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             }
         });
         tableCuentas.setFillsViewportHeight(true);
+        tableCuentas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableCuentas.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tableCuentasPropertyChange(evt);
@@ -298,55 +307,100 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
     private void tableCuentasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tableCuentasPropertyChange
         DefaultTableModel model = (DefaultTableModel) tableCuentas.getModel();
+        //Long selectedId = Long.valueOf(model.getValueAt(tableCuentas.getSelectedRow(), 1).toString());
 
-        for (int i = 0; i < model.getRowCount(); i++) {
-            if (model.getValueAt(i, 6) != null) {
-                final Integer dias = (Integer) model.getValueAt(i, 6);
-                final Double costo = (Double) model.getValueAt(i, 7);
-                /*
+        //for (int i = 0; i < model.getRowCount(); i++) {
+        try {
+            int i = tableCuentas.getSelectedRow();
+            if (i != -1) {
+                if (model.getValueAt(i, 6) != null) {
+                    final Integer dias = Integer.valueOf(model.getValueAt(i, 6).toString());
+                    final Double costo = Double.valueOf(model.getValueAt(i, 7).toString());
+                    /*
                 final double totalMes = 0 
                 if ( dias != null && costo != null ) {
                     
                 }
-                 */
-                final double totalMes = dias * costo;
-                model.setValueAt(totalMes,
-                        i, 8
-                );
+                     */
+                    final double totalMes = dias * costo;
+                    model.setValueAt(totalMes,
+                            i, 8
+                    );
 
-                this.service.actualizarDias((Long) model.getValueAt(i, 1), dias, costo, totalMes);
+                    this.service.actualizarDias((Long) model.getValueAt(i, 1), dias, costo, totalMes);
+                }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error calculando el monto del item. "
+                    + "Por favor revise el valor ingresado en diás y costo dispositivo", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tableCuentasPropertyChange
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        crearFactura();
+        Factura f = crearFactura();
 
-        JOptionPane.showMessageDialog(this, "La factura se creo correctamente");
+        if (f != null) {
+            JOptionPane.showMessageDialog(this, "La factura se creo correctamente");
 
-        fillTable(this.service.search(this));
+            fillTable(this.service.search(this));
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private Factura crearFactura() {
         List<FacturaDetail> details = new ArrayList<FacturaDetail>();
+        boolean hayDetallesEnCero = false;
 
         for (int i = 0; i < tableCuentas.getRowCount(); i++) {
 
             if ((Boolean) tableCuentas.getModel().getValueAt(i, 0)) {
+                FacturaDetail detalle = this.service.get((Long) tableCuentas.getModel().getValueAt(i, 1));
+                if (detalle.getMontoFinal() == 0) {
+                    hayDetallesEnCero = true;
+                }
                 details.add(this.service.get((Long) tableCuentas.getModel().getValueAt(i, 1)));
             }
 
         }
 
-        return this.fService.crearFactura(this, details);
+        if (details.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un detalle para factura", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Boolean confirmaDetallesEnCero = true;
+            if (hayDetallesEnCero) {
+                confirmaDetallesEnCero
+                        = JOptionPane.showConfirmDialog(this, "Hay items a facturar sin monto, desea continuar?") == 0;
+            }
+            if (!hayDetallesEnCero || confirmaDetallesEnCero) {
+                return this.fService.crearFactura(this, details);
+            }
+
+        }
+
+        return null;
     }
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        fillTable(this.service.generarYlistarFacuraDetails(this));
+
+        try {
+            fillTable(this.service.generarYlistarFacuraDetails(this));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            
+            DefaultTableModel model = cleanTable();
+        }
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        fillTable(this.service.search(this));
+        List<FacturaDetail> result = this.service.search(this);
+
+        if (result.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay resultados para la busquedas seleccionada, pruebe generar items de facturación con \"buscar y generar\"", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            fillTable(result);
+        }
+
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -374,8 +428,10 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         Factura f = crearFactura();
 
-        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new FacturaDetails(f.getId()), this);
+        if (f != null) {
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new FacturaDetails(f.getId()), this);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
 

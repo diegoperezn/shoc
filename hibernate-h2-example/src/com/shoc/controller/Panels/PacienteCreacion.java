@@ -15,7 +15,6 @@ import com.shoc.domain.Paciente;
 import com.shoc.domain.service.ObraSocialService;
 import com.shoc.domain.service.PacienteService;
 import java.awt.Component;
-import java.awt.TrayIcon.MessageType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

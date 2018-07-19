@@ -56,12 +56,14 @@ public class RequiredTextfield extends JTextField implements IValidable {
         boolean isValid = !this.getText().isEmpty();
         isValid = isValid && checkNumeric();
 
-        if (isValid) {
-            relatedLabel.setForeground(Color.BLACK);
-        } else {
-            relatedLabel.setForeground(Color.RED);
+        if (relatedLabel != null) {
+            if (isValid) {
+                relatedLabel.setForeground(Color.BLACK);
+            } else {
+                relatedLabel.setForeground(Color.RED);
+            }
         }
-
+        
         return isValid;
     }
 
