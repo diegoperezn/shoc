@@ -113,7 +113,7 @@
                     <Column editable="false" title="Paciente" type="java.lang.String"/>
                     <Column editable="false" title="Obra Social" type="java.lang.String"/>
                     <Column editable="false" title="Dispositivo" type="java.lang.String"/>
-                    <Column editable="true" title="Dias" type="java.lang.Integer"/>
+                    <Column editable="true" title="D&#xed;as" type="java.lang.Integer"/>
                     <Column editable="true" title="Costo dipositivo" type="java.lang.Double"/>
                     <Column editable="false" title="Monto" type="java.lang.Double"/>
                   </Table>

@@ -11,7 +11,7 @@ package com.shoc.domain;
  */
 public enum FacturaAfipEnum {
 
-    FACTURA_A(1, "Factura A", "fac"), FACTURA_B(6, "Factura B", "cf"), FACTURA_C(6, "Factura C", "cf");
+    FACTURA_A(1, "Factura A", "fac"), FACTURA_B(6, "Factura B", "cf"), FACTURA_C(11, "Factura C", "cf");
 
     private Integer codigo;
     private String descripcion;

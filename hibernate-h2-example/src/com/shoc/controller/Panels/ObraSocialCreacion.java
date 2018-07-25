@@ -168,7 +168,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfRazonSocial.setNextFocusableComponent(tfCUIT);
 
-        lRazonSocial.setText("Razon Social:");
+        lRazonSocial.setText("Razón Social:");
 
         taRequerimiento.setColumns(10);
         taRequerimiento.setLineWrap(true);
@@ -234,7 +234,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfCelular.setNextFocusableComponent(tfTelefono);
 
-        jLabel3.setText("Telefono:");
+        jLabel3.setText("Teléfono:");
 
         jLabel8.setText("Email:");
 
@@ -294,7 +294,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfCostoInternacion.setNextFocusableComponent(tfCostoJornadaCompleta);
 
-        lInternacion.setText("Interncion:");
+        lInternacion.setText("Internción:");
 
         tfCostoJornadaCompleta.setNextFocusableComponent(tfCostoMediaJornada);
 
@@ -308,7 +308,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfCosto5.setNextFocusableComponent(tfFormaDePago);
 
-        jLabel18.setText("Foma de pago:");
+        jLabel18.setText("Forma de pago:");
 
         tfFormaDePago.setNextFocusableComponent(tfCategoriaIva);
 
@@ -331,7 +331,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
             }
         });
 
-        ldispo5.setText("Dipositivo 5:");
+        ldispo5.setText("Consultorio Externo:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -410,7 +410,7 @@ public class ObraSocialCreacion extends javax.swing.JPanel implements IObraSocia
 
         tfLocalidad.setNextFocusableComponent(tfLocalidad);
 
-        lDireccion.setText("Direccion:");
+        lDireccion.setText("Dirección:");
         lDireccion.setMaximumSize(new java.awt.Dimension(86, 16));
         lDireccion.setMinimumSize(new java.awt.Dimension(86, 16));
 

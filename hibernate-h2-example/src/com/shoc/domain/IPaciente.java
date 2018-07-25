@@ -40,6 +40,8 @@ public interface IPaciente {
     Boolean getGravado();
 
     Long getId();
+    
+    Integer getHistoriaClinica();
 
     Date getIngreso();
 

@@ -79,7 +79,7 @@
 				<textField isBlankWhenNull="true">
 					<reportElement x="0" y="29" width="277" height="15"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="12"/>
+						<font size="10"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getSociedad().getDetail()]]></textFieldExpression>
 				</textField>
@@ -131,7 +131,7 @@
 					<staticText>
 						<reportElement x="0" y="26" width="137" height="15"/>
 						<textElement textAlignment="Right" verticalAlignment="Middle"/>
-						<text><![CDATA[Numero:]]></text>
+						<text><![CDATA[Número:]]></text>
 					</staticText>
 					<staticText>
 						<reportElement x="0" y="40" width="137" height="15"/>
@@ -184,7 +184,7 @@
 					<textField>
 						<reportElement x="0" y="70" width="130" height="15"/>
 						<textElement textAlignment="Left" verticalAlignment="Middle"/>
-						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getPuntoDeVenta()]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}.getPuntoDeVentaFactura()]]></textFieldExpression>
 					</textField>
 					<textField isBlankWhenNull="false">
 						<reportElement x="0" y="85" width="130" height="15"/>
@@ -323,7 +323,7 @@
 						<textElement textAlignment="Center" verticalAlignment="Middle">
 							<font size="8"/>
 						</textElement>
-						<text><![CDATA[Dias]]></text>
+						<text><![CDATA[Días]]></text>
 					</staticText>
 				</frame>
 				<frame>
@@ -480,7 +480,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA["Siempre hay otro camino"]]></text>
+				<text><![CDATA["Siempre habrá otro camino"]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

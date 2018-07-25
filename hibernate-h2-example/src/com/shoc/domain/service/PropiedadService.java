@@ -35,6 +35,19 @@ public class PropiedadService {
         repo.save(p);
     }
     
+    public void update(String nombre, String value) {
+        
+        Propiedad p = this.repo.getPropertyValue(nombre);
+        
+        if (p == null) {
+            p = new Propiedad();
+            p.setNombre(nombre);
+        }
+        p.setValor(value);
+
+        repo.save(p);
+    }
+    
     public List<Propiedad> listAll() {
         return repo.listAll();
     }
@@ -45,7 +58,18 @@ public class PropiedadService {
     
     public String getPropertyValue(String nombre) {
         //return "Harcoded";
-        return this.repo.getPropertyValue(nombre).getValor();
+        Propiedad p = this.repo.getPropertyValue(nombre);
+        
+        if (p == null ) {
+            p = new Propiedad();
+            p.setNombre(nombre);
+            
+            repo.save(p);
+            
+            return "";
+        }
+        
+        return p.getValor();
     }
 
 }

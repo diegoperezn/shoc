@@ -18,7 +18,13 @@ import com.shoc.domain.Paciente;
 import com.shoc.domain.SociedadEnum;
 import com.shoc.domain.repository.FacturaRepository;
 
-import ar.gov.afip.wsmtxca.service.impl.service.ComprobanteCAEResponseType;
+import com.shoc.afip.wsmtxca.ComprobanteCAEResponseType;
+import com.shoc.afip.wsve.FECAEDetResponse;
+import com.shoc.afip.wsve.FECAEResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -71,14 +77,38 @@ public class FacturaService {
     }
     
     
-    public void marcarFacturaComoEnviadaAfip(Factura f, ComprobanteCAEResponseType response, FacturaAfipEnum codigoDescripcionType, SociedadEnum sociedadEnum) {
+    public void marcarFacturaComoEnviadaAfip(Factura f, ComprobanteCAEResponseType response, 
+            FacturaAfipEnum codigoDescripcionType, SociedadEnum sociedadEnum) {
         f.setCae(String.valueOf(response.getCAE()));
         f.setNumeroComprobante(response.getNumeroComprobante());
-        f.setFechaEmision(new Date(response.getFechaEmision().getMillisecond()));
-        f.setFechaVencimiento(new Date(response.getFechaVencimientoCAE().getMillisecond()));
+        f.setFechaEmision(response.getFechaEmision().toGregorianCalendar().getTime());
+        f.setFechaVencimiento(response.getFechaVencimientoCAE().toGregorianCalendar().getTime());
         f.setTipoComprobante(codigoDescripcionType.getDescripcion());
         //f.setPuntoDeVenta(puntoVentaType.toString());
-        f.setPuntoDeVenta("0001");
+        f.setPuntoDeVenta(String.valueOf(response.getNumeroPuntoVenta()));
+        f.setSociedad(sociedadEnum);
+        
+        repo.save(f);
+    }
+    
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+    
+    void marcarFacturaComoEnviadaAfip(Factura f, FECAEResponse response, FacturaAfipEnum codigoDescripcionType, 
+            SociedadEnum sociedadEnum) {
+        FECAEDetResponse detailsResponse = response.getFeDetResp().getFECAEDetResponse().get(0);
+        
+        try {
+            f.setFechaEmision(formatter.parse(detailsResponse.getCbteFch()));
+            f.setFechaVencimiento(formatter.parse(detailsResponse.getCAEFchVto()));
+        } catch (ParseException ex) {
+            Logger.getLogger(FacturaService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        f.setCae(String.valueOf(detailsResponse.getCAE()));
+        f.setNumeroComprobante((int) detailsResponse.getCbteDesde());
+        f.setTipoComprobante(codigoDescripcionType.getDescripcion());
+        //f.setPuntoDeVenta(puntoVentaType.toString());
+        f.setPuntoDeVenta(String.valueOf(response.getFeCabResp().getPtoVta()));
         f.setSociedad(sociedadEnum);
         
         repo.save(f);
@@ -107,5 +137,7 @@ public class FacturaService {
     public List<Factura> search(FacturaList filter) {
         return this.repo.search(filter);
     }
+
+    
 
 }

@@ -8,7 +8,6 @@ package com.shoc.controller.Panels;
 import com.shoc.afip.authen.AfipAuthentification;
 import com.shoc.afip.authen.AfipAuthentificationService;
 import com.shoc.domain.service.PropiedadService;
-import com.shoc.domain.service.personasFinderService;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
@@ -30,7 +29,6 @@ import org.apache.log4j.Logger;
 public class mainFrame extends javax.swing.JFrame {
 
     private PropiedadService service = PropiedadService.getInstance();
-    private personasFinderService pservice = personasFinderService.getInstance();
     
     private boolean readProperties = true;
 

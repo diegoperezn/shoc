@@ -35,12 +35,15 @@ package com.shoc.afip.authen;
 // gp/rg/OF.G. DeSeIn-AFIP
 //
 import com.shoc.domain.SociedadEnum;
+import com.shoc.domain.service.PropiedadService;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Properties;
+import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.log4j.Logger;
 
 import org.dom4j.Document;
@@ -49,22 +52,37 @@ import org.dom4j.io.SAXReader;
 public class AfipAuthentificationService {
 
     final static Logger logger = Logger.getLogger(AfipAuthentificationService.class);
+    
+    private static PropiedadService pService = PropiedadService.getInstance();
 
-    public static AfipAuthentification autentificarAfip(SociedadEnum sociedad, String service) throws FileNotFoundException, IOException {
+    public static AfipAuthentification autentificarAfip(SociedadEnum sociedad, String service) throws FileNotFoundException, IOException, DatatypeConfigurationException {
         String LoginTicketResponse = null;
 
-        System.setProperty("http.proxyHost", "");
-        System.setProperty("http.proxyPort", "80");
+        logger.info("Authenticating with Afip");
+        
+//        System.setProperty("http.proxyHost", "");
+//        System.setProperty("http.proxyPort", "80");
 
         // Read config from phile
         Properties config = new Properties();
 
         try {
-            final FileInputStream confFile = new FileInputStream("./wsaa_client.properties");
+            logger.info("Authenticating with Afip 2");
+             
+            String basePath = pService.getPropertyValue("base.dir");
+            String filePath = pService.getPropertyValue("afip.properties");
+            
+            File file = new File(basePath + filePath);
+            
+            logger.info("Authenticating with Afip con base: " + basePath + " file " + filePath);
+            
+            final FileInputStream confFile = new FileInputStream(file);
 
+            logger.info("Authenticating with Afip" + file.getAbsolutePath());
+                   
             config.load(confFile);
-        } catch (FileNotFoundException e) {
-            logger.fatal("Error obteniendo el archivo de configuracion", e);
+        } catch (Exception e) {
+            logger.error("Error obteniendo el archivo de configuracion", e);
 
             throw e;
         }

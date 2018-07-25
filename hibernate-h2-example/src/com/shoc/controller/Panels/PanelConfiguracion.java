@@ -7,13 +7,14 @@ package com.shoc.controller.Panels;
 
 import com.shoc.domain.Propiedad;
 import com.shoc.domain.service.PropiedadService;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author diego
  */
 public class PanelConfiguracion extends javax.swing.JPanel {
-    
+
     PropiedadService service = PropiedadService.getInstance();
 
     /**
@@ -21,14 +22,14 @@ public class PanelConfiguracion extends javax.swing.JPanel {
      */
     public PanelConfiguracion() {
         initComponents();
-        
+
         AfipPanel.setVisible(false);
-        
+
         lToken.setText(System.getProperty("shoc.afip.auth.token"));
         lSign.setText(System.getProperty("shoc.afip.auth.sign"));
-        
+
         lDirectorio.setText(System.getProperty("user.dir"));
-        
+
         for (Propiedad prop : service.listAll()) {
             cbPropiedades.addItem(prop);
         }
@@ -149,11 +150,11 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tfValor)
-                    .addComponent(cbPropiedades, 0, 180, Short.MAX_VALUE))
-                .addGap(41, 41, 41)
+                    .addComponent(cbPropiedades, 0, 345, Short.MAX_VALUE)
+                    .addComponent(tfValor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,11 +196,17 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     }//GEN-LAST:event_cbPropiedadesActionPerformed
 
     private void tfValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfValorActionPerformed
-        
+
     }//GEN-LAST:event_tfValorActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        service.update(((Propiedad) cbPropiedades.getSelectedItem()).getId(), tfValor.getText());
+        Propiedad prop = (Propiedad) cbPropiedades.getSelectedItem();
+
+        service.update(prop.getId(), tfValor.getText());
+
+        JOptionPane.showMessageDialog(this, "Propiedad: " + prop.getNombre() + " editada a " + tfValor.getText());
+
+        prop.setValor(tfValor.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

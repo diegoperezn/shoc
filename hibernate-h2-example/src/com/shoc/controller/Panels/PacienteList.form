@@ -247,7 +247,8 @@
             <Component class="javax.swing.JTable" name="tablePacientes">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="9" rowCount="0">
+                  <Table columnCount="10" rowCount="0">
+                    <Column editable="false" title="id" type="java.lang.String"/>
                     <Column editable="false" title="H.C." type="java.lang.String"/>
                     <Column editable="false" title="Nombre" type="java.lang.String"/>
                     <Column editable="false" title="DNI" type="java.lang.String"/>

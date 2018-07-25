@@ -85,7 +85,7 @@ public class ObraSocialList extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Razon Social", "Cuit"
+                "ID", "Razón Social", "Cuit"
             }
         ) {
             Class[] types = new Class [] {

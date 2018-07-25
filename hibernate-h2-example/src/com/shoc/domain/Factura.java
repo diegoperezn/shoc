@@ -245,7 +245,7 @@ public class Factura {
     }
 
     public boolean eviadaAfip() {
-        return this.cae != null;
+        return this.cae != null && !"".equals(this.cae);
     }
 
     /**
@@ -258,6 +258,11 @@ public class Factura {
     @Transient
     public String getNumeroComprobanteFactura() {
         return String.format("%08d", numeroComprobante);
+    }
+    
+    @Transient
+    public String getPuntoDeVentaFactura() {
+        return String.format("%04d", Integer.valueOf(puntoDeVenta));
     }
     
 }

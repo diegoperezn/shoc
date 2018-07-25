@@ -5,7 +5,6 @@
  */
 package com.shoc.domain.repository;
 
-import ar.gov.afip.wsmtxca.service.impl.service.CodigoDescripcionType;
 import java.util.List;
 
 /**
@@ -14,13 +13,13 @@ import java.util.List;
  */
 public class AfipException extends Exception {
 
-    private final List<CodigoDescripcionType> errores;
+    private final List<String> errores;
 
-    public AfipException(List<CodigoDescripcionType> codigoDescripcion) {
+    public AfipException(List<String> codigoDescripcion) {
         this.errores = codigoDescripcion;
     }
 
-    public List<CodigoDescripcionType> getErrores() {
+    public List<String> getErrores() {
         return errores;
     }
 

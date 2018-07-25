@@ -44,6 +44,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import javax.xml.rpc.ParameterMode;
 
@@ -57,7 +58,8 @@ import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.CMSSignedDataGenerator;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.apache.log4j.Logger;
 
 public class afip_wsaa_client {
@@ -95,7 +97,7 @@ public class afip_wsaa_client {
     //
     // Create the CMS Message
     //
-    public static byte[] create_cms(String p12file, String p12pass, String signer, String dstDN, String service, Long TicketTime) {
+    public static byte[] create_cms(String p12file, String p12pass, String signer, String dstDN, String service, Long TicketTime) throws DatatypeConfigurationException {
 
         PrivateKey pKey = null;
         X509Certificate pCertificate = null;
@@ -168,7 +170,7 @@ public class afip_wsaa_client {
     //
     // Create XML Message for AFIP wsaa
     // 	
-    public static String create_LoginTicketRequest(String SignerDN, String dstDN, String service, Long TicketTime) {
+    public static String create_LoginTicketRequest(String SignerDN, String dstDN, String service, Long TicketTime) throws DatatypeConfigurationException {
 
         String LoginTicketRequest_xml;
 
@@ -180,8 +182,8 @@ public class afip_wsaa_client {
         exptime.setTime(new Date(GenTime.getTime() + TicketTime));
         //gentime.setTime(new Date(GenTime.getTime() - 5000));
 
-        XMLGregorianCalendarImpl XMLGenTime = new XMLGregorianCalendarImpl(gentime);
-        XMLGregorianCalendarImpl XMLExpTime = new XMLGregorianCalendarImpl(exptime);
+        XMLGregorianCalendar XMLGenTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(gentime);
+        XMLGregorianCalendar XMLExpTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(exptime);
 
         LoginTicketRequest_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
                 + "<loginTicketRequest version=\"1.0\">"

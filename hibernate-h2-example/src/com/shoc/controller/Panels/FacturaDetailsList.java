@@ -36,7 +36,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     ObraSocialService obService = ObraSocialService.getInstance();
 
     SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
-    
+
     /**
      * Creates new form ObraSocialList
      */
@@ -48,7 +48,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
         cbObraSocial.addItem(null);
         obService.listAll().forEach(ob -> cbObraSocial.addItem(ob));
-        
+
         dpMes.setDate(new Date());
 
         fillTable(service.search(this));
@@ -63,8 +63,8 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
             model.addRow(new Object[]{false, cuenta.getId(), format.format(cuenta.getFecha()), cuenta.getPaciente().getNombre(),
                 obraSocial, cuenta.getDispositivo(),
-                cuenta.getDias(), cuenta.getCostoDispositivo(), 
-                cuenta.getMonto() 
+                cuenta.getDias(), cuenta.getCostoDispositivo(),
+                cuenta.getMonto()
             }
             );
         });
@@ -121,7 +121,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
 
             },
             new String [] {
-                "x", "ID", "Fecha", "Paciente", "Obra Social", "Dispositivo", "Dias", "Costo dipositivo", "Monto"
+                "x", "ID", "Fecha", "Paciente", "Obra Social", "Dispositivo", "Días", "Costo dipositivo", "Monto"
             }
         ) {
             Class[] types = new Class [] {
@@ -385,7 +385,7 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
             fillTable(this.service.generarYlistarFacuraDetails(this));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            
+
             DefaultTableModel model = cleanTable();
         }
 
@@ -428,9 +428,19 @@ public class FacturaDetailsList extends javax.swing.JPanel implements IFaturaDet
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         Factura f = crearFactura();
 
-        if (f != null) {
-            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-            topFrame.changePanel(new FacturaDetails(f.getId()), this);
+        try {
+            if (f != null) {
+                mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+                topFrame.changePanel(new FacturaDetails(f.getId()), this);
+            }
+        } catch (Exception e) {
+            if (f != null) {
+                JOptionPane.showMessageDialog(this, "Hubo un error al abrir el detalle de la factura: " + f.getId() + "\n error: " + e.getMessage());
+
+                fillTable(this.service.search(this));
+            } else {
+                JOptionPane.showMessageDialog(this, "Hubo un error al crear la factura: " + e.getMessage());
+            }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 

@@ -35,7 +35,7 @@ public class Propiedad {
         return nombre;
     }
 
-    @Column
+    @Column()
     public String getValor() {
         return valor;
     }
@@ -48,7 +48,7 @@ public class Propiedad {
         this.id = id;
     }
 
-    protected void setNombre(String nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 

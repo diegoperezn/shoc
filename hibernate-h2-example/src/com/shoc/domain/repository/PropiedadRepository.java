@@ -40,7 +40,7 @@ public class PropiedadRepository extends Repository<Propiedad> {
         List<Propiedad> result = this.listByCriteria(c);
 
         if (result.isEmpty()) {
-
+            return null;
         }
 
         return result.get(0);

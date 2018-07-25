@@ -8,7 +8,6 @@ package com.shoc.controller.Panels;
 import com.shoc.domain.Paciente;
 import com.shoc.domain.service.ISearchPaciente;
 import com.shoc.domain.service.PacienteService;
-import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -18,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -41,7 +39,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
     public PacienteList() {
         initComponents();
 
-        fillTable(service.listAll());
+        fillTable(this.service.search(this));
     }
 
     private void fillTable(List<Paciente> list) {
@@ -51,7 +49,7 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
         list.forEach((paciente) -> {
             final String obraSocial = paciente.getObraSocial() != null ? paciente.getObraSocial().getRazonSocial() : "Particular";
             final String baja = paciente.getEgreso() != null ? format.format(paciente.getEgreso()) : null;
-            model.addRow(new Object[]{paciente.getId(), paciente.getNombre(), paciente.getDocumento(),
+            model.addRow(new Object[]{paciente.getId(), paciente.getHistoriaClinica(), paciente.getNombre(), paciente.getDocumento(),
                 format.format(paciente.getIngreso()), baja, format.format(paciente.getVencimientoBeca()),
                 paciente.getDispositivoTerapia(), paciente.getTerapista(), obraSocial});
         });
@@ -210,14 +208,14 @@ public class PacienteList extends javax.swing.JPanel implements ISearchPaciente 
 
             },
             new String [] {
-                "H.C.", "Nombre", "DNI", "Fecha Ingreso", "Fecha Baja", "Venc. Beca", "Fase", "Terapista", "Obra Social"
+                "id", "H.C.", "Nombre", "DNI", "Fecha Ingreso", "Fecha Baja", "Venc. Beca", "Fase", "Terapista", "Obra Social"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

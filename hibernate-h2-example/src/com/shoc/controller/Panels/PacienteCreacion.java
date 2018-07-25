@@ -33,6 +33,8 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
     ObraSocialService obService = ObraSocialService.getInstance();
     PacienteService pService = PacienteService.getInstance();
 
+    Long pacienteId;
+    
     /**
      * Creates new form PacienteCreacion
      */
@@ -47,7 +49,10 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         initFields();
 
         Paciente p = this.pService.get(id);
-        this.tfHistoriaClinica.setText(id.toString());
+        
+        this.pacienteId = id;
+        this.tfHistoriaClinica.setText(p.getHistoriaClinica() != null 
+                ? String.valueOf(p.getHistoriaClinica()) : "");
         this.tfNombre.setText(p.getNombre());
         this.tfDocumento.setText(p.getDocumento());
         this.taObservaciones.setText(p.getObservaciones());
@@ -164,7 +169,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("General"));
 
-        jLabel10.setText("Historia clinica:");
+        jLabel10.setText("Historia clínica:");
 
         cbGravado.setText("Gravado");
 
@@ -175,8 +180,6 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
         jScrollPane1.setViewportView(taObservaciones);
 
         lDocumento.setText("Documento:");
-
-        tfHistoriaClinica.setEditable(false);
 
         lNombre.setText("Nombre y apellido:");
 
@@ -236,7 +239,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
         jLabel4.setText("Celular:");
 
-        jLabel5.setText("Telefono:");
+        jLabel5.setText("Teléfono:");
 
         jLabel8.setText("Email:");
 
@@ -289,7 +292,7 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
         lLocalidad.setText("Localidad:");
 
-        lDireccion.setText("Direccion:");
+        lDireccion.setText("Dirección:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -654,7 +657,12 @@ public class PacienteCreacion extends javax.swing.JPanel implements IPaciente {
 
     @Override
     public Long getId() {
-        return !tfHistoriaClinica.getText().isEmpty() ? Long.valueOf(tfHistoriaClinica.getText()) : null;
+        return this.pacienteId;
+    }
+    
+    @Override
+    public Integer getHistoriaClinica() {
+        return !tfHistoriaClinica.getText().isEmpty() ? Integer.valueOf(tfHistoriaClinica.getText()) : null;
     }
 
     @Override

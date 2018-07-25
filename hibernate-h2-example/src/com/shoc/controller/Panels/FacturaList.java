@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,7 +30,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     FacturaService service = FacturaService.getInstance();
     PacienteService pService = PacienteService.getInstance();
     ObraSocialService obService = ObraSocialService.getInstance();
-    
+
     /**
      * Creates new form ObraSocialList
      */
@@ -43,7 +44,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         obService.listAll().forEach(ob -> cbObraSocial.addItem(ob));
 
         dpMes.setDate(new Date());
-        
+
         fillTable();
     }
 
@@ -53,8 +54,6 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
         DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
         model.setRowCount(0);
 
-         
-        
         list.forEach((factura) -> {
             final String paciente = factura.getPaciente() != null
                     ? factura.getPaciente().getNombre() : null;
@@ -62,7 +61,7 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
                     ? factura.getObraSocial().getRazonSocial() : null;
 
             model.addRow(new Object[]{factura.getId(), factura.getFecha(), paciente,
-                obraSocial, NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format( factura.getTotal() ), factura.getCae()
+                obraSocial, NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(factura.getTotal()), factura.getCae()
             }
             );
         });
@@ -265,11 +264,15 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
-        Long selectedId = Long.valueOf(model.getValueAt(facturaTable.getSelectedRow(), 0).toString());
+        try {
+            DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
+            Long selectedId = Long.valueOf(model.getValueAt(facturaTable.getSelectedRow(), 0).toString());
 
-        mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.changePanel(new FacturaDetails(selectedId), this);
+            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.changePanel(new FacturaDetails(selectedId), this);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro al abrir detalle de factura: " + e.getMessage());
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -281,12 +284,16 @@ public class FacturaList extends javax.swing.JPanel implements IFaturaDetailsSea
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void facturaTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_facturaTableMousePressed
-        if (evt.getClickCount() == 2) {
-            DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
-            Long selectedId = Long.valueOf(model.getValueAt(facturaTable.getSelectedRow(), 0).toString());
+        try {
+            if (evt.getClickCount() == 2) {
+                DefaultTableModel model = (DefaultTableModel) facturaTable.getModel();
+                Long selectedId = Long.valueOf(model.getValueAt(facturaTable.getSelectedRow(), 0).toString());
 
-            mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
-            topFrame.changePanel(new FacturaDetails(selectedId), this);
+                mainFrame topFrame = (mainFrame) SwingUtilities.getWindowAncestor(this);
+                topFrame.changePanel(new FacturaDetails(selectedId), this);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro al abrir detalle de factura: " + e.getMessage());
         }
     }//GEN-LAST:event_facturaTableMousePressed
 

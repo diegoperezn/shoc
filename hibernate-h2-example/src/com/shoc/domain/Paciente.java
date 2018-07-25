@@ -32,6 +32,7 @@ public class Paciente implements IPaciente, ICliente {
 
     // General
     private Long id;
+    private Integer historiaClinica;
     private String nombre;
     private String documento;
     private String observaciones;
@@ -101,6 +102,7 @@ public class Paciente implements IPaciente, ICliente {
             this.cuenta = new CuentaCorriente(this);
         }
 
+        this.historiaClinica = iPaciente.getHistoriaClinica();
         this.nombre = iPaciente.getNombre();
         this.documento = iPaciente.getDocumento();
         this.observaciones = iPaciente.getObservaciones();
@@ -226,11 +228,21 @@ public class Paciente implements IPaciente, ICliente {
         this.cuenta = cuenta;
     }
 
+    public void setHistoriaClinica(Integer historiaClinica) {
+        this.historiaClinica = historiaClinica;
+    }
+
     @Id
     @GeneratedValue
     @Override
     public Long getId() {
         return id;
+    }
+    
+    @Column
+    @Override
+    public Integer getHistoriaClinica() {
+        return historiaClinica;
     }
 
     @Column
